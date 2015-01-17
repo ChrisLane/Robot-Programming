@@ -18,7 +18,7 @@ public class Main {
 
 		// On a button press, change the robot's movements
 		Button.waitForAnyPress();
-		DifferentialPilot pilot = new DifferentialPilot(wheelDiameter, trackWidth, Motor.A, Motor.B);
+		DifferentialPilot pilot = new DifferentialPilot(wheelDiameter, trackWidth, Motor.B, Motor.C);
 		pilot.setTravelSpeed(30);
 
 		while (!Button.ESCAPE.isDown()) {
