@@ -1,9 +1,9 @@
 #eclipse
-/bin
-/.settings
-/.classpath
+bin
+.settings
+.classpath
 
 #idea
-/out
-/.idea
+out
+.idea
 *.iml
