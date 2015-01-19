@@ -22,8 +22,11 @@ public class Main {
 
 		while (!Button.ESCAPE.isDown()) {
 			while (!Button.ENTER.isDown()) {
+				//Do a figure of 8 (hopefully.. although probably not)
 				pilot.travel(50, true);
-				pilot.rotate(90, true);
+				pilot.arc(-25, 270, true);
+				pilot.travel(50, true);
+				pilot.arc(25, 270, true);
 			}
 
 			while (!Button.ENTER.isDown()) {
