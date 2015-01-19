@@ -11,10 +11,9 @@ public class Main {
 		LCD.drawString("Hello, World!", 0, 0);
 		Delay.msDelay(5000);
 
-
 		// Robot sizes
-		double wheelDiameter = 10;
-		double trackWidth = 5;
+		final double wheelDiameter = 10;
+		final double trackWidth = 5; //Both in cm
 
 		// On a button press, change the robot's movements
 		Button.waitForAnyPress();
