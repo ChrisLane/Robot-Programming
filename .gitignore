@@ -2,6 +2,9 @@
 bin
 .settings
 .classpath
+.project
+*.nxd
+*.nxj
 
 #idea
 out
