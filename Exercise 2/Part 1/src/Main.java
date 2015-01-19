@@ -7,7 +7,7 @@ import lejos.util.Delay;
 public class Main {
 
 	public static void main(String[] args) {
-		// Print "Hello, World!" to the robot display for 5ms
+		// Print "Hello, World!" to the robot display for 5s
 		LCD.drawString("Hello, World!", 0, 0);
 		Delay.msDelay(5000);
 
@@ -30,13 +30,14 @@ public class Main {
 			}
 
 			while (!Button.ENTER.isDown()) {
+				//Drive back and forth
 				pilot.travel(50, true);
-				pilot.rotate(-90, true);
+				pilot.rotate(180, true);
 			}
 
 			while (!Button.ENTER.isDown()) {
-				pilot.travel(-50, true);
-				pilot.rotate(90, true);
+				//Turn 10 degrees of a circle
+				pilot.arc(25, 10, true);
 			}
 
 			while (!Button.ENTER.isDown()) {
