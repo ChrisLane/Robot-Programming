@@ -10,6 +10,6 @@ public class CirclePath extends MovementPath {
 	
 	@Override
 	protected void path() {
-		pilot.arc(40, Integer.MAX_VALUE);
+		pilot.arc(40, 36000);
 	}
 }
