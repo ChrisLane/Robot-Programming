@@ -5,10 +5,8 @@ public class SquarePath extends MovementPath {
 		super(pilot);
 	}
 
-	public void run() {
-		pilot.travel(10, false);
-		pilot.rotate(90, false);
-		pilot.travel(10, false);
-		pilot.rotate(90, false);
+	protected void path() {
+		pilot.travel(50);
+		pilot.rotate(90);
 	}
 }
