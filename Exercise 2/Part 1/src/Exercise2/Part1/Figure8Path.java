@@ -1,8 +1,10 @@
+package Exercise2.Part1;
+
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Figure8Path extends MovementPath {
 	public Figure8Path(DifferentialPilot pilot) {
-		super(pilot);
+		super(pilot, "Figure of Eight");
 	}
 	
 	@Override
