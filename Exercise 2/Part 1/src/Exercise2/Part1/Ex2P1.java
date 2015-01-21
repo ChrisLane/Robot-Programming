@@ -1,11 +1,12 @@
 package Exercise2.Part1;
 
+import Exercise2.JeffRobot;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
 
-public class Main {
+public class Ex2P1 {
 	
 	public static void main(String[] args) {
 		LCD.clear();
