@@ -1,4 +1,4 @@
-package Exercise2.Part1;
+package Exercise2.Part1.Paths;
 
 import lejos.robotics.navigation.DifferentialPilot;
 

@@ -1,6 +1,11 @@
 package Exercise2.Part1;
 
 import Exercise2.JeffRobot;
+import Exercise2.Part1.Paths.BackForthPath;
+import Exercise2.Part1.Paths.CirclePath;
+import Exercise2.Part1.Paths.Figure8Path;
+import Exercise2.Part1.Paths.MovementPath;
+import Exercise2.Part1.Paths.SquarePath;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
