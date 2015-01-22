@@ -33,13 +33,15 @@ public class Ex2P1 {
 				path = paths[index];
 				LCD.clear();
 			}
+
 			@Override
 			public void buttonReleased(Button b) {
-				LCD.drawString(path.getName(), (int)Math.ceil((LCD.DISPLAY_CHAR_WIDTH - path.getName().length()) / 2.0), 2);
+				LCD.drawString(path.getName(), (int) Math.ceil((LCD.DISPLAY_CHAR_WIDTH - path.getName().length()) / 2.0), 2);
 				path.start();
 			}
 		});
 		
-		while (!Button.ESCAPE.isDown()) {}
+		while (!Button.ESCAPE.isDown()) {
+		}
 	}
 }

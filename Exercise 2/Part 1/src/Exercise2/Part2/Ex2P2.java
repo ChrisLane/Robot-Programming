@@ -1,11 +1,11 @@
 package Exercise2.Part2;
 
+import Exercise2.JeffRobot;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-import Exercise2.JeffRobot;
 
 public class Ex2P2 {
 	
@@ -15,7 +15,9 @@ public class Ex2P2 {
 		
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 			@Override
-			public void buttonReleased(Button b) {}
+			public void buttonReleased(Button b) {
+			}
+
 			@Override
 			public void buttonPressed(Button b) {
 				System.exit(0);
@@ -24,7 +26,8 @@ public class Ex2P2 {
 		
 		pilot.forward();
 		while (true) {
-			while (!ts.isPressed()) {}
+			while (!ts.isPressed()) {
+			}
 			pilot.travel(-20);
 			pilot.rotate(90);
 			pilot.forward();
