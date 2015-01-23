@@ -6,7 +6,7 @@ public class Figure8Path extends MovementPath {
 	public Figure8Path(DifferentialPilot pilot) {
 		super(pilot, "Figure of Eight");
 	}
-	
+
 	@Override
 	public void path() {
 		pilot.travel(20);

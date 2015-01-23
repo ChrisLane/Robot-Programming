@@ -6,7 +6,7 @@ public class BackForthPath extends MovementPath {
 	public BackForthPath(DifferentialPilot pilot) {
 		super(pilot, "Back and Forth");
 	}
-	
+
 	@Override
 	protected void path() {
 		pilot.travel(50);
