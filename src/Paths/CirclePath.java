@@ -8,7 +8,7 @@ public class CirclePath extends MovementPath {
 	}
 
 	@Override
-	protected void path() {
+	public void path() {
 		pilot.arc(40, 36000);
 	}
 }

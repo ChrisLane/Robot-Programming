@@ -8,7 +8,7 @@ public class SquarePath extends MovementPath {
 	}
 
 	@Override
-	protected void path() {
+	public void path() {
 		pilot.travel(50);
 		pilot.rotate(90);
 	}
