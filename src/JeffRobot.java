@@ -14,6 +14,7 @@ public class JeffRobot {
 	public static DifferentialPilot getDifferentialPilot() {
 		return diffPilot;
 	}
+
 	public static void connectRemote() {
 		RConsole.openAny(0);
 		System.setOut(RConsole.getPrintStream());

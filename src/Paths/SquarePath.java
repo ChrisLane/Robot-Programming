@@ -6,7 +6,7 @@ public class SquarePath extends MovementPath {
 	public SquarePath(DifferentialPilot pilot) {
 		super(pilot, "Square");
 	}
-	
+
 	@Override
 	protected void path() {
 		pilot.travel(50);
