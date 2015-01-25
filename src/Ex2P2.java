@@ -1,7 +1,3 @@
-package Exercise2.Part2;
-
-import Exercise2.JeffRobot;
-
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.SensorPort;

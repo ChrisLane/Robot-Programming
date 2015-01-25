@@ -1,5 +1,3 @@
-package Exercise2;
-
 import lejos.nxt.Motor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
