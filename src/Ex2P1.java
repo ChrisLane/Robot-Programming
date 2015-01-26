@@ -11,7 +11,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P1 {
 	public static void main(String[] args) {
-		JeffRobot.connectRemote();
+		// JeffRobot.connectRemote();
 		
 		LCD.clear();
 		LCD.drawString("   Hello World\n\n\n  Press Enter to\n    continue...", 0, 2);
