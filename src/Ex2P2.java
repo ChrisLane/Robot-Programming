@@ -1,6 +1,7 @@
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.SensorPort;
+import lejos.nxt.SensorPortListener;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
@@ -19,14 +20,23 @@ public class Ex2P2 {
 				System.exit(0);
 			}
 		});
-
+		SensorPortListener spl = new SensorPortListener() {
+			@Override
+			public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
+				if (aSource != SensorPort.S4) // Touch Sensor is attached to Port 4
+					return;
+				
+			}
+		};
+		
 		pilot.forward();
 		while (true) {
-			while (!ts.isPressed()) {
+			if (ts.isPressed()) {
+				pilot.stop();
+				pilot.travel(-20);
+				pilot.rotate(90);
+				pilot.forward();
 			}
-			pilot.travel(-20);
-			pilot.rotate(90);
-			pilot.forward();
 		}
 	}
 }
