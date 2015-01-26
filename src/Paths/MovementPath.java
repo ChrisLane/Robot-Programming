@@ -5,12 +5,13 @@ import lejos.robotics.navigation.DifferentialPilot;
 public abstract class MovementPath implements Runnable {
 	protected final String name;
 	protected DifferentialPilot pilot;
-	protected boolean isRunning = true;
+	protected boolean isRunning;
 	private Thread thread;
 
 	public MovementPath(DifferentialPilot pilot, String name) {
 		this.pilot = pilot;
 		this.name = name;
+		this.thread = new Thread(this);
 	}
 
 	@Override
@@ -21,23 +22,20 @@ public abstract class MovementPath implements Runnable {
 
 	protected abstract void path();
 
-	public void start() {
-		if (thread == null)
-			this.thread = new Thread(this);
-		if (thread.isAlive()) {
-			this.isRunning = false;
+	public synchronized void start() {
+		if (thread.isAlive())
 			this.stop();
-		}
 		this.isRunning = true;
 		thread.start();
 	}
 
 	@SuppressWarnings("static-access")
-	public void stop() {
+	public synchronized void stop() {
 		// System.out.println("Waiting for path to complete");
 		pilot.stop();
 		while (pilot.isMoving() || this.isRunning)
 			thread.yield();
+		this.isRunning = false;
 	}
 
 	public String getName() {
