@@ -6,7 +6,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex2P2Loop {
 	public static void main(String[] args) {
 		TouchSensor ts = new TouchSensor(SensorPort.S4);
-		DifferentialPilot pilot = JeffRobot.getDifferentialPilot();
+		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		pilot.forward();
 		while (!Button.ESCAPE.isDown()) {

@@ -16,7 +16,7 @@ public class Ex2P1 {
 		LCD.clear();
 		LCD.drawString("   Hello World\n\n\n  Press Enter to\n    continue...", 0, 2);
 
-		DifferentialPilot pilot = JeffRobot.getDifferentialPilot();
+		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 		pilot.setTravelSpeed(35);
 
 		MovementPath[] paths = {

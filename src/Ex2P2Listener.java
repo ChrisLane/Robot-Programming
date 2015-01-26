@@ -7,7 +7,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex2P2Listener {
 	public static void main(String[] args) {
 		TouchSensor ts = new TouchSensor(SensorPort.S4);
-		DifferentialPilot pilot = JeffRobot.getDifferentialPilot();
+		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			@Override
