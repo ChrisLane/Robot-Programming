@@ -3,7 +3,7 @@ import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class JeffRobot {
-	public final static double WHEELDIAMETER = 6.88, TRACKWIDTH = 12.65; // Both in cm
+	public final static double WHEELDIAMETER = 7, TRACKWIDTH = 12.5; // Both in cm
 
 	private static DifferentialPilot diffPilot;
 
