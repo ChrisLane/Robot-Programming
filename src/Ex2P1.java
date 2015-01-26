@@ -45,6 +45,6 @@ public class Ex2P1 {
 			}
 		});
 
-		while (!Button.ESCAPE.isDown());
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 	}
 }
