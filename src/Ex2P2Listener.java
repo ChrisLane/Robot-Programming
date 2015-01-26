@@ -11,16 +11,17 @@ public class Ex2P2Listener {
 
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			@Override
-			public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
-				// Is this necessary?
-				// if (aSource != SensorPort.S4) // Touch Sensor is attached to Port 4
-				// return;
+			public void stateChanged(SensorPort aSource, int oldVal, int newVal) {
+				if (oldVal - newVal < 60)
+					return;
 				pilot.stop();
 				pilot.travel(-20);
 				pilot.rotate(90);
 				pilot.forward();
 			}
 		});
+
+		pilot.forward();
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 	}
 }

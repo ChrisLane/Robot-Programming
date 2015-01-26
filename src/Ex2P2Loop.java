@@ -1,3 +1,4 @@
+import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -8,7 +9,7 @@ public class Ex2P2Loop {
 		DifferentialPilot pilot = JeffRobot.getDifferentialPilot();
 
 		pilot.forward();
-		while (true) {
+		while (!Button.ESCAPE.isDown()) {
 			if (ts.isPressed()) {
 				pilot.stop();
 				pilot.travel(-20);
