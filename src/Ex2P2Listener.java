@@ -1,12 +1,10 @@
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
-import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P2Listener {
 	public static void main(String[] args) {
-		TouchSensor ts = new TouchSensor(SensorPort.S4);
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
