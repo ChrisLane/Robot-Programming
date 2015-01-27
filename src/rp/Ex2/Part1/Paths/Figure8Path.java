@@ -1,9 +1,9 @@
-package Paths;
-
-import Paths.Moves.Arc;
-import Paths.Moves.Forward;
+package rp.Ex2.Part1.Paths;
 
 import lejos.robotics.navigation.DifferentialPilot;
+
+import rp.Ex2.Part1.Paths.Moves.Arc;
+import rp.Ex2.Part1.Paths.Moves.Forward;
 
 public class Figure8Path extends MovementPath {
 	public Figure8Path(DifferentialPilot pilot) {

@@ -1,14 +1,17 @@
-import Paths.BackForthPath;
-import Paths.CirclePath;
-import Paths.Figure8Path;
-import Paths.MovementPath;
-import Paths.SquarePath;
-import Paths.TrianglePath;
+package rp.Ex2.Part1;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
+
+import rp.GeoffBot;
+import rp.Ex2.Part1.Paths.BackForthPath;
+import rp.Ex2.Part1.Paths.CirclePath;
+import rp.Ex2.Part1.Paths.Figure8Path;
+import rp.Ex2.Part1.Paths.MovementPath;
+import rp.Ex2.Part1.Paths.SquarePath;
+import rp.Ex2.Part1.Paths.TrianglePath;
 
 public class Ex2P1 {
 	public void run() {
@@ -18,7 +21,6 @@ public class Ex2P1 {
 		LCD.drawString("   Hello World\n\n\n  Press Enter to\n    continue...", 0, 2);
 
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-		pilot.setTravelSpeed(20);
 
 		MovementPath[] paths = {
 				new SquarePath(pilot), new Figure8Path(pilot), new BackForthPath(pilot), new CirclePath(pilot), new TrianglePath(pilot)

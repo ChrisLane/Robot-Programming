@@ -1,8 +1,8 @@
-package Paths;
-
-import Paths.Moves.Arc;
+package rp.Ex2.Part1.Paths;
 
 import lejos.robotics.navigation.DifferentialPilot;
+
+import rp.Ex2.Part1.Paths.Moves.Arc;
 
 public class CirclePath extends MovementPath {
 	public CirclePath(DifferentialPilot pilot) {

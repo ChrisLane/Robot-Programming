@@ -1,4 +1,4 @@
-package Paths.Moves;
+package rp.Ex2.Part1.Paths.Moves;
 
 import lejos.robotics.navigation.DifferentialPilot;
 

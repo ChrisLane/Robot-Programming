@@ -1,4 +1,7 @@
+package rp;
+
 import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -10,11 +13,21 @@ public class GeoffBot {
 
 	static {
 		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
+		diffPilot.setTravelSpeed(20);
 		Bluetooth.setFriendlyName("GeoffBot");
 	}
 
 	public static DifferentialPilot getDifferentialPilot() {
 		return diffPilot;
+	}
+	public static SensorPort getTouchPort() {
+		return SensorPort.S4;
+	}
+	public static SensorPort getFrontUltrasonicPort() {
+		return SensorPort.S2;
+	}
+	public static SensorPort getSideUltrasonicPort() {
+		return SensorPort.S3;
 	}
 
 	public static void connectRemote() {
