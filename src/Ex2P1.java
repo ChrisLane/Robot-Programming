@@ -3,6 +3,7 @@ import Paths.CirclePath;
 import Paths.Figure8Path;
 import Paths.MovementPath;
 import Paths.SquarePath;
+import Paths.TrianglePath;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -10,8 +11,8 @@ import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P1 {
-	public static void main(String[] args) {
-		GeoffBot.connectRemote();
+	public void run() {
+		// GeoffBot.connectRemote();
 
 		LCD.clear();
 		LCD.drawString("   Hello World\n\n\n  Press Enter to\n    continue...", 0, 2);
@@ -20,7 +21,7 @@ public class Ex2P1 {
 		pilot.setTravelSpeed(20);
 
 		MovementPath[] paths = {
-				new SquarePath(pilot), new Figure8Path(pilot), new BackForthPath(pilot), new CirclePath(pilot)
+				new SquarePath(pilot), new Figure8Path(pilot), new BackForthPath(pilot), new CirclePath(pilot), new TrianglePath(pilot)
 		};
 
 		Button.ENTER.addButtonListener(new ButtonListener() {
@@ -29,21 +30,21 @@ public class Ex2P1 {
 
 			@Override
 			public void buttonPressed(Button b) {
-				// Don't fire on first
-				if (index < 0) {
-					index++;
-					return;
-				}
-
-				LCD.drawString("Stopping...", 3, 5);
+				/*
+				 * / Don't fire on first if (index < 0) { index++; return; }
+				 */
 
 				// Stop the current path if it is running and wait for termination
-				if (path.isRunning())
+				if (path.isRunning()) {
+					LCD.drawString("Stopping...", 3, 5);
 					path.waitStop();
+				}
 
 				// Loop path index
 				if (++index == paths.length)
-					index = 0;
+					System.exit(0);
+				// index = 0;
+
 				path = paths[index];
 			}
 
@@ -69,5 +70,10 @@ public class Ex2P1 {
 		});
 
 		while (!Button.ESCAPE.isDown());
+	}
+
+	public static void main(String[] args) {
+		Ex2P1 program = new Ex2P1();
+		program.run();
 	}
 }
