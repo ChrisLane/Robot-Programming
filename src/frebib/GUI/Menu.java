@@ -18,16 +18,16 @@ public abstract class Menu implements ButtonListener {
 
 	public void add(MenuItem i) {
 		items.add(i);
-		display();
+		draw();
 	}
 	public void sort() {
 		// TODO: Collections.sort(items);
 	}
 
-	public void display() {
+	public void draw() {
 		LCD.clear();
 		// Print in centre of screen on top row
-		LCD.drawString(title, (int) Math.ceil((LCD.DISPLAY_CHAR_WIDTH - title.length()) / 2), 0);
+		LCD.drawString(title, (int) Math.ceil((LCD.DISPLAY_CHAR_WIDTH - title.length() + 1) / 2), 0);
 		// Invert row pixels
 		LCD.bitBlt(LCD.getDisplay(), LCD.SCREEN_WIDTH, LCD.SCREEN_HEIGHT, 0, 0, 0, 0, LCD.SCREEN_WIDTH, LCD.FONT_HEIGHT, LCD.ROP_INVERT);
 
