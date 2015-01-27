@@ -2,40 +2,65 @@ package Paths;
 
 import lejos.robotics.navigation.DifferentialPilot;
 
-public abstract class MovementPath implements Runnable {
-	protected final String name;
-	protected DifferentialPilot pilot;
-	protected boolean isRunning;
-	private Thread thread;
+public class MovementPath implements Runnable {
+	private final DifferentialPilot pilot;
+	private final String name;
+	// private boolean isRunning;
 
-	public MovementPath(DifferentialPilot pilot, String name) {
+	private final Movement[] movements;
+	private Movement current;
+	private byte curMv;
+	private final Thread runThread;
+
+	public MovementPath(DifferentialPilot pilot, String name, Movement[] moves) {
 		this.pilot = pilot;
 		this.name = name;
-		this.thread = new Thread(this);
+		this.movements = moves;
+		this.runThread = new Thread(this);
+		// for (Movement m : moves)
+		// m.addMoveListener(this);
 	}
 
+	public void start() {
+		// this.isRunning = true;
+		this.curMv = 0;
+		System.out.println("Starting " + this.getName() + " thread. Is already running? " + runThread.isAlive());
+		synchronized (runThread) {
+			if (runThread.isAlive())
+				runThread.notify();
+			else
+				runThread.start();
+		}
+	}
 	@Override
 	public void run() {
-		while (this.isRunning)
-			this.path();
+		System.out.println("In thread of " + this.getName() + "\n");
+		while (true) {
+			current = movements[curMv];
+			current.run();
+
+			if (++curMv == movements.length)
+				curMv = 0;
+		}
 	}
-
-	protected abstract void path();
-
-	public synchronized void start() {
-		if (thread.isAlive())
-			this.stop();
-		this.isRunning = true;
-		thread.start();
+	public void stop() {
+		// this.isRunning = false;
+		current.stop();
+		synchronized (runThread) {
+			try {
+				runThread.wait();
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
-	@SuppressWarnings("static-access")
-	public synchronized void stop() {
-		// System.out.println("Waiting for path to complete");
-		pilot.stop();
-		while (pilot.isMoving() || this.isRunning)
-			thread.yield();
-		this.isRunning = false;
+	public void waitStop() {
+		this.stop();
+		while (current.isRunning());
+	}
+	public boolean isRunning() {
+		return current.isRunning();
 	}
 
 	public String getName() {
