@@ -7,9 +7,11 @@ this resulted in all movement commands being run at the same time and not making
    * By removing or changing the argument to false we were able to get the commands to run in the correct order, one after the other.
 2. Getting the robot to turn and move the correct amount was tricky because the values that we input for the robot's size did not always work due to various
 instabilities with the robot's build.
-   * Through trial and error we were able to get values for the robot that meant that it moved in the correct amounts.
+   * Through trial and error we were able to get values for the robot that meant that it moved in the correct amounts
+
 ###Part 2
 2. When starting the program, the robot would immediately run its code for reversing away from a wall.
+
 ###Part 3
 1. Can't use SensorPortListener for Ultrasonic sensors. They don't ever callback or even return a value initially
    * Fixed by creating custom listener with Thread and polling loop to notify the thread
