@@ -6,6 +6,7 @@ import lejos.nxt.Button;
 
 public class BluetoothMenu extends Menu implements Runnable {
 	private Thread searchThread;
+
 	public BluetoothMenu() {
 		super("Bluetooth");
 		// this.searchThread = new Thread(this);
@@ -19,6 +20,7 @@ public class BluetoothMenu extends Menu implements Runnable {
 	@Override
 	public void run() {
 	}
+
 	public static void main(String[] args) {
 		new BluetoothMenu().showMenu();
 		Button.waitForAnyPress();

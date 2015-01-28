@@ -16,13 +16,16 @@ public abstract class Movement {
 
 	public void run() {
 		this.startMoving();
-		while (this.isRunning());
+		while (this.isRunning()) ;
 	}
+
 	protected abstract void startMoving();
+
 	public void stop() {
 		pilot.stop();
 		this.isRunning = false;
 	}
+
 	public boolean isRunning() {
 		return this.isRunning && pilot.isMoving();
 	}

@@ -23,6 +23,7 @@ public class MenuItem extends Object {
 		this.indent = 0;
 		this.tag = null;
 	}
+
 	public MenuItem(Menu menu, String text, byte indent, Object tag) {
 		super();
 		this.menu = menu;
@@ -44,6 +45,7 @@ public class MenuItem extends Object {
 				selectFlash = !selectFlash;
 		}
 	}
+
 	public void draw(byte line) {
 		update();
 
@@ -58,6 +60,7 @@ public class MenuItem extends Object {
 			LCD.drawChar('<', LCD.DISPLAY_CHAR_WIDTH - 1, line);
 		}
 	}
+
 	public void setSelected() {
 		this.selected = true;
 		this.selectTime = System.currentTimeMillis();
@@ -65,6 +68,7 @@ public class MenuItem extends Object {
 		this.selectFlash = true;
 		this.lastFlashTime = System.currentTimeMillis() + FLASHDELAY;
 	}
+
 	public void setDeselected() {
 		this.selected = false;
 		this.selectTime = -1;

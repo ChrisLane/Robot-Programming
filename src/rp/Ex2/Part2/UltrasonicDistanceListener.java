@@ -36,15 +36,19 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 			 */
 		}
 	}
+
 	public int getLastValue() {
 		return current;
 	}
+
 	public double getTolerance() {
 		return this.tolerance;
 	}
+
 	public void setTolerance(double tolerance) {
 		this.tolerance = tolerance;
 	}
+
 	public abstract void stateChanged(int value, int oldValue);
 
 	public void stop() throws InterruptedException {

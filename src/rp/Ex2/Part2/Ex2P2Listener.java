@@ -1,11 +1,11 @@
 package rp.Ex2.Part2;
 
+import rp.GeoffBot;
+
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
-
-import rp.GeoffBot;
 
 public class Ex2P2Listener {
 	public static void main(String[] args) {
@@ -24,6 +24,6 @@ public class Ex2P2Listener {
 		});
 
 		pilot.forward();
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE) ;
 	}
 }

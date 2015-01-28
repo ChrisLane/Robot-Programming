@@ -1,17 +1,17 @@
 package rp.Ex2.Part1;
 
-import lejos.nxt.Button;
-import lejos.nxt.ButtonListener;
-import lejos.nxt.LCD;
-import lejos.robotics.navigation.DifferentialPilot;
-
-import rp.GeoffBot;
 import rp.Ex2.Part1.Paths.BackForthPath;
 import rp.Ex2.Part1.Paths.CirclePath;
 import rp.Ex2.Part1.Paths.Figure8Path;
 import rp.Ex2.Part1.Paths.MovementPath;
 import rp.Ex2.Part1.Paths.SquarePath;
 import rp.Ex2.Part1.Paths.TrianglePath;
+import rp.GeoffBot;
+
+import lejos.nxt.Button;
+import lejos.nxt.ButtonListener;
+import lejos.nxt.LCD;
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P1 {
 	public void run() {
@@ -66,12 +66,13 @@ public class Ex2P1 {
 			public void buttonPressed(Button b) {
 				System.exit(1);
 			}
+
 			@Override
 			public void buttonReleased(Button b) {
 			}
 		});
 
-		while (!Button.ESCAPE.isDown());
+		while (!Button.ESCAPE.isDown()) ;
 	}
 
 	public static void main(String[] args) {
