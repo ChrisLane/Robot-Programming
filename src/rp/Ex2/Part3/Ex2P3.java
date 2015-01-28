@@ -1,13 +1,13 @@
 package rp.Ex2.Part3;
 
+import rp.GeoffBot;
+
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-
-import rp.GeoffBot;
 
 public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
 	private final DifferentialPilot pilot;
@@ -39,6 +39,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
 	public void arcRadiusChanged(double arcRadius) {
 		this.arcRadius = arcRadius;
 	}
+
 	@Override
 	public void bumperHit() {
 		this.pilot.stop();

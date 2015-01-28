@@ -27,6 +27,7 @@ public class MovementPath implements Runnable {
 		runThread = new Thread(this);
 		runThread.start();
 	}
+
 	@Override
 	public void run() {
 		System.out.println("In thread of " + this.getName() + "\n");
@@ -38,22 +39,24 @@ public class MovementPath implements Runnable {
 				curMv = 0;
 		}
 	}
+
 	public void stop() {
 		this.isRunning = false;
 		current.stop();
 		synchronized (runThread) {
 			try {
 				runThread.join();
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 	public void waitStop() {
 		this.stop();
-		while (current.isRunning());
+		while (current.isRunning()) ;
 	}
+
 	public boolean isRunning() {
 		return !(current == null || !current.isRunning());
 	}

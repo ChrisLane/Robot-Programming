@@ -30,18 +30,23 @@ public abstract class OpticalDistanceListener implements Runnable {
 				this.stateChanged(this.current, this.previous);
 		}
 	}
+
 	public double getLastValue() {
 		return this.current;
 	}
+
 	public double getTolerance() {
 		return this.tolerance;
 	}
+
 	public void setTolerance(double tolerance) {
 		this.tolerance = tolerance;
 	}
+
 	/**
 	 * Returns distance in cm
-	 * @param value Current distance
+	 *
+	 * @param value    Current distance
 	 * @param oldValue Previous distance
 	 */
 	public abstract void stateChanged(double value, double oldValue);

@@ -9,7 +9,7 @@ public class DeviceChangeEvent {
 		super();
 		this.device = device;
 	}
-	
+
 	public RemoteDevice getDevice() {
 		return device;
 	}

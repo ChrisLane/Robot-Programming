@@ -19,6 +19,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		super(sensor, 0);
 		this.listener = arcl;
 	}
+
 	@Override
 	public void stateChanged(double value, double oldValue) {
 		this.currentDistance = value;
@@ -43,6 +44,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		if (Math.abs(oldAR - this.arcRadius) > this.THRESHOLD)
 			this.listener.arcRadiusChanged(this.arcRadius);
 	}
+
 	private double calcRadius(double offset) {
 		// Calculated with online graphing app
 		// http://fooplot.com/plot/far84l18y1
@@ -50,6 +52,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		// y-axis: turn radius
 		return (200 / ((0.65 * offset) - 1)) + TARGETDISTANCE - 8.2;
 	}
+
 	public double getArcRadius() {
 		return this.arcRadius;
 	}

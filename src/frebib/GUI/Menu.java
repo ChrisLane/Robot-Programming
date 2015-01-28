@@ -20,6 +20,7 @@ public abstract class Menu implements ButtonListener {
 		items.add(i);
 		draw();
 	}
+
 	public void sort() {
 		// TODO: Collections.sort(items);
 	}
@@ -41,6 +42,7 @@ public abstract class Menu implements ButtonListener {
 	public int getSelectedIndex() {
 		return selected;
 	}
+
 	public MenuItem getSelectedItem() {
 		if (selected == -1)
 			return null;

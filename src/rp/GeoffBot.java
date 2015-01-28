@@ -20,12 +20,15 @@ public class GeoffBot {
 	public static DifferentialPilot getDifferentialPilot() {
 		return diffPilot;
 	}
+
 	public static SensorPort getTouchPort() {
 		return SensorPort.S4;
 	}
+
 	public static SensorPort getFrontUltrasonicPort() {
 		return SensorPort.S2;
 	}
+
 	public static SensorPort getSideInfraredPort() {
 		return SensorPort.S3;
 	}
