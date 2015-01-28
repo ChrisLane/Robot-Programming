@@ -25,7 +25,7 @@ public abstract class OpticalDistanceListener implements Runnable {
 	public void run() {
 		while (this.isRunning) {
 			this.previous = this.current;
-			this.current = this.sensor.getDistance() / 10.0;
+			this.current = (this.sensor.getDistance() / 10.0) + 4.0;
 			if (Math.abs(this.previous - this.current) >= this.tolerance)
 				this.stateChanged(this.current, this.previous);
 		}

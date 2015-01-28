@@ -48,7 +48,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
 	}
 
 	public static void main(String[] args) {
-		// GeoffBot.connectRemote();
+		GeoffBot.connectRemote();
 		final Ex2P3 program = new Ex2P3(GeoffBot.getTouchPort(), GeoffBot.getSideInfraredPort(), GeoffBot.getFrontUltrasonicPort());
 		program.run();
 	}

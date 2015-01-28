@@ -2,15 +2,18 @@ package rp.Ex2.Part3;
 
 import lejos.nxt.LCD;
 import lejos.nxt.addon.OpticalDistanceSensor;
+import lejos.nxt.comm.RConsole;
+import lejos.util.Datalogger;
 
 public class InfraredSideListener extends OpticalDistanceListener {
-	public static final double TARGETDISTANCE = 10.0;
-	private final double THRESHOLD = 2;
+	public static final double TARGETDISTANCE = 16.0;
+	private final double THRESHOLD = 0;
 
 	private final ArcRadiusChangeListener listener;
 
 	private double currentDistance;
 	private double arcRadius;
+	private final Datalogger log = new Datalogger();
 
 	public InfraredSideListener(OpticalDistanceSensor sensor, ArcRadiusChangeListener arcl) {
 		super(sensor, 0);
@@ -18,23 +21,24 @@ public class InfraredSideListener extends OpticalDistanceListener {
 	}
 	@Override
 	public void stateChanged(double value, double oldValue) {
-		this.currentDistance = (value / 10) + 4;
+		this.currentDistance = value;
 
-		double radius = this.calcRadius(TARGETDISTANCE - this.currentDistance);
-		radius = Math.abs(radius);
-		if (this.currentDistance > TARGETDISTANCE) // Turn
+		final double offset = TARGETDISTANCE - this.currentDistance;
+		double radius = this.calcRadius(Math.abs(offset));
+		if (this.currentDistance > TARGETDISTANCE) // Turn towards wall
 			radius *= -1;
 
 		final double oldAR = this.arcRadius;
 		this.arcRadius = radius;
 
 		LCD.clear();
-		String s = Double.toString(value);
-		s = s.substring(0, Math.min(LCD.DISPLAY_CHAR_WIDTH, s.length()));
+		String s = Double.toString(this.currentDistance);
+		s = s.substring(0, Math.min(6, s.length()));
 		LCD.drawString(s, 0, 0);
-		s = Double.toString(this.arcRadius);
-		s = s.substring(0, Math.min(LCD.DISPLAY_CHAR_WIDTH, s.length()));
-		LCD.drawString(s, 0, 1);
+		String s1 = Double.toString(Math.abs(radius));
+		s1 = s1.substring(0, Math.min(6, s1.length()));
+		LCD.drawString(s1, 0, 1);
+		RConsole.println(s + ',' + s1);
 
 		if (Math.abs(oldAR - this.arcRadius) > this.THRESHOLD)
 			this.listener.arcRadiusChanged(this.arcRadius);
@@ -44,7 +48,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		// http://fooplot.com/plot/far84l18y1
 		// x-axis: offset
 		// y-axis: turn radius
-		return 600 / (offset + 1) + TARGETDISTANCE - 6.5;
+		return (200 / ((0.65 * offset) - 1)) + TARGETDISTANCE - 8.2;
 	}
 	public double getArcRadius() {
 		return this.arcRadius;
