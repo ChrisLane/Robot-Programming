@@ -2,7 +2,7 @@ package rp.Ex2.Part3;
 
 import lejos.nxt.UltrasonicSensor;
 
-public class UltrasonicFrontListener extends UltrasonicListener {
+public class UltrasonicFrontListener extends UltrasonicDistanceListener {
 	private WallApproachListener listener;
 
 	public UltrasonicFrontListener(UltrasonicSensor sensor, WallApproachListener listener) {
@@ -12,7 +12,7 @@ public class UltrasonicFrontListener extends UltrasonicListener {
 
 	@Override
 	public void stateChanged(int value, int oldValue) {
-		if (oldValue - value > 0 && value < UltrasonicSideListener.TARGETDISTANCE) // if getting closer to wall
+		if (oldValue - value > 0 && value < InfraredSideListener.TARGETDISTANCE) // if getting closer to wall
 			listener.wallApproaching(value);
 	}
 }

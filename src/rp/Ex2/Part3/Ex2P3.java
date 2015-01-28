@@ -4,31 +4,34 @@ import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
 
 public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
-	private DifferentialPilot pilot;
+	private final DifferentialPilot pilot;
 
-	private TouchSensor touchSensor;
-	private UltrasonicSensor usSensorSide;
+	private final TouchSensor touchSensor;
+	private final UltrasonicSensor usSensorFront;
+	private final OpticalDistanceSensor irSensorSide;
 	private double arcRadius;
 
-	public Ex2P3(SensorPort touchPort, SensorPort usPortSide, SensorPort usPortFront) {
+	public Ex2P3(SensorPort touchPort, SensorPort irPortSide, SensorPort usPortFront) {
 		this.touchSensor = new TouchSensor(touchPort);
-		this.usSensorSide = new UltrasonicSensor(usPortSide);
+		this.irSensorSide = new OpticalDistanceSensor(irPortSide);
+		this.usSensorFront = new UltrasonicSensor(usPortFront);
 
 		new TouchListener(touchPort, this);
-		new UltrasonicSideListener(usSensorSide, this);
+		new InfraredSideListener(this.irSensorSide, this);
 
-		pilot = GeoffBot.getDifferentialPilot();
+		this.pilot = GeoffBot.getDifferentialPilot();
 	}
 
 	private void run() {
-		pilot.forward();
+		this.pilot.forward();
 		while (!Button.ESCAPE.isDown()) {
-			pilot.arcForward(arcRadius);
+			this.pilot.arcForward(this.arcRadius);
 		}
 	}
 
@@ -38,15 +41,15 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
 	}
 	@Override
 	public void bumperHit() {
-		pilot.stop();
-		pilot.travel(-UltrasonicSideListener.TARGETDISTANCE);
-		pilot.rotate(90);
-		pilot.forward();
+		this.pilot.stop();
+		this.pilot.travel(-InfraredSideListener.TARGETDISTANCE);
+		this.pilot.rotate(90);
+		this.pilot.forward();
 	}
 
 	public static void main(String[] args) {
 		// GeoffBot.connectRemote();
-		Ex2P3 program = new Ex2P3(GeoffBot.getTouchPort(), GeoffBot.getSideUltrasonicPort(), GeoffBot.getFrontUltrasonicPort());
+		final Ex2P3 program = new Ex2P3(GeoffBot.getTouchPort(), GeoffBot.getSideInfraredPort(), GeoffBot.getFrontUltrasonicPort());
 		program.run();
 	}
 }

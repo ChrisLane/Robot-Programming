@@ -26,7 +26,7 @@ public class GeoffBot {
 	public static SensorPort getFrontUltrasonicPort() {
 		return SensorPort.S2;
 	}
-	public static SensorPort getSideUltrasonicPort() {
+	public static SensorPort getSideInfraredPort() {
 		return SensorPort.S3;
 	}
 

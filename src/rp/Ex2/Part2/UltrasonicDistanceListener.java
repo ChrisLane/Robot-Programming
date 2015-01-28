@@ -1,8 +1,8 @@
-package rp.Ex2.Part3;
+package rp.Ex2.Part2;
 
 import lejos.nxt.UltrasonicSensor;
 
-public abstract class UltrasonicListener implements Runnable {
+public abstract class UltrasonicDistanceListener implements Runnable {
 	private UltrasonicSensor sensor;
 
 	private Thread pollThread;
@@ -11,7 +11,7 @@ public abstract class UltrasonicListener implements Runnable {
 	private int previous, current;
 	private double tolerance = 0;
 
-	public UltrasonicListener(UltrasonicSensor sensor, double tolerance) {
+	public UltrasonicDistanceListener(UltrasonicSensor sensor, double tolerance) {
 		this.sensor = sensor;
 		this.tolerance = tolerance;
 		sensor.setMode(UltrasonicSensor.MODE_CONTINUOUS);
