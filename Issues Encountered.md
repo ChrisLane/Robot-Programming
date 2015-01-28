@@ -13,7 +13,6 @@ size did not always work due to various instabilities with the robot's build.
 
 ###Part 2
 1. When starting the program, the robot would immediately run its code for reversing away from a wall.
-2.
 
 ###Part 3
 Our original solution for this was very simple. The ultrasonic sensor on the side would turn the robot appropriately if
