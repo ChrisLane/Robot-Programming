@@ -1,30 +1,35 @@
 package rp.Ex2.Part2;
 
-import rp.GeoffBot;
-import rp.Ex2.Part3.InfraredSideListener;
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
+import rp.GeoffBot;
+import rp.Ex2.Part1.Paths.MovementPath;
+import rp.Ex2.Part1.Paths.ReverseAndTurn;
 
 public class Ex2P2Listener {
 	public void run() {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+		MovementPath path = new ReverseAndTurn();
 
 		GeoffBot.getTouchPort().addSensorPortListener(new SensorPortListener() {
 			@Override
 			public void stateChanged(SensorPort aSource, int oldVal, int newVal) {
 				if (oldVal - newVal < 60)
 					return;
-				pilot.stop();
-				pilot.travel(-InfraredSideListener.TARGETDISTANCE);
-				pilot.rotate(90);
+				if (path.isRunning())
+					path.waitStop();
+				path.start(pilot, true);
+				while (path.isRunning())
+					;
 				pilot.forward();
 			}
 		});
 
 		pilot.forward();
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE) ;
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
+			;
 	}
 
 	public static void main(String[] args) {

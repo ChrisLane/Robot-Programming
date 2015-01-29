@@ -13,7 +13,8 @@ public abstract class Movement {
 	public void run(DifferentialPilot pilot) {
 		this.pilot = pilot;
 		this.startMoving(pilot);
-		while (this.isRunning());
+		while (this.isRunning())
+			;
 	}
 
 	protected abstract void startMoving(DifferentialPilot pilot);
@@ -24,6 +25,6 @@ public abstract class Movement {
 	}
 
 	public boolean isRunning() {
-		return this.isRunning && this.pilot.isMoving();
+		return this.isRunning || this.pilot.isMoving();
 	}
 }

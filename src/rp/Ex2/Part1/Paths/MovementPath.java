@@ -5,7 +5,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class MovementPath implements Runnable {
 	private DifferentialPilot pilot;
 	private final String name;
-	private boolean isRunning;
+	private boolean isRunning, oneTime;
 
 	private final Movement[] movements;
 	private Movement current;
@@ -20,23 +20,34 @@ public class MovementPath implements Runnable {
 	}
 
 	public void start(DifferentialPilot pilot) {
+		this.start(pilot, false);
+	}
+
+	public void start(DifferentialPilot pilot, boolean oneTime) {
 		this.pilot = pilot;
+		this.oneTime = oneTime;
 		this.isRunning = true;
 		this.curMv = 0;
-		// System.out.println("Starting " + this.getName() + " thread. Is already running? " + runThread.isAlive());
+		// System.out.println("Starting " + this.getName() +
+		// " thread. Is already running? " + runThread.isAlive());
 		this.runThread = new Thread(this);
 		this.runThread.start();
 	}
 
 	@Override
 	public void run() {
-		System.out.println("In thread of " + this.getName() + "\n");
+		// System.out.println("In thread of " + this.getName() + "\n");
 		while (this.isRunning) {
 			this.current = this.movements[this.curMv];
 			this.current.run(this.pilot);
 
-			if (++this.curMv == this.movements.length)
-				this.curMv = 0;
+			if (++this.curMv == this.movements.length) {
+				if (this.oneTime) {
+					this.oneTime = false;
+					return;
+				} else
+					this.curMv = 0;
+			}
 		}
 	}
 
@@ -46,8 +57,7 @@ public class MovementPath implements Runnable {
 		synchronized (this.runThread) {
 			try {
 				this.runThread.join();
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -55,7 +65,8 @@ public class MovementPath implements Runnable {
 
 	public void waitStop() {
 		this.stop();
-		while (this.current.isRunning());
+		while (this.current.isRunning())
+			;
 	}
 
 	public boolean isRunning() {
