@@ -1,7 +1,7 @@
 package rp.Ex2.Part2;
 
 import rp.GeoffBot;
-
+import rp.Ex2.Part3.InfraredSideListener;
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
@@ -17,8 +17,8 @@ public class Ex2P2Listener {
 				if (oldVal - newVal < 60)
 					return;
 				pilot.stop();
-				pilot.travel(-20);
-				pilot.rotate(90);
+				pilot.travel(InfraredSideListener.TARGETDISTANCE);
+				pilot.rotateRight();
 				pilot.forward();
 			}
 		});

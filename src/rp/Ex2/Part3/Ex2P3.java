@@ -28,19 +28,21 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener, Wall
 
 		this.pilot = GeoffBot.getDifferentialPilot();
 	}
-	private synchronized void run() {
+	private void run() {
 		this.pilot.forward();
 		while (!Button.ESCAPE.isDown()) {
 			if (this.wallFalloff) {
-				while ((this.irSensorSide.getDistance() * 10) + 4 >= InfraredSideListener.TARGETDISTANCE * 1.2) {
-					this.pilot.arcForward(InfraredSideListener.TARGETDISTANCE);
-					this.wallFalloff = false;
+				System.out.println((this.irSensorSide.getDistance() * 10) + 4);
+				System.out.println(InfraredSideListener.TARGETDISTANCE * 1.2);
+				while ((this.irSensorSide.getDistance() / 10) + 4 >= InfraredSideListener.TARGETDISTANCE * 1.2) {
+					this.pilot.arcForward(-InfraredSideListener.TARGETDISTANCE);
 				}
+				this.wallFalloff = false;
 			}
 			else if (this.bumperHit) {
 				this.pilot.stop();
 				this.pilot.travel(-InfraredSideListener.TARGETDISTANCE);
-				this.pilot.rotate(90);
+				this.pilot.rotateRight();
 				this.pilot.forward();
 				this.bumperHit = false;
 			}
@@ -48,11 +50,9 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener, Wall
 	}
 	@Override
 	public void arcRadiusChanged(double arcRadius) {
+		this.arcRadius = arcRadius;
 		if (!this.bumperHit && !this.wallFalloff)
-			synchronized (this.pilot) {
-				this.pilot.arcForward(this.arcRadius);
-			}
-		// this.arcRadius = arcRadius;
+			this.pilot.arcForward(this.arcRadius);
 	}
 	@Override
 	public void wallApproaching(double distance) {
@@ -68,7 +68,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener, Wall
 	}
 
 	public static void main(String[] args) {
-		// GeoffBot.connectRemote();
+		//GeoffBot.connectRemote();
 		final Ex2P3 program = new Ex2P3(GeoffBot.getTouchPort(), GeoffBot.getSideInfraredPort(), GeoffBot.getFrontUltrasonicPort());
 		program.run();
 	}
