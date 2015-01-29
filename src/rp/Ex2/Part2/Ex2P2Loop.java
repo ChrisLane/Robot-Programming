@@ -7,7 +7,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 
 public class Ex2P2Loop {
-	public static void main(String[] args) {
+	public void run() {
 		TouchSensor ts = new TouchSensor(GeoffBot.getTouchPort());
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
@@ -20,5 +20,10 @@ public class Ex2P2Loop {
 				pilot.forward();
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		Ex2P2Loop program = new Ex2P2Loop();
+		program.run();
 	}
 }
