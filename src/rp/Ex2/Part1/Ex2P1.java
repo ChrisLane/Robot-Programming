@@ -24,7 +24,7 @@ public class Ex2P1 {
 		final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		final MovementPath[] paths = {
-				new SquarePath(), new Figure8Path(), new BackForthPath(), new CirclePath(), new TrianglePath()
+				new SquarePath(), new BackForthPath(), new CirclePath(), new TrianglePath()
 		};
 
 		Button.ENTER.addButtonListener(new ButtonListener() {
