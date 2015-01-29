@@ -10,3 +10,6 @@ bin
 out
 .idea
 *.iml
+
+#java
+*.class

@@ -17,11 +17,13 @@ public class Ex2P1 {
 	public void run() {
 		// GeoffBot.connectRemote();
 
+		// Draw "Hello World" string to display
 		LCD.clear();
 		LCD.drawString("   Hello World\n\n\n  Press Enter to\n    continue...", 0, 2);
 
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
+		// Paths to be used in next movement
 		MovementPath[] paths = {
 				new SquarePath(pilot), new Figure8Path(pilot), new BackForthPath(pilot), new CirclePath(pilot), new TrianglePath(pilot)
 		};
@@ -59,7 +61,6 @@ public class Ex2P1 {
 			}
 		});
 
-		// This doesn't work?!
 		// Exit program when Escape button is pressed
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 			@Override

@@ -8,7 +8,7 @@ import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P2Listener {
-	public static void main(String[] args) {
+	public void run() {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		GeoffBot.getTouchPort().addSensorPortListener(new SensorPortListener() {
@@ -25,5 +25,10 @@ public class Ex2P2Listener {
 
 		pilot.forward();
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE) ;
+	}
+
+	public static void main(String[] args) {
+		Ex2P2Listener program = new Ex2P2Listener();
+		program.run();
 	}
 }
