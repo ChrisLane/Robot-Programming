@@ -1,7 +1,7 @@
 package rp.Ex2.Part2;
 
 import rp.GeoffBot;
-
+import rp.Ex2.Part3.InfraredSideListener;
 import lejos.nxt.Button;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -15,7 +15,7 @@ public class Ex2P2Loop {
 		while (!Button.ESCAPE.isDown()) {
 			if (ts.isPressed()) {
 				pilot.stop();
-				pilot.travel(-20);
+				pilot.travel(-InfraredSideListener.TARGETDISTANCE);
 				pilot.rotate(90);
 				pilot.forward();
 			}

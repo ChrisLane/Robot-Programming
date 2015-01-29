@@ -17,7 +17,7 @@ public class Ex2P2Listener {
 				if (oldVal - newVal < 60)
 					return;
 				pilot.stop();
-				pilot.travel(InfraredSideListener.TARGETDISTANCE);
+				pilot.travel(-InfraredSideListener.TARGETDISTANCE);
 				pilot.rotate(90);
 				pilot.forward();
 			}
