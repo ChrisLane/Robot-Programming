@@ -7,10 +7,12 @@ import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class GeoffBot {
+	// GeoffBot sizes
 	public final static double WHEELDIAMETER = 6.75, TRACKWIDTH = 12.6; // Both in cm
 
 	private static DifferentialPilot diffPilot;
 
+	//GeoffBot settings
 	static {
 		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
 		diffPilot.setTravelSpeed(20);
@@ -33,6 +35,7 @@ public class GeoffBot {
 		return SensorPort.S3;
 	}
 
+	// Return console output to PC
 	public static void connectRemote() {
 		RConsole.openAny(0);
 		System.setOut(RConsole.getPrintStream());

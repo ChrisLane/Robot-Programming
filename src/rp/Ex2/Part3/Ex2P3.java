@@ -40,6 +40,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener {
 		this.arcRadius = arcRadius;
 	}
 
+	// If the bumper is hit, move the robot back to the target distance, turn right and continue
 	@Override
 	public void bumperHit() {
 		this.pilot.stop();
