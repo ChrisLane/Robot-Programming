@@ -3,9 +3,9 @@ package rp.Ex2.Part3;
 import lejos.nxt.UltrasonicSensor;
 
 public abstract class UltrasonicDistanceListener implements Runnable {
-	private UltrasonicSensor sensor;
+	private final UltrasonicSensor sensor;
 
-	private Thread pollThread;
+	private final Thread pollThread;
 	private boolean isRunning;
 
 	private int previous, current;
@@ -16,19 +16,19 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 		this.tolerance = tolerance;
 		sensor.setMode(UltrasonicSensor.MODE_CONTINUOUS);
 
-		pollThread = new Thread(this);
-		pollThread.setDaemon(true);
+		this.pollThread = new Thread(this);
+		this.pollThread.setDaemon(true);
 		this.isRunning = true;
-		pollThread.start();
+		this.pollThread.start();
 	}
 
 	@Override
 	public void run() {
 		while (this.isRunning) {
-			previous = current;
-			current = sensor.getDistance();
-			if (Math.abs(previous - current) >= tolerance)
-				this.stateChanged(current, previous);
+			this.previous = this.current;
+			this.current = this.sensor.getDistance();
+			if (Math.abs(this.previous - this.current) >= this.tolerance)
+				this.stateChanged(this.current, this.previous);
 
 			/*
 			 * try { Thread.sleep(50); } catch (InterruptedException e) {
@@ -38,7 +38,7 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 	}
 
 	public int getLastValue() {
-		return current;
+		return this.current;
 	}
 
 	public double getTolerance() {
