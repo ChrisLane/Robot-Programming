@@ -18,7 +18,7 @@ public class Ex2P2Listener {
 					return;
 				pilot.stop();
 				pilot.travel(InfraredSideListener.TARGETDISTANCE);
-				pilot.rotateRight();
+				pilot.rotate(90);
 				pilot.forward();
 			}
 		});

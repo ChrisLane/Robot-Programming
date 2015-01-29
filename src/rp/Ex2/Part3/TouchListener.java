@@ -13,7 +13,8 @@ public class TouchListener implements SensorPortListener {
 
 	@Override
 	public void stateChanged(SensorPort aSource, int oldVal, int newVal) {
-		if (oldVal - newVal >= 60)
+		if (oldVal - newVal >= 40)
 			this.listener.bumperHit();
+		aSource.reset();
 	}
 }
