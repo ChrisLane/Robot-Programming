@@ -30,5 +30,5 @@ and continue forward.
 than 7/8 cm
    * One fix could be to use Proportional or PID control.
    * Another being using the Infrared sensor for a higher accuracy with less noise.
-
-
+4. Getting the function that adjusts how much the robot turns took a lot of trial and error to get appropriate values.
+5. The distance that the robot's side sensor detects increases as it turns since it is no longer parallel to the wall.
