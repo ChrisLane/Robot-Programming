@@ -3,7 +3,7 @@ package rp.Ex2.Part1.Paths;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class MovementPath implements Runnable {
-	private final DifferentialPilot pilot;
+	private DifferentialPilot pilot;
 	private final String name;
 	private boolean isRunning;
 
@@ -12,41 +12,42 @@ public class MovementPath implements Runnable {
 	private byte curMv;
 	private Thread runThread;
 
-	public MovementPath(DifferentialPilot pilot, String name, Movement[] moves) {
-		this.pilot = pilot;
+	public MovementPath(String name, Movement[] moves) {
 		this.name = name;
 		this.movements = moves;
-		// for (Movement m : moves)
+		// for (Movement m : moves)1
 		// m.addMoveListener(this);
 	}
 
-	public void start() {
+	public void start(DifferentialPilot pilot) {
+		this.pilot = pilot;
 		this.isRunning = true;
 		this.curMv = 0;
-		//System.out.println("Starting " + this.getName() + " thread. Is already running? " + runThread.isAlive());
-		runThread = new Thread(this);
-		runThread.start();
+		// System.out.println("Starting " + this.getName() + " thread. Is already running? " + runThread.isAlive());
+		this.runThread = new Thread(this);
+		this.runThread.start();
 	}
 
 	@Override
 	public void run() {
 		System.out.println("In thread of " + this.getName() + "\n");
 		while (this.isRunning) {
-			current = movements[curMv];
-			current.run();
+			this.current = this.movements[this.curMv];
+			this.current.run(this.pilot);
 
-			if (++curMv == movements.length)
-				curMv = 0;
+			if (++this.curMv == this.movements.length)
+				this.curMv = 0;
 		}
 	}
 
 	public void stop() {
 		this.isRunning = false;
-		current.stop();
-		synchronized (runThread) {
+		this.current.stop();
+		synchronized (this.runThread) {
 			try {
-				runThread.join();
-			} catch (InterruptedException e) {
+				this.runThread.join();
+			}
+			catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -54,11 +55,11 @@ public class MovementPath implements Runnable {
 
 	public void waitStop() {
 		this.stop();
-		while (current.isRunning()) ;
+		while (this.current.isRunning());
 	}
 
 	public boolean isRunning() {
-		return !(current == null || !current.isRunning());
+		return !(this.current == null || !this.current.isRunning());
 	}
 
 	public String getName() {

@@ -3,12 +3,10 @@ package rp.Ex2.Part1.Paths;
 import rp.Ex2.Part1.Paths.Moves.Arc;
 import rp.Ex2.Part1.Paths.Moves.Forward;
 
-import lejos.robotics.navigation.DifferentialPilot;
-
 public class Figure8Path extends MovementPath {
-	public Figure8Path(DifferentialPilot pilot) {
-		super(pilot, "Figure of Eight", new Movement[]{
-				new Forward(pilot, 20), new Arc(pilot, 270, 10), new Forward(pilot, 20), new Arc(pilot, -270, -10)
+	public Figure8Path() {
+		super("Figure of Eight", new Movement[] {
+				new Forward(20), new Arc(270, 10), new Forward(20), new Arc(-270, -10)
 		});
 	}
 }

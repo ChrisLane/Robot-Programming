@@ -1,9 +1,8 @@
 package rp.Ex2.Part1.Paths.Moves;
 
-import lejos.robotics.navigation.DifferentialPilot;
 
 public class Reverse extends Forward {
-	public Reverse(DifferentialPilot pilot, double distance) {
-		super(pilot, -distance);
+	public Reverse(double distance) {
+		super(-distance);
 	}
 }
