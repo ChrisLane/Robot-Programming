@@ -59,7 +59,8 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
 
 	@Override
 	public void wallApproaching(double distance) {
-
+		if(distance < 15)
+			this.bumperHit = true;
 	}
 
 	@Override
