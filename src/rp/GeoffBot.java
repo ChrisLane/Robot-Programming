@@ -8,7 +8,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class GeoffBot {
 	// GeoffBot sizes
-	public final static double WHEELDIAMETER = 6.75, TRACKWIDTH = 16.5; // Both in cm
+	public final static double WHEELDIAMETER = 6.75, TRACKWIDTH = 17.5; // Both in cm
 
 	private static DifferentialPilot diffPilot;
 
