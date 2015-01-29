@@ -1,10 +1,10 @@
 package rp.Ex2.Part2;
 
+import rp.GeoffBot;
+
 import lejos.nxt.Button;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-
-import rp.GeoffBot;
 
 public class Ex2P2Loop {
 	public void run() {
@@ -21,7 +21,7 @@ public class Ex2P2Loop {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		Ex2P2Loop program = new Ex2P2Loop();
 		program.run();
