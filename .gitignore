@@ -13,3 +13,7 @@ out
 
 #java
 *.class
+
+#build
+*.xml
+*.properties
