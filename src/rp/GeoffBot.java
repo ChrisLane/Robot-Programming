@@ -35,12 +35,12 @@ public class GeoffBot {
 		return SensorPort.S3;
 	}
 
-	public static SensorPort getLightSensor1() {
-		return SensorPort.S3;
+	public static SensorPort getLightSensorLeft() {
+		return SensorPort.S4;
 	}
 
-	public static SensorPort getLightSensor2() {
-		return SensorPort.S4;
+	public static SensorPort getLightSensorRight() {
+		return SensorPort.S3;
 	}
 
 	// Return console output to PC
