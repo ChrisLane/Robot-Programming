@@ -14,3 +14,17 @@ For our proportional feedback control we will be using:
 * The process variable (PV) which is the distance that the sensor is from an obstacle.
 * The setPoint variable will be the desired distance we want the robot to stop from an obstacle.
 * Our manipulated variable (MV) will be the speed of the robot, this is the variable we are changing based on the distance.
+
+```
+MV = 1
+while (PV > SP) {
+  getPV() // Reading from the sensor
+  
+  double error = SP - PV // Most likely PV - SP
+  
+  MV = MV + (0.1 * error)
+  pilot.setSpeed(MV)
+}
+pilot.stop()
+```
+(This code is derived from the lecture with the adjusting sound feedback from distance sensors and likely will need to be adjusted for movement of the robot.)
