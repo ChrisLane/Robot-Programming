@@ -35,6 +35,14 @@ public class GeoffBot {
 		return SensorPort.S3;
 	}
 
+	public static SensorPort getLightSensor1() {
+		return SensorPort.S3;
+	}
+
+	public static SensorPort getLightSensor2() {
+		return SensorPort.S4;
+	}
+
 	// Return console output to PC
 	public static void connectRemote() {
 		RConsole.openAny(0);
