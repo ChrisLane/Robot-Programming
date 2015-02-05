@@ -8,14 +8,15 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class GeoffBot {
 	// GeoffBot sizes
-	public final static double WHEELDIAMETER = 6.75, TRACKWIDTH = 17.5; // Both in cm
+	private final static double WHEELDIAMETER = 6.75;
+	private final static double TRACKWIDTH = 17.5; // Both in cm
 
 	private static DifferentialPilot diffPilot;
 
 	//GeoffBot settings
 	static {
 		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
-		diffPilot.setTravelSpeed(20);
+		diffPilot.setTravelSpeed(15);
 		Bluetooth.setFriendlyName("GeoffBot");
 	}
 
