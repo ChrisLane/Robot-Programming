@@ -2,7 +2,7 @@ package rp.Listener;
 
 public abstract class SensorListener implements Runnable {
 	private Thread pollThread;
-	protected boolean isRunning;
+	private boolean isRunning;
 
 	@Override
 	public void run() {
