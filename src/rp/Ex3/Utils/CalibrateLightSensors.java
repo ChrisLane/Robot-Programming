@@ -5,6 +5,7 @@ import rp.GeoffBot;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
+import lejos.util.Delay;
 
 public class CalibrateLightSensors {
 
@@ -20,7 +21,7 @@ public class CalibrateLightSensors {
 		lsLeft.calibrateHigh();
 		LCD.clear();
 
-		LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
+		LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
 		LCD.drawString("Calibrate right\nsensor LOW...", 0, 0);
 		Button.waitForAnyPress();
 		lsRight.calibrateLow();
@@ -30,6 +31,13 @@ public class CalibrateLightSensors {
 		Button.waitForAnyPress();
 		lsRight.calibrateHigh();
 		LCD.clear();
+
+
+		while (!Button.ESCAPE.isDown()) {
+			LCD.clear();
+			LCD.drawString(lsLeft.getLightValue() + "     " + lsRight.getLightValue(), 0, 0);
+			Delay.msDelay(100);
+		}
 	}
 
 	public static void main(String[] args) {
