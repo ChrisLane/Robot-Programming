@@ -11,8 +11,8 @@ public class GeoffBot {
 	// GeoffBot sizes
 	private final static double WHEELDIAMETER = 6.45;
 	private final static double TRACKWIDTH = 12.75; // Both in cm
-	public static int leftLSThreshold = 50, rightLSThreshold = 50;
-	public final static int leftLow = 446, rightLow = 349, leftHigh = 561, rightHigh = 482;
+	public static int LSThreshold = 70;
+	public final static int LSLeftLow = 425, LSRightLow = 340, LSLeftHigh = 553, LSRightHigh = 478;
 
 	private static DifferentialPilot diffPilot;
 
@@ -51,13 +51,13 @@ public class GeoffBot {
 	}
 
 	public static void calibrateLeftLS(LightSensor ls) {
-		ls.setLow(leftLow);
-		ls.setHigh(leftHigh);
+		ls.setLow(LSLeftLow);
+		ls.setHigh(LSLeftHigh);
 	}
 
 	public static void calibrateRightLS(LightSensor ls) {
-		ls.setLow(rightLow);
-		ls.setHigh(rightHigh);
+		ls.setLow(LSRightLow);
+		ls.setHigh(LSRightHigh);
 	}
 
 	// Return console output to PC
