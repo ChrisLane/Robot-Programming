@@ -1,50 +1,56 @@
 package rp.Exercise.Ex3.Part1;
 
-import rp.GeoffBot;
-import rp.RunSystem;
-
+import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
-import lejos.nxt.SensorPort;
-import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
 
-public class Ex3P1B extends RunSystem {
+import rp.GeoffBot;
+import rp.RunSystem;
+import rp.Listener.BlackLineChangeListener;
+import rp.Listener.BlackLineListener;
 
+public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	private final LightSensor lsLeft, lsRight;
+
+	public Ex3P1B() {
+		this.lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
+		this.lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
+
+		GeoffBot.calibrateLeftLS(this.lsLeft);
+		GeoffBot.calibrateRightLS(this.lsRight);
+	}
 
 	@Override
 	public void run() {
-		final LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
-		GeoffBot.calibrateLeftLS(lsLeft);
-		GeoffBot.getLightSensorLeftPort().addSensorPortListener(new SensorPortListener() {
+		new BlackLineListener(this.lsLeft, GeoffBot.LSThreshold).setChangeListener(new BlackLineChangeListener() {
 			@Override
-			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
-				if (lsLeft.getLightValue() < GeoffBot.LSThreshold)
-					Ex3P1B.this.pilot.steer(150, -10, true);
+			public void lineChanged(boolean onLine, int lightValue) {
+				LCD.drawString("Left:  " + Integer.toString(lightValue), 0, LCD.DISPLAY_CHAR_DEPTH - 2);
+				if (onLine)
+					Ex3P1B.this.pilot.steer(180, -7, true);
 				else
 					Ex3P1B.this.pilot.forward();
 			}
 		});
 
-		final LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
-		GeoffBot.calibrateRightLS(lsRight);
-		GeoffBot.getLightSensorRightPort().addSensorPortListener(new SensorPortListener() {
+		new BlackLineListener(this.lsRight, GeoffBot.LSThreshold).setChangeListener(new BlackLineChangeListener() {
 			@Override
-			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
-				if (lsRight.getLightValue() < GeoffBot.LSThreshold)
-					Ex3P1B.this.pilot.steer(150, 10, true);
+			public void lineChanged(boolean onLine, int lightValue) {
+				LCD.drawString("Right: " + Integer.toString(lightValue), 0, LCD.DISPLAY_CHAR_DEPTH - 1);
+				if (onLine)
+					Ex3P1B.this.pilot.steer(180, 7, true);
 				else
 					Ex3P1B.this.pilot.forward();
 			}
 		});
 
 		this.pilot.forward();
-		while (isRunning)
+		while (this.isRunning)
 			Thread.yield();
 	}
-
 	public static void main(String[] args) {
-		Ex3P1B program = new Ex3P1B();
+		final Ex3P1B program = new Ex3P1B();
 		program.run();
 	}
 }
