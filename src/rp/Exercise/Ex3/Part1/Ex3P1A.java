@@ -1,4 +1,4 @@
-package rp.Ex3.Part1;
+package rp.Exercise.Ex3.Part1;
 
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.RangeFinder;

@@ -1,7 +1,7 @@
-package rp.Ex2.Part1.Paths;
+package rp.Exercise.Ex2.Part1.Paths;
 
-import rp.Ex2.Part1.Paths.Moves.Forward;
-import rp.Ex2.Part1.Paths.Moves.RotateCW;
+import rp.Exercise.Ex2.Part1.Paths.Moves.Forward;
+import rp.Exercise.Ex2.Part1.Paths.Moves.RotateCW;
 
 public class SquarePath extends MovementPath {
 	public SquarePath() {

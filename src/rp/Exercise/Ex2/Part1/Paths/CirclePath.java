@@ -1,6 +1,6 @@
-package rp.Ex2.Part1.Paths;
+package rp.Exercise.Ex2.Part1.Paths;
 
-import rp.Ex2.Part1.Paths.Moves.Arc;
+import rp.Exercise.Ex2.Part1.Paths.Moves.Arc;
 
 public class CirclePath extends MovementPath {
 	public CirclePath() {

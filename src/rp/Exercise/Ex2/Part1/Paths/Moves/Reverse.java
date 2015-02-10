@@ -1,4 +1,4 @@
-package rp.Ex2.Part1.Paths.Moves;
+package rp.Exercise.Ex2.Part1.Paths.Moves;
 
 
 public class Reverse extends Forward {

@@ -1,4 +1,4 @@
-package rp.Ex3.Part3;
+package rp.Exercise.Ex3.Part3;
 
 import rp.GeoffBot;
 import rp.RunSystem;

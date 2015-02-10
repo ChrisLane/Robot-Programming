@@ -1,4 +1,4 @@
-package rp.Ex3.Part2;
+package rp.Exercise.Ex3.Part2;
 
 import rp.RunSystem;
 

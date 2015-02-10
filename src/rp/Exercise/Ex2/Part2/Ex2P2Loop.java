@@ -1,4 +1,4 @@
-package rp.Ex2.Part2;
+package rp.Exercise.Ex2.Part2;
 
 import rp.GeoffBot;
 import rp.Listener.InfraredSideListener;

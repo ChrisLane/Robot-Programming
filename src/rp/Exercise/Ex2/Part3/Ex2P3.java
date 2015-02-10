@@ -1,4 +1,4 @@
-package rp.Ex2.Part3;
+package rp.Exercise.Ex2.Part3;
 
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;

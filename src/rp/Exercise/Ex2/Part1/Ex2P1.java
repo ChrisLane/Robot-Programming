@@ -1,4 +1,4 @@
-package rp.Ex2.Part1;
+package rp.Exercise.Ex2.Part1;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -6,11 +6,11 @@ import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
-import rp.Ex2.Part1.Paths.BackForthPath;
-import rp.Ex2.Part1.Paths.CirclePath;
-import rp.Ex2.Part1.Paths.MovementPath;
-import rp.Ex2.Part1.Paths.SquarePath;
-import rp.Ex2.Part1.Paths.TrianglePath;
+import rp.Exercise.Ex2.Part1.Paths.BackForthPath;
+import rp.Exercise.Ex2.Part1.Paths.CirclePath;
+import rp.Exercise.Ex2.Part1.Paths.MovementPath;
+import rp.Exercise.Ex2.Part1.Paths.SquarePath;
+import rp.Exercise.Ex2.Part1.Paths.TrianglePath;
 
 public class Ex2P1 {
 	public void run() {
