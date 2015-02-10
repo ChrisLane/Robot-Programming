@@ -46,6 +46,7 @@ public class GeoffBot {
 	public static SensorPort getLightSensorRightPort() {
 		return SensorPort.S3;
 	}
+
 	public static SensorPort getCameraPort() {
 		return SensorPort.S1;
 	}
