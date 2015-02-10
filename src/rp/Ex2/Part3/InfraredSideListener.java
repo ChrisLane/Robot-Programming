@@ -8,7 +8,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 	private final double THRESHOLD = 0;
 
 	private final ArcRadiusChangeListener arcl;
-	private final WallApproachListener wal;
+	// private final WallApproachListener wal;
 	private final WallFalloffListener wfl;
 
 	private double currentDistance;
@@ -17,7 +17,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 	public InfraredSideListener(OpticalDistanceSensor sensor, ArcRadiusChangeListener arcl, WallApproachListener wal, WallFalloffListener wfl) {
 		super(sensor, 0);
 		this.arcl = arcl;
-		this.wal = wal;
+		// this.wal = wal;
 		this.wfl = wfl;
 	}
 

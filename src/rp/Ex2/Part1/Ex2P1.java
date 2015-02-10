@@ -8,7 +8,6 @@ import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.Ex2.Part1.Paths.BackForthPath;
 import rp.Ex2.Part1.Paths.CirclePath;
-import rp.Ex2.Part1.Paths.Figure8Path;
 import rp.Ex2.Part1.Paths.MovementPath;
 import rp.Ex2.Part1.Paths.SquarePath;
 import rp.Ex2.Part1.Paths.TrianglePath;
