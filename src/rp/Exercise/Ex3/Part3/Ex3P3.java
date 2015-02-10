@@ -42,10 +42,10 @@ public class Ex3P3 extends RunSystem{
 			
 		}
 	}
+
 	public static void main(String[] args) {
 		Ex3P3 program = new Ex3P3();
 		program.run();
 
 	}
-
 }
