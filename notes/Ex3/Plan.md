@@ -1,6 +1,6 @@
 #Planning
 
-##Exercise 2
+##Exercise 3
 ###Part 1
 ####Task A - Proportional Feedback
 Our first idea for this section of part one was to use an ultrasonic sensor on the front of the NXT robot in order to
