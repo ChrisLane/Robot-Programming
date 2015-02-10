@@ -10,10 +10,11 @@ public class GeoffBot {
 	// GeoffBot sizes
 	private final static double WHEELDIAMETER = 6.45;
 	private final static double TRACKWIDTH = 12.75; // Both in cm
+	public static int leftLSThreshold = 50, rightLSThreshold = 50;
 
 	private static DifferentialPilot diffPilot;
 
-	//GeoffBot settings
+	// GeoffBot settings
 	static {
 		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
 		diffPilot.setTravelSpeed(15);
