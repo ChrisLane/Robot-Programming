@@ -4,7 +4,7 @@ import lejos.nxt.LightSensor;
 
 public class BlackLineListener extends SensorListener {
 	private final LightSensor sensor;
-	private BlackLineChangeListener blcl;
+	private BlackLineChangeListener blackLineChangeListener;
 
 	private boolean onLine;
 	private int lightValue, oldLightValue;
@@ -18,7 +18,7 @@ public class BlackLineListener extends SensorListener {
 	}
 
 	public BlackLineListener setChangeListener(BlackLineChangeListener listener) {
-		this.blcl = listener;
+		this.blackLineChangeListener = listener;
 		return this;
 	}
 
@@ -28,7 +28,7 @@ public class BlackLineListener extends SensorListener {
 		this.lightValue = this.sensor.getLightValue();
 		this.onLine = (this.lightValue < this.darkTolerance);
 
-		if (this.lightValue != this.oldLightValue && this.blcl != null)
-			this.blcl.lineChanged(this.onLine, this.lightValue);
+		if (this.lightValue != this.oldLightValue && this.blackLineChangeListener != null)
+			this.blackLineChangeListener.lineChanged(this.onLine, this.lightValue);
 	}
 }
