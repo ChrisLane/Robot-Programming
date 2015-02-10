@@ -1,5 +1,6 @@
 package rp;
 
+import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.comm.Bluetooth;
@@ -11,6 +12,7 @@ public class GeoffBot {
 	private final static double WHEELDIAMETER = 6.45;
 	private final static double TRACKWIDTH = 12.75; // Both in cm
 	public static int leftLSThreshold = 50, rightLSThreshold = 50;
+	public final static int leftLow = 446, rightLow = 349, leftHigh = 561, rightHigh = 482;
 
 	private static DifferentialPilot diffPilot;
 
@@ -46,6 +48,16 @@ public class GeoffBot {
 	}
 	public static SensorPort getCameraPort() {
 		return SensorPort.S1;
+	}
+
+	public static void applyLeftLightSensorCal(LightSensor ls) {
+		ls.setLow(leftLow);
+		ls.setHigh(leftHigh);
+	}
+
+	public static void applyRightLightSensorCal(LightSensor ls) {
+		ls.setLow(rightLow);
+		ls.setHigh(rightHigh);
 	}
 
 	// Return console output to PC
