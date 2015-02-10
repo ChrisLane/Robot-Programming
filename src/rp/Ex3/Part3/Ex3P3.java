@@ -1,11 +1,13 @@
 package rp.Ex3.Part3;
 
 import rp.GeoffBot;
+import rp.RunUtil;
+
 import lejos.nxt.Button;
 import lejos.nxt.addon.NXTCam;
 import lejos.util.Delay;
 
-public class Ex3P3 {
+public class Ex3P3 extends RunUtil{
 
 	public void run(){
 		NXTCam cam = new NXTCam(GeoffBot.getCameraPort());
@@ -13,7 +15,7 @@ public class Ex3P3 {
 		cam.sortBy(NXTCam.SIZE);
 		cam.enableTracking(true);
 		
-		while (!Button.ESCAPE.isDown()){
+		while (isRunning){
 			int numberOfObjects = cam.getNumberOfObjects();
 			System.out.println(numberOfObjects);
 			Delay.msDelay(300);
