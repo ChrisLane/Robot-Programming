@@ -1,8 +1,8 @@
 package rp.Ex3.Part2;
 
-import rp.RunUtil;
+import rp.RunSystem;
 
-public class Ex3P2 extends RunUtil{
+public class Ex3P2 extends RunSystem {
 
 	@Override
 	public void run() {

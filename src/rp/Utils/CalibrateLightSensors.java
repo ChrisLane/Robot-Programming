@@ -1,14 +1,14 @@
 package rp.Utils;
 
 import rp.GeoffBot;
-import rp.RunUtil;
+import rp.RunSystem;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.util.Delay;
 
-public class CalibrateLightSensors extends RunUtil{
+public class CalibrateLightSensors extends RunSystem {
 
 	@Override
 	public void run() {

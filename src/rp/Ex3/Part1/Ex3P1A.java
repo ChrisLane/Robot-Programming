@@ -5,9 +5,9 @@ import lejos.robotics.RangeFinder;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
-import rp.RunUtil;
+import rp.RunSystem;
 
-public class Ex3P1A extends RunUtil{
+public class Ex3P1A extends RunSystem {
 	private double mv = 20; // manipulated variable (speed)
 
 	@Override

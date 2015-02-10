@@ -1,12 +1,12 @@
 package rp.Ex3.Part3;
 
 import rp.GeoffBot;
-import rp.RunUtil;
+import rp.RunSystem;
 
 import lejos.nxt.addon.NXTCam;
 import lejos.util.Delay;
 
-public class Ex3P3 extends RunUtil{
+public class Ex3P3 extends RunSystem {
 
 	@Override
 	public void run(){

@@ -3,11 +3,11 @@ package rp;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 
-public abstract class RunUtil implements Runnable {
+public abstract class RunSystem implements Runnable {
 
 	protected boolean isRunning = true;
 
-	public RunUtil() {
+	public RunSystem() {
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 
 			@Override

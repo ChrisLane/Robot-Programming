@@ -1,14 +1,14 @@
 package rp.Ex3.Part1;
 
 import rp.GeoffBot;
-import rp.RunUtil;
+import rp.RunSystem;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
 
-public class Ex3P1B extends RunUtil{
+public class Ex3P1B extends RunSystem {
 
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
