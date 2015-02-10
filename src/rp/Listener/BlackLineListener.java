@@ -7,7 +7,7 @@ public class BlackLineListener extends SensorListener {
 	private BlackLineChangeListener blcl;
 
 	private boolean onLine;
-	private int lightValue;
+	private int lightValue, oldLightValue;
 	private final int darkTolerance;
 
 	public BlackLineListener(LightSensor sensor, int tolerance) {
@@ -24,11 +24,11 @@ public class BlackLineListener extends SensorListener {
 
 	@Override
 	protected void pollTick() {
-		final boolean oldVal = this.onLine;
+		this.oldLightValue = this.lightValue;
 		this.lightValue = this.sensor.getLightValue();
 		this.onLine = (this.lightValue < this.darkTolerance);
 
-		if (oldVal != this.onLine && this.blcl != null)
+		if (this.lightValue != this.oldLightValue && this.blcl != null)
 			this.blcl.lineChanged(this.onLine, this.lightValue);
 	}
 }

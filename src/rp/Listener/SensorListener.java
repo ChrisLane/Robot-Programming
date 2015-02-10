@@ -8,6 +8,12 @@ public abstract class SensorListener implements Runnable {
 	public void run() {
 		while (this.isRunning)
 			this.pollTick();
+		try {
+			Thread.sleep(20);
+		}
+		catch (final InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected abstract void pollTick();
