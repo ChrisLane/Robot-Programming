@@ -3,7 +3,6 @@ package rp.Ex3.Part3;
 import rp.GeoffBot;
 import rp.RunUtil;
 
-import lejos.nxt.Button;
 import lejos.nxt.addon.NXTCam;
 import lejos.util.Delay;
 
