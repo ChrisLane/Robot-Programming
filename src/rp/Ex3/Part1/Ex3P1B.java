@@ -10,7 +10,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex3P1B extends RunUtil{
 
-	final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 	@Override
 	public void run() {
