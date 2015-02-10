@@ -13,34 +13,24 @@ public class CalibrateLightSensors extends RunUtil{
 	public void run() {
 		LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
 		LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
-		LCD.drawString("Calibrate left\nsensor LOW...", 0, 0);
+		LCD.drawString("Calibrate sensor's\nLOW value...", 0, 0);
 		Button.waitForAnyPress();
 		lsLeft.calibrateLow();
-		LCD.drawString(Integer.toString(lsLeft.getLow()), 0, 5);
-		Button.waitForAnyPress();
-		LCD.clear();
-
-		LCD.drawString("Calibrate right\nsensor LOW...", 0, 0);
-		Button.waitForAnyPress();
 		lsRight.calibrateLow();
-		LCD.drawString(Integer.toString(lsRight.getLow()), 0, 5);
-		Button.waitForAnyPress();
 		LCD.clear();
 
-		LCD.drawString("Calibrate left\nsensor HIGH...", 0, 0);
+		LCD.drawString("Calibrate sensor's\nHIGH value...", 0, 0);
 		Button.waitForAnyPress();
 		lsLeft.calibrateHigh();
-		LCD.drawString(Integer.toString(lsLeft.getHigh()), 0, 5);
-		Button.waitForAnyPress();
-		LCD.clear();
-
-		LCD.drawString("Calibrate right\nsensor HIGH...", 0, 0);
-		Button.waitForAnyPress();
 		lsRight.calibrateHigh();
-		LCD.drawString(Integer.toString(lsRight.getHigh()), 0, 5);
-		Button.waitForAnyPress();
 		LCD.clear();
 
+		LCD.drawString("Calibration Values:", 0, 0);
+		LCD.drawString("Left Low: " + Integer.toString(lsLeft.getLow()), 0, 2);
+		LCD.drawString("Right Low: " + Integer.toString(lsRight.getLow()), 0, 3);
+		LCD.drawString("Left High: " + Integer.toString(lsLeft.getHigh()), 0, 5);
+		LCD.drawString("Right High: " + Integer.toString(lsRight.getHigh()), 0, 6);
+		Button.waitForAnyPress();
 
 		while (isRunning) {
 			LCD.clear();
