@@ -18,7 +18,7 @@ public class Ex3P1B extends RunUtil{
 		GeoffBot.getLightSensorLeftPort().addSensorPortListener(new SensorPortListener() {
 			@Override
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
-				if (lsLeft.getLightValue() < GeoffBot.leftLSThreshold)
+				if (lsLeft.getLightValue() < GeoffBot.LSThreshold)
 					Ex3P1B.this.pilot.steer(150, -10, true);
 				else
 					Ex3P1B.this.pilot.forward();
@@ -30,7 +30,7 @@ public class Ex3P1B extends RunUtil{
 		GeoffBot.getLightSensorRightPort().addSensorPortListener(new SensorPortListener() {
 			@Override
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
-				if (lsRight.getLightValue() < GeoffBot.rightLSThreshold)
+				if (lsRight.getLightValue() < GeoffBot.LSThreshold)
 					Ex3P1B.this.pilot.steer(150, 10, true);
 				else
 					Ex3P1B.this.pilot.forward();
