@@ -14,7 +14,7 @@ public class Ex3P1B extends RunUtil{
 
 	public void run() {
 		final LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
-		GeoffBot.applyLeftLightSensorCal(lsLeft);
+		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.getLightSensorLeftPort().addSensorPortListener(new SensorPortListener() {
 			@Override
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
@@ -26,7 +26,7 @@ public class Ex3P1B extends RunUtil{
 		});
 
 		final LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
-		GeoffBot.applyRightLightSensorCal(lsRight);
+		GeoffBot.calibrateRightLS(lsRight);
 		GeoffBot.getLightSensorRightPort().addSensorPortListener(new SensorPortListener() {
 			@Override
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {

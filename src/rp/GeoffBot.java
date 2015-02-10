@@ -50,12 +50,12 @@ public class GeoffBot {
 		return SensorPort.S1;
 	}
 
-	public static void applyLeftLightSensorCal(LightSensor ls) {
+	public static void calibrateLeftLS(LightSensor ls) {
 		ls.setLow(leftLow);
 		ls.setHigh(leftHigh);
 	}
 
-	public static void applyRightLightSensorCal(LightSensor ls) {
+	public static void calibrateRightLS(LightSensor ls) {
 		ls.setLow(rightLow);
 		ls.setHigh(rightHigh);
 	}
