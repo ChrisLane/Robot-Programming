@@ -1,4 +1,4 @@
-package rp.Ex2.Part3;
+package rp.Listener;
 
 import lejos.nxt.LCD;
 import lejos.nxt.addon.OpticalDistanceSensor;

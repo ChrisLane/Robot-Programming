@@ -1,4 +1,4 @@
-package rp.Ex2.Part3;
+package rp.Listener;
 
 public interface ArcRadiusChangeListener {
 	public void arcRadiusChanged(double arcRadius);

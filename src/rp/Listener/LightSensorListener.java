@@ -1,17 +1,17 @@
-package rp.Ex2.Part3;
+package rp.Listener;
 
-import lejos.nxt.addon.OpticalDistanceSensor;
+import lejos.nxt.LightSensor;
 
-public abstract class OpticalDistanceListener implements Runnable {
-	private final OpticalDistanceSensor sensor;
+public abstract class LightSensorListener implements Runnable {
+	private final LightSensor sensor;
 
 	private final Thread pollThread;
 	private boolean isRunning;
 
-	private double previous, current;
-	private double tolerance = 0;
+	private int previous, current;
+	private int tolerance = 0;
 
-	public OpticalDistanceListener(OpticalDistanceSensor sensor, double tolerance) {
+	public LightSensorListener(LightSensor sensor, int tolerance) {
 		this.sensor = sensor;
 		this.tolerance = tolerance;
 
@@ -25,7 +25,7 @@ public abstract class OpticalDistanceListener implements Runnable {
 	public void run() {
 		while (this.isRunning) {
 			this.previous = this.current;
-			this.current = (this.sensor.getDistance() / 10.0) + 4.0;
+			this.current = this.sensor.getLightValue();
 			if (Math.abs(this.previous - this.current) >= this.tolerance)
 				this.stateChanged(this.current, this.previous);
 		}
@@ -35,18 +35,17 @@ public abstract class OpticalDistanceListener implements Runnable {
 		return this.current;
 	}
 
-	public double getTolerance() {
+	public int getTolerance() {
 		return this.tolerance;
 	}
 
-	public void setTolerance(double tolerance) {
+	public void setTolerance(int tolerance) {
 		this.tolerance = tolerance;
 	}
 
 	/**
 	 * Returns distance in cm
-	 *
-	 * @param value    Current distance
+	 * @param value Current distance
 	 * @param oldValue Previous distance
 	 */
 	public abstract void stateChanged(double value, double oldValue);

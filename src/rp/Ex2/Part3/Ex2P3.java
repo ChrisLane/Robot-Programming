@@ -8,6 +8,13 @@ import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
+import rp.Listener.ArcRadiusChangeListener;
+import rp.Listener.BumperPressListener;
+import rp.Listener.InfraredSideListener;
+import rp.Listener.TouchListener;
+import rp.Listener.UltrasonicFrontListener;
+import rp.Listener.WallApproachListener;
+import rp.Listener.WallFalloffListener;
 
 public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
 		WallApproachListener, WallFalloffListener {

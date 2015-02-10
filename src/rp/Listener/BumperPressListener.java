@@ -1,4 +1,4 @@
-package rp.Ex2.Part3;
+package rp.Listener;
 
 public interface BumperPressListener {
 	public void bumperHit();

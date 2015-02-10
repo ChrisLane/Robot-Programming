@@ -1,7 +1,8 @@
 package rp.Ex2.Part2;
 
 import rp.GeoffBot;
-import rp.Ex2.Part3.InfraredSideListener;
+import rp.Listener.InfraredSideListener;
+
 import lejos.nxt.Button;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
