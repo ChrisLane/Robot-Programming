@@ -1,4 +1,4 @@
-package rp.Utils;
+package rp.Util;
 
 import rp.GeoffBot;
 import rp.RunSystem;
