@@ -4,7 +4,6 @@ import java.awt.geom.Rectangle2D;
 
 import rp.GeoffBot;
 import rp.RunSystem;
-
 import lejos.nxt.addon.NXTCam;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
@@ -14,7 +13,7 @@ public class Ex3P3 extends RunSystem{
 	private double leftT = 118; 		//right and left thresholds before turning either side
 	private double rightT = 50;
 	private double radius;
-
+	
 	@Override
 	public void run() {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -29,12 +28,12 @@ public class Ex3P3 extends RunSystem{
 			if (rec.getX() < rightT) {
 				radius = 0.7 * (rightT - rec.getX());
 				pilot.arcForward(-radius);
-				Delay.msDelay(300);
+				Delay.msDelay(30);
 			}
 			else if (rec.getX() > leftT) {
 				radius = 0.7 * (rec.getX() - leftT);
 				pilot.arcForward(radius);
-				Delay.msDelay(300);
+				Delay.msDelay(30);
 			}
 			else
 				pilot.forward();
