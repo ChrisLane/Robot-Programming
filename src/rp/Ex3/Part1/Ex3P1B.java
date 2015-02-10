@@ -12,6 +12,7 @@ public class Ex3P1B extends RunUtil{
 
 	final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
+	@Override
 	public void run() {
 		final LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
 		GeoffBot.calibrateLeftLS(lsLeft);

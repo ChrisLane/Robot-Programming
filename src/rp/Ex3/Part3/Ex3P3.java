@@ -8,6 +8,7 @@ import lejos.util.Delay;
 
 public class Ex3P3 extends RunUtil{
 
+	@Override
 	public void run(){
 		NXTCam cam = new NXTCam(GeoffBot.getCameraPort());
 		cam.setTrackingMode(NXTCam.COLOR);
