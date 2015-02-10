@@ -16,14 +16,14 @@ public class Ex3P3 extends RunSystem{
 	private double radius;
 
 	@Override
-	public void run(){
+	public void run() {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 		NXTCam cam = new NXTCam(GeoffBot.getCameraPort());
 		cam.setTrackingMode(NXTCam.COLOR);
 		cam.sortBy(NXTCam.SIZE);
 		cam.enableTracking(true);
 
-		while (isRunning){
+		while (isRunning) {
 			Rectangle2D rec = cam.getRectangle(0);
 			pilot.forward();
 			if (rec.getX() < rightT) {
