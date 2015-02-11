@@ -13,7 +13,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private Node location, target;
 	private Compass heading;
 
-	private boolean travelling = false;
+	private boolean isTravelling = false;
 
 	public Ex3P2(Queue<Node> path, Node location) {
 		if (path.empty())
@@ -26,26 +26,32 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public void run() {
-		// Rotate to face target node if not already
-		Compass destHeading = this.heading.getRelativeHeading(this.target.getCoord());
-		if (destHeading != Compass.UP)
-			this.pilot.rotate(destHeading.toDegrees());
+		while (this.path.size() > 1) {
+			Compass destHeading = this.heading.getRelativeHeading(this.target.getCoord());
+			if (destHeading != Compass.UP)
+				this.pilot.rotate(destHeading.toDegrees());		// Rotate to face target node if not already
 
-		// Drive to 'location'
-		this.travelling = true;
-		this.pilot.forward();
-		try {
-			this.wait(0); // Wait for intersection to be reached
-		}
-		catch (Exception e) {
-			this.travelling = false;
-			e.printStackTrace();
-		}
-		this.travelling = false;
+			// Drive to 'location'
+			this.isTravelling = true;
+			this.pilot.forward();		// TODO: Make the BlackLineSensor follow the line and adjust angle while this.isTravelling == true
+			try {
+				this.wait(0);			// Wait for intersection to be reached
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 
-		// Pop from 'path'
-		// Get heading
-		// Repeat
+			this.location = this.target;
+			this.target = (Node) path.pop();
+		}
+	}
+
+	@Override
+	public synchronized void onIntersectionArrive() {
+		if (this.isTravelling) {
+			this.isTravelling = false;
+			this.notify();				// Wake up loop to continue on path
+		}
 	}
 
 	public static void main(String[] args) {
@@ -59,11 +65,5 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 		Ex3P2 program = new Ex3P2(path, new Node(0, 0));
 		program.run();
-	}
-
-	@Override
-	public void onIntersectionArrive() {
-		// TODO Auto-generated method stub
-
 	}
 }
