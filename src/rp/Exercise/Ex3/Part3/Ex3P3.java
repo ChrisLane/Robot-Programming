@@ -13,8 +13,7 @@ public class Ex3P3 extends RunSystem {
 	private NXTCam cam;
 
 	// double radius = 30;
-	private double leftT = 118; // right and left thresholds before turning
-								// either side
+	private double leftT = 118; // right and left thresholds before turning either side
 	private double rightT = 50;
 	private double radius;
 
@@ -35,11 +34,13 @@ public class Ex3P3 extends RunSystem {
 				this.radius = 0.7 * (this.rightT - rec.getX());
 				this.pilot.arcForward(-this.radius);
 				Delay.msDelay(30);
-			} else if (rec.getX() > this.leftT) {
+			}
+			else if (rec.getX() > this.leftT) {
 				this.radius = 0.7 * (rec.getX() - this.leftT);
 				this.pilot.arcForward(this.radius);
 				Delay.msDelay(30);
-			} else {
+			}
+			else {
 				this.pilot.forward();
 			}
 			System.out.println(rec.getWidth());
