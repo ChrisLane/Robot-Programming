@@ -2,44 +2,49 @@ package rp.Exercise.Ex3.Part3;
 
 import java.awt.geom.Rectangle2D;
 
-import rp.GeoffBot;
-import rp.RunSystem;
 import lejos.nxt.addon.NXTCam;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
+import rp.GeoffBot;
+import rp.RunSystem;
 
-public class Ex3P3 extends RunSystem{
-	//double radius = 30;
-	private double leftT = 118; 		//right and left thresholds before turning either side
+public class Ex3P3 extends RunSystem {
+	private DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	private NXTCam cam;
+
+	// double radius = 30;
+	private double leftT = 118; // right and left thresholds before turning
+								// either side
 	private double rightT = 50;
 	private double radius;
-	
+
+	public Ex3P3() {
+		this.cam = new NXTCam(GeoffBot.getCameraPort());
+		this.cam.setTrackingMode(NXTCam.COLOR);
+		this.cam.sortBy(NXTCam.SIZE);
+		this.cam.enableTracking(true);
+	}
+
 	@Override
 	public void run() {
-		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-		NXTCam cam = new NXTCam(GeoffBot.getCameraPort());
-		cam.setTrackingMode(NXTCam.COLOR);
-		cam.sortBy(NXTCam.SIZE);
-		cam.enableTracking(true);
 
-		while (isRunning) {
-			Rectangle2D rec = cam.getRectangle(0);
-			pilot.forward();
-			if (rec.getX() < rightT) {
-				radius = 0.7 * (rightT - rec.getX());
-				pilot.arcForward(-radius);
+		while (this.isRunning) {
+			Rectangle2D rec = this.cam.getRectangle(0);
+			this.pilot.forward();
+			if (rec.getX() < this.rightT) {
+				this.radius = 0.7 * (this.rightT - rec.getX());
+				this.pilot.arcForward(-this.radius);
 				Delay.msDelay(30);
-			}
-			else if (rec.getX() > leftT) {
-				radius = 0.7 * (rec.getX() - leftT);
-				pilot.arcForward(radius);
+			} else if (rec.getX() > this.leftT) {
+				this.radius = 0.7 * (rec.getX() - this.leftT);
+				this.pilot.arcForward(this.radius);
 				Delay.msDelay(30);
+			} else {
+				this.pilot.forward();
 			}
-			else
-				pilot.forward();
 			System.out.println(rec.getWidth());
-			//System.out.println(numberOfObjects);
-			//Delay.msDelay(300);
+			// System.out.println(numberOfObjects);
+			// Delay.msDelay(300);
 		}
 	}
 
