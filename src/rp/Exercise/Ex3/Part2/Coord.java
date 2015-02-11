@@ -25,6 +25,6 @@ public class Coord {
 	}
 
 	public Coord getDelta(Coord c) {
-		return new Coord(this.x - c.x, this.y - c.y);
+		return new Coord(c.x - this.x, c.y - this.y);
 	}
 }

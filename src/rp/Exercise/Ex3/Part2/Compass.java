@@ -13,12 +13,18 @@ public class Compass {
 		this.val = val;
 	}
 
-	public Compass getRelativeHeading(Coord delta) {
-		return getRelativeHeading(delta, this);
+	public Compass getHeadingFrom(Coord a, Coord b) {
+		return getRelativeHeading(a.getDelta(b));
 	}
+
+	public Compass getRelativeHeading(Coord delta) {
+		return getRelativeHeading(delta.getX(), delta.getY(), this);
+	}
+
 	public Compass getRelativeHeading(int x, int y) {
 		return getRelativeHeading(x, y, this);
 	}
+
 	public int toDegrees() {
 		if (this.val < 3)
 			return this.val * 90;
@@ -30,27 +36,23 @@ public class Compass {
 		return getCompass((byte) ((getHeading(x, y).val + heading.val) % 4));
 	}
 
-	public static Compass getRelativeHeading(Coord delta, Compass heading) {
-		return getRelativeHeading(delta.getX(), delta.getY(), heading);
-	}
-
 	public static Compass getHeading(int x, int y) {
-		if (x != 0 && y != 0)
-			throw new IllegalArgumentException("X or Y must be 0");
-		switch ((int) Math.signum(x)) {
-			case -1:
-				return LEFT;
-			case 1:
-				return RIGHT;
-			default:
-				switch ((int) Math.signum(y)) {
-					case -1:
-						return UP;
-					case 1:
-						return DOWN;
-				}
-		}
-		return NONE;
+		if (x != 0)
+			switch ((int) Math.signum(x)) {
+				case -1:
+					return LEFT;
+				case 1:
+					return RIGHT;
+			}
+		else if (y != 0)
+			switch ((int) Math.signum(y)) {
+				case -1:
+					return UP;
+				case 1:
+					return DOWN;
+			}
+
+		throw new IllegalArgumentException("X or Y must be 0");
 	}
 
 	public static Compass getCompass(byte heading) {
