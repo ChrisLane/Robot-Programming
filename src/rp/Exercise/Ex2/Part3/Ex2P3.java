@@ -6,15 +6,14 @@ import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.GeoffBot;
 import rp.Listener.ArcRadiusChangeListener;
 import rp.Listener.BumperHitListener;
-import rp.Listener.InfraredSideListener;
-import rp.Listener.BumperSensor;
-import rp.Listener.UltrasonicFrontSensor;
 import rp.Listener.WallApproachListener;
 import rp.Listener.WallFalloffListener;
+import rp.Sensor.BumperSensor;
+import rp.Sensor.InfraredSideSensor;
+import rp.Sensor.UltrasonicFrontSensor;
 
 public class Ex2P3 implements ArcRadiusChangeListener, BumperHitListener,
 		WallApproachListener, WallFalloffListener {
@@ -32,7 +31,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperHitListener,
 		this.usSensorFront = new UltrasonicSensor(usPortFront);
 
 		new BumperSensor(touchPort, this);
-		new InfraredSideListener(this.irSensorSide, this, this, this);
+		new InfraredSideSensor(this.irSensorSide, this, this, this);
 		new UltrasonicFrontSensor(this.usSensorFront, this);
 
 		this.pilot = GeoffBot.getDifferentialPilot();
@@ -42,14 +41,14 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperHitListener,
 		this.pilot.forward();
 		while (!Button.ESCAPE.isDown()) {
 			if (this.wallFalloff) {
-				while ((this.irSensorSide.getDistance() / 10) + 4 >= InfraredSideListener.TARGETDISTANCE * 1.2 && this.wallFalloff && !this.bumperHit) {
-						this.pilot.arcForward(-InfraredSideListener.TARGETDISTANCE);
+				while ((this.irSensorSide.getDistance() / 10) + 4 >= InfraredSideSensor.TARGETDISTANCE * 1.2 && this.wallFalloff && !this.bumperHit) {
+						this.pilot.arcForward(-InfraredSideSensor.TARGETDISTANCE);
 				}
 				this.wallFalloff = false;
 			} 
 			if (this.bumperHit) {
 				this.pilot.stop();
-				this.pilot.travel(-InfraredSideListener.TARGETDISTANCE / 2);
+				this.pilot.travel(-InfraredSideSensor.TARGETDISTANCE / 2);
 				this.pilot.rotate(90);
 				this.pilot.forward();
 				this.bumperHit = false;

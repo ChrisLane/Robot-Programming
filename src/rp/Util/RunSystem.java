@@ -1,4 +1,4 @@
-package rp;
+package rp.Util;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;

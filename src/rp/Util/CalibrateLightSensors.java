@@ -1,8 +1,6 @@
 package rp.Util;
 
 import rp.GeoffBot;
-import rp.RunSystem;
-
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;

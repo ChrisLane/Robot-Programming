@@ -3,9 +3,9 @@ package rp.Exercise.Ex3.Part1;
 import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
-import rp.RunSystem;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
+import rp.Util.RunSystem;
 
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();

@@ -6,7 +6,7 @@ import lejos.nxt.addon.NXTCam;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
 import rp.GeoffBot;
-import rp.RunSystem;
+import rp.Util.RunSystem;
 
 public class Ex3P3 extends RunSystem {
 	private DifferentialPilot pilot = GeoffBot.getDifferentialPilot();

@@ -4,8 +4,8 @@ import java.util.Queue;
 
 import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
-import rp.RunSystem;
 import rp.Listener.IntersectionListener;
+import rp.Util.RunSystem;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
