@@ -1,21 +1,19 @@
 package rp.Exercise.Ex3.Part1;
 
 import lejos.nxt.LCD;
-import lejos.nxt.LightSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.GeoffBot;
 import rp.RunSystem;
-import rp.Listener.BlackLineChangeListener;
-import rp.Listener.BlackLineListener;
+import rp.Listener.BlackLineSensor;
+import rp.Listener.LineListener;
 
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-	private final LightSensor lsLeft, lsRight;
+	private final BlackLineSensor lsLeft, lsRight;
 
 	public Ex3P1B() {
-		this.lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
-		this.lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
+		this.lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, GeoffBot.LSThreshold);
+		this.lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, GeoffBot.LSThreshold);
 
 		GeoffBot.calibrateLeftLS(this.lsLeft);
 		GeoffBot.calibrateRightLS(this.lsRight);
@@ -23,7 +21,7 @@ public class Ex3P1B extends RunSystem {
 
 	@Override
 	public void run() {
-		new BlackLineListener(this.lsLeft, GeoffBot.LSThreshold).setChangeListener(new BlackLineChangeListener() {
+		this.lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				LCD.drawString("Left:  " + Integer.toString(lightValue) + onLine, 0, LCD.DISPLAY_CHAR_DEPTH - 2);
@@ -36,7 +34,7 @@ public class Ex3P1B extends RunSystem {
 			}
 		});
 
-		new BlackLineListener(this.lsRight, GeoffBot.LSThreshold).setChangeListener(new BlackLineChangeListener() {
+		this.lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				LCD.drawString("Right: " + Integer.toString(lightValue) + onLine, 0, LCD.DISPLAY_CHAR_DEPTH - 1);
@@ -52,6 +50,7 @@ public class Ex3P1B extends RunSystem {
 		while (this.isRunning)
 			Thread.yield();
 	}
+
 	public static void main(String[] args) {
 		// GeoffBot.connectRemote();
 		final Ex3P1B program = new Ex3P1B();

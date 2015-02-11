@@ -1,5 +1,5 @@
 package rp.Listener;
 
 public interface WallFalloffListener {
-	public void wallFalloff(double wallDistance);
+	public void onWallFalloff(double wallDistance);
 }

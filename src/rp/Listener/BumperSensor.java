@@ -3,10 +3,10 @@ package rp.Listener;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 
-public class TouchListener implements SensorPortListener {
-	private BumperPressListener listener;
+public class BumperSensor implements SensorPortListener {
+	private BumperHitListener listener;
 
-	public TouchListener(SensorPort port, BumperPressListener listener) {
+	public BumperSensor(SensorPort port, BumperHitListener listener) {
 		this.listener = listener;
 		port.addSensorPortListener(this);
 	}
@@ -14,7 +14,7 @@ public class TouchListener implements SensorPortListener {
 	@Override
 	public void stateChanged(SensorPort aSource, int oldVal, int newVal) {
 		if (oldVal - newVal >= 40)
-			this.listener.bumperHit();
+			this.listener.onBumperHit();
 		aSource.reset();
 	}
 }

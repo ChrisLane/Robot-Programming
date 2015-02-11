@@ -9,14 +9,14 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
 import rp.Listener.ArcRadiusChangeListener;
-import rp.Listener.BumperPressListener;
+import rp.Listener.BumperHitListener;
 import rp.Listener.InfraredSideListener;
-import rp.Listener.TouchListener;
-import rp.Listener.UltrasonicFrontListener;
+import rp.Listener.BumperSensor;
+import rp.Listener.UltrasonicFrontSensor;
 import rp.Listener.WallApproachListener;
 import rp.Listener.WallFalloffListener;
 
-public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
+public class Ex2P3 implements ArcRadiusChangeListener, BumperHitListener,
 		WallApproachListener, WallFalloffListener {
 	private final DifferentialPilot pilot;
 
@@ -31,9 +31,9 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
 		this.irSensorSide = new OpticalDistanceSensor(irPortSide);
 		this.usSensorFront = new UltrasonicSensor(usPortFront);
 
-		new TouchListener(touchPort, this);
+		new BumperSensor(touchPort, this);
 		new InfraredSideListener(this.irSensorSide, this, this, this);
-		new UltrasonicFrontListener(this.usSensorFront, this);
+		new UltrasonicFrontSensor(this.usSensorFront, this);
 
 		this.pilot = GeoffBot.getDifferentialPilot();
 	}
@@ -58,7 +58,7 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
 	}
 
 	@Override
-	public void arcRadiusChanged(double arcRadius) {
+	public void onRadiusChanged(double arcRadius) {
 		this.arcRadius = arcRadius;
 		if (!this.bumperHit && !this.wallFalloff)
 			this.pilot.arcForward(this.arcRadius);
@@ -71,12 +71,12 @@ public class Ex2P3 implements ArcRadiusChangeListener, BumperPressListener,
 	}
 
 	@Override
-	public void wallFalloff(double wallDistance) {
+	public void onWallFalloff(double wallDistance) {
 		this.wallFalloff = true;
 	}
 
 	@Override
-	public void bumperHit() {
+	public void onBumperHit() {
 		this.bumperHit = true;
 	}
 

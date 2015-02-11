@@ -2,10 +2,10 @@ package rp.Listener;
 
 import lejos.nxt.UltrasonicSensor;
 
-public class UltrasonicFrontListener extends UltrasonicDistanceListener {
+public class UltrasonicFrontSensor extends UltrasonicDistanceListener {
 	private final WallApproachListener listener;
 
-	public UltrasonicFrontListener(UltrasonicSensor sensor, WallApproachListener listener) {
+	public UltrasonicFrontSensor(UltrasonicSensor sensor, WallApproachListener listener) {
 		super(sensor, 2);
 		this.listener = listener;
 	}

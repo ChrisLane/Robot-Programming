@@ -1,14 +1,13 @@
 package rp.Exercise.Ex3.Part2;
 
-import lejos.robotics.navigation.DifferentialPilot;
-
 import java.util.Queue;
 
+import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.RunSystem;
-import rp.Listener.IntersectionHitListener;
+import rp.Listener.IntersectionListener;
 
-public class Ex3P2 extends RunSystem implements IntersectionHitListener {
+public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private Queue<Node> path;
 	private Node location, target;
@@ -28,28 +27,29 @@ public class Ex3P2 extends RunSystem implements IntersectionHitListener {
 	@Override
 	public void run() {
 		// Rotate to face target node if not already
-		final Compass destinationHeading = this.heading.getRelativeHeading(this.target.getCoord());
-		if (destinationHeading != Compass.UP)
-			this.pilot.rotate(destinationHeading.toDegrees());
+		Compass destHeading = this.heading.getRelativeHeading(this.target.getCoord());
+		if (destHeading != Compass.UP)
+			this.pilot.rotate(destHeading.toDegrees());
 
+		// Drive to 'location'
 		this.travelling = true;
 		this.pilot.forward();
 		try {
-			this.wait();
+			this.wait(0); // Wait for intersection to be reached
 		}
-		catch (final Exception e) {
+		catch (Exception e) {
+			this.travelling = false;
 			e.printStackTrace();
 		}
-
-		// Drive to 'location'
+		this.travelling = false;
 
 		// Pop from 'path'
 		// Get heading
 		// Repeat
-
 	}
+
 	public static void main(String[] args) {
-		final Queue<Node> path = new Queue<Node>();
+		Queue<Node> path = new Queue<Node>();
 		path.addElement(new Node(0, 1));
 		path.addElement(new Node(0, 2));
 		path.addElement(new Node(1, 2));
@@ -57,12 +57,12 @@ public class Ex3P2 extends RunSystem implements IntersectionHitListener {
 		path.addElement(new Node(3, 2));
 		path.addElement(new Node(3, 1));
 
-		final Ex3P2 program = new Ex3P2(path, new Node(0, 0));
+		Ex3P2 program = new Ex3P2(path, new Node(0, 0));
 		program.run();
 	}
 
 	@Override
-	public void onIntersectionHit() {
+	public void onIntersectionArrive() {
 		// TODO Auto-generated method stub
 
 	}

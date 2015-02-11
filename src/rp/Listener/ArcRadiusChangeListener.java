@@ -1,5 +1,5 @@
 package rp.Listener;
 
 public interface ArcRadiusChangeListener {
-	public void arcRadiusChanged(double arcRadius);
+	public void onRadiusChanged(double arcRadius);
 }

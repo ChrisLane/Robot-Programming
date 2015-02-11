@@ -32,7 +32,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		LCD.drawString(Double.toString(offset), 0, 1);
 		if (-offset >= TARGETDISTANCE) {
 			LCD.drawString("Wall falloff!", 0, 4);
-			this.wfl.wallFalloff(this.currentDistance);
+			this.wfl.onWallFalloff(this.currentDistance);
 		}
 		else {
 			double radius = this.calcRadius(offset);
@@ -44,7 +44,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 			this.arcRadius = radius;
 
 			if (Math.abs(oldAR - this.arcRadius) > this.THRESHOLD)
-				this.arcl.arcRadiusChanged(this.arcRadius);
+				this.arcl.onRadiusChanged(this.arcRadius);
 		}
 	}
 
