@@ -26,7 +26,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public void run() {
-		while (this.path.size() > 1) {
+		while (!this.path.empty()) {
 			Compass destHeading = this.heading.getRelativeHeading(this.target.getCoord());
 			if (destHeading != Compass.UP)
 				this.pilot.rotate(destHeading.toDegrees());		// Rotate to face target node if not already
@@ -37,12 +37,13 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			try {
 				this.wait(0);			// Wait for intersection to be reached
 			}
-			catch (Exception e) {
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
 			this.location = this.target;
-			this.target = (Node) path.pop();
+			if (!path.empty())
+				this.target = (Node) path.pop();
 		}
 	}
 
@@ -50,7 +51,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	public synchronized void onIntersectionArrive() {
 		if (this.isTravelling) {
 			this.isTravelling = false;
-			this.notify();				// Wake up loop to continue on path
+			this.notifyAll();			// Wake up loop to continue on path
 		}
 	}
 
