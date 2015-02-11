@@ -1,7 +1,8 @@
-package rp.Listener;
+package rp.Sensor;
 
 import java.util.ArrayList;
 
+import rp.Listener.LineListener;
 import lejos.nxt.ADSensorPort;
 import lejos.nxt.LightSensor;
 

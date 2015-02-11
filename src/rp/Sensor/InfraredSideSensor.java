@@ -1,9 +1,13 @@
-package rp.Listener;
+package rp.Sensor;
 
+import rp.Listener.ArcRadiusChangeListener;
+import rp.Listener.OpticalDistanceListener;
+import rp.Listener.WallApproachListener;
+import rp.Listener.WallFalloffListener;
 import lejos.nxt.LCD;
 import lejos.nxt.addon.OpticalDistanceSensor;
 
-public class InfraredSideListener extends OpticalDistanceListener {
+public class InfraredSideSensor extends OpticalDistanceListener {
 	public static final double TARGETDISTANCE = 18.0;
 	private final double THRESHOLD = 0;
 
@@ -14,7 +18,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 	private double currentDistance;
 	private double arcRadius;
 
-	public InfraredSideListener(OpticalDistanceSensor sensor, ArcRadiusChangeListener arcl, WallApproachListener wal, WallFalloffListener wfl) {
+	public InfraredSideSensor(OpticalDistanceSensor sensor, ArcRadiusChangeListener arcl, WallApproachListener wal, WallFalloffListener wfl) {
 		super(sensor, 0);
 		this.arcl = arcl;
 		// this.wal = wal;
@@ -55,6 +59,7 @@ public class InfraredSideListener extends OpticalDistanceListener {
 		// y-axis: turn radius
 		return (400 / ((0.65 * offset) - 1)) + TARGETDISTANCE - 8.2;
 	}
+
 	public double getArcRadius() {
 		return this.arcRadius;
 	}
