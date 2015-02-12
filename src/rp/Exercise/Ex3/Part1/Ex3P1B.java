@@ -1,15 +1,17 @@
 package rp.Exercise.Ex3.Part1;
 
-import lejos.nxt.LCD;
-import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.RunSystem;
 
+import lejos.nxt.LCD;
+import lejos.robotics.navigation.DifferentialPilot;
+
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
+	private boolean turningLeft, turningRight;
 
 	public Ex3P1B() {
 		this.lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, GeoffBot.LSThreshold);
@@ -24,27 +26,26 @@ public class Ex3P1B extends RunSystem {
 		this.lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				LCD.clear(LCD.DISPLAY_CHAR_DEPTH - 2);
-				LCD.drawString("Left:  " + Integer.toString(lightValue) + onLine, 0, LCD.DISPLAY_CHAR_DEPTH - 2);
-				if (onLine)
-					Ex3P1B.this.pilot.steer(150, -10, true);
-				else
+				LCD.clear(0);
+				LCD.drawString(Integer.toString(lightValue), 0, 0);
+				if (onLine || turningLeft) {
+					Ex3P1B.this.pilot.steer(200, -10, true);
+					turningLeft = (lightValue > 90);
+				} else
 					Ex3P1B.this.pilot.forward();
-
-				System.out.println("Left:\t" + lightValue);
 			}
 		});
 
 		this.lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				LCD.clear(LCD.DISPLAY_CHAR_DEPTH - 1);
-				LCD.drawString("Right: " + Integer.toString(lightValue) + onLine, 0, LCD.DISPLAY_CHAR_DEPTH - 1);
-				if (onLine)
-					Ex3P1B.this.pilot.steer(150, 10, true);
-				else
+				LCD.clear(1);
+				LCD.drawString(Integer.toString(lightValue), 0, 1);
+				if (onLine || turningRight) {
+					Ex3P1B.this.pilot.steer(200, 10, true);
+					turningRight = (lightValue > 90);
+				} else
 					Ex3P1B.this.pilot.forward();
-				System.out.println("Right:\t" + lightValue);
 			}
 		});
 
@@ -54,7 +55,6 @@ public class Ex3P1B extends RunSystem {
 	}
 
 	public static void main(String[] args) {
-		// GeoffBot.connectRemote();
 		final Ex3P1B program = new Ex3P1B();
 		program.run();
 	}

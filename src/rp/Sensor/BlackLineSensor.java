@@ -30,7 +30,7 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 			this.lightValue = this.getLightValue();
 			this.onLine = (this.lightValue < this.darkTolerance);
 
-			if (this.lightValue != this.oldLightValue)
+			//if (this.lightValue != this.oldLightValue)
 				for (LineListener ls : this.listeners)
 					ls.lineChanged(this.onLine, this.lightValue);
 		}
