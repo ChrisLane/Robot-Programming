@@ -12,7 +12,7 @@ public class GeoffBot {
 	private final static double WHEELDIAMETER = 6.45;
 	private final static double TRACKWIDTH = 12.75; // Both in cm
 	public static int LSThreshold = 70;
-	public final static int LSLeftLow = 425, LSRightLow = 340, LSLeftHigh = 553, LSRightHigh = 478;
+	public final static int LSLeftLow = 482, LSRightLow = 406, LSLeftHigh = 546, LSRightHigh = 469;
 
 	private static DifferentialPilot diffPilot;
 
