@@ -12,10 +12,11 @@ public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
 	private boolean turningLeft, turningRight;
+	private final byte darkThreshold = 80;
 
 	public Ex3P1B() {
-		this.lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, GeoffBot.LSThreshold);
-		this.lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, GeoffBot.LSThreshold);
+		this.lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, darkThreshold);
+		this.lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, darkThreshold);
 
 		GeoffBot.calibrateLeftLS(this.lsLeft);
 		GeoffBot.calibrateRightLS(this.lsRight);
@@ -29,10 +30,9 @@ public class Ex3P1B extends RunSystem {
 				LCD.clear(0);
 				LCD.drawString(Integer.toString(lightValue), 0, 0);
 
-				if (onLine || turningLeft) {
-					Ex3P1B.this.pilot.steer(200, -10, true);
-					turningLeft = (lightValue > 90);
-				}
+				if (onLine)
+					pilot.steer(120);
+
 				else
 					Ex3P1B.this.pilot.forward();
 			}
@@ -43,11 +43,8 @@ public class Ex3P1B extends RunSystem {
 			public void lineChanged(boolean onLine, int lightValue) {
 				LCD.clear(1);
 				LCD.drawString(Integer.toString(lightValue), 0, 1);
-
-				if (onLine || turningRight) {
-					Ex3P1B.this.pilot.steer(200, 10, true);
-					turningRight = (lightValue > 90);
-				}
+				if (onLine)
+					Ex3P1B.this.pilot.steer(120);
 				else
 					Ex3P1B.this.pilot.forward();
 			}
