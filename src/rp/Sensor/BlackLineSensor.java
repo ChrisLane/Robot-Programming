@@ -21,6 +21,7 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 		super(port, floodlight);
 		this.darkTolerance = tolerance;
 		this.listeners = new ArrayList<LineListener>();
+
 		this.startPolling();
 	}
 
