@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class Node {
 	private final Coord location;
-	@SuppressWarnings("unused")
-	private final ArrayList<Node> adjacents;
+	@SuppressWarnings("unused") private final ArrayList<Node> adjacents;
 
 	public Node(int x, int y) {
 		this(new Coord(x, y), new ArrayList<Node>());
@@ -23,5 +22,8 @@ public class Node {
 
 	public Coord getCoord() {
 		return this.location;
+	}
+	public Coord getDelta(Node to) {
+		return this.location.getDelta(to.location);
 	}
 }
