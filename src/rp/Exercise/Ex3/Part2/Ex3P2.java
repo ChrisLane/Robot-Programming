@@ -3,54 +3,67 @@ package rp.Exercise.Ex3.Part2;
 import java.util.Queue;
 
 import lejos.robotics.navigation.DifferentialPilot;
+
 import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
+import rp.Sensor.BlackLineSensor;
+import rp.Sensor.IntersectionSensor;
 import rp.Util.RunSystem;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	private BlackLineSensor left, right;
+
 	private Queue<Node> path;
 	private Node location, target;
 	private Compass heading;
 
 	private boolean isTravelling = false;
 
-	public Ex3P2(Queue<Node> path, Node location) {
+	public Ex3P2(Queue<Node> path, Node location, Compass heading) {
 		if (path.empty())
 			return;
 
 		this.path = path;
+		this.heading = heading;
 		this.location = location;
-		this.target = (Node) path.pop();
-	}
 
+		left = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 75);
+		right = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 75);
+		GeoffBot.calibrateLeftLS(left);
+		GeoffBot.calibrateRightLS(right);
+
+		new IntersectionSensor(left, right);
+	}
 	@Override
-	public void run() {
+	public synchronized void run() {
 		while (!this.path.empty()) {
-			Compass destHeading = this.heading.getRelativeHeading(this.target.getCoord());
+			this.target = (Node) path.pop();
+
+			Coord delta = this.location.getDelta(this.target);				// Get difference between two co-ordinates
+			Compass destHeading = this.heading.getRelativeHeading(delta);	// Get a compass heading to turn from current
+			// stance towards target node
 			if (destHeading != Compass.UP)
-				this.pilot.rotate(destHeading.toDegrees());		// Rotate to face target node if not already
+				this.pilot.rotate(destHeading.toDegrees());					// Rotate to face target node if not already
 
 			// Drive to 'location'
 			this.isTravelling = true;
-			this.pilot.forward();		// TODO: Make the BlackLineSensor follow the line and adjust angle while this.isTravelling == true
+			this.pilot.forward();				// TODO: Make the BlackLineSensor follow the line and adjust angle while
 			try {
-				this.wait(0);			// Wait for intersection to be reached
+				this.wait(0);					// Wait for intersection to be reached
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			this.location = this.target;
-			if (!path.empty())
-				this.target = (Node) path.pop();
+			this.location = this.target;		// We are now at the target location
 		}
 	}
-
 	@Override
 	public synchronized void onIntersectionArrive() {
 		if (this.isTravelling) {
 			this.isTravelling = false;
+			System.out.println("notify");
 			this.notifyAll();			// Wake up loop to continue on path
 		}
 	}
@@ -64,7 +77,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		path.addElement(new Node(3, 2));
 		path.addElement(new Node(3, 1));
 
-		Ex3P2 program = new Ex3P2(path, new Node(0, 0));
+		Ex3P2 program = new Ex3P2(path, new Node(0, 0), Compass.UP);
 		program.run();
 	}
 }
