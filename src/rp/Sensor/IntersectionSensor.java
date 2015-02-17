@@ -11,7 +11,7 @@ public class IntersectionSensor {
 	private boolean onIntersection;
 
 	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right) {
-		this.listeners = new ArrayList<IntersectionListener>();
+		this.listeners = new ArrayList<>();
 		left.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {

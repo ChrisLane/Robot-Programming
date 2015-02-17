@@ -20,7 +20,7 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 	public BlackLineSensor(ADSensorPort port, boolean floodlight, int tolerance) {
 		super(port, floodlight);
 		this.darkTolerance = tolerance;
-		this.listeners = new ArrayList<LineListener>();
+		this.listeners = new ArrayList<>();
 
 		this.startPolling();
 	}
