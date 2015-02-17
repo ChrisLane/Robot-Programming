@@ -1,12 +1,12 @@
 package rp.Exercise.Ex3.Part1;
 
+import lejos.nxt.LCD;
+import lejos.robotics.navigation.DifferentialPilot;
+
 import rp.GeoffBot;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.RunSystem;
-
-import lejos.nxt.LCD;
-import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -30,8 +30,7 @@ public class Ex3P1B extends RunSystem {
 				LCD.drawString(Integer.toString(lightValue), 0, 0);
 
 				if (onLine)
-					pilot.steer(-120);
-
+					pilot.steer(200, -1, true);
 				else
 					pilot.forward();
 			}
@@ -44,7 +43,7 @@ public class Ex3P1B extends RunSystem {
 				LCD.drawString(Integer.toString(lightValue), 0, 1);
 
 				if (onLine)
-					pilot.steer(120);
+					pilot.steer(200, 1, true);
 				else
 					pilot.forward();
 			}
