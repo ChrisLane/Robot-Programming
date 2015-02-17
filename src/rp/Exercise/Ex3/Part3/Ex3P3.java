@@ -9,12 +9,12 @@ import rp.GeoffBot;
 import rp.Util.RunSystem;
 
 public class Ex3P3 extends RunSystem {
-	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-	private final NXTCam cam;
+	private DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	private NXTCam cam;
 
 	// double radius = 30;
-	private final double leftT = 118; // right and left thresholds before turning either side
-	private final double rightT = 50;
+	private double leftT = 118; // right and left thresholds before turning either side
+	private double rightT = 50;
 	private double radius;
 
 	public Ex3P3() {
