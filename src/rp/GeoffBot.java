@@ -9,11 +9,11 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class GeoffBot {
 	// Light sensor calibrations
-	public final static int LSLeftLow = 446, LSRightLow = 334, LSLeftHigh = 555, LSRightHigh = 479;
+	private final static int LSLeftLow = 446, LSRightLow = 334, LSLeftHigh = 555, LSRightHigh = 479;
 	// GeoffBot sizes
 	private final static double WHEELDIAMETER = 6.45;
 	private final static double TRACKWIDTH = 12.75; // Both in cm
-	private static DifferentialPilot diffPilot;
+	private static final DifferentialPilot diffPilot;
 
 	// GeoffBot settings
 	static {
