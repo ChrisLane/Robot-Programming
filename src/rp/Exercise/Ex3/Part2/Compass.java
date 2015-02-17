@@ -38,14 +38,14 @@ public class Compass {
 
 	public static Compass getHeading(int x, int y) {
 		if (x != 0)
-			switch ((int) Math.signum(x)) {
+			switch ((short) Math.signum(x)) {
 				case -1:
 					return LEFT;
 				case 1:
 					return RIGHT;
 			}
 		else if (y != 0)
-			switch ((int) Math.signum(y)) {
+			switch ((short) Math.signum(y)) {
 				case -1:
 					return UP;
 				case 1:
