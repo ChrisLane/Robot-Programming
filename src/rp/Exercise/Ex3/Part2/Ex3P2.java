@@ -71,7 +71,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	public static void main(String[] args) {
 		GeoffBot.connectRemote();
 
-		Queue<Node> path = new Queue<Node>();
+		Queue<Node> path = new Queue<>();
 		path.addElement(new Node(0, 1));
 		path.addElement(new Node(0, 2));
 		path.addElement(new Node(1, 2));

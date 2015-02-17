@@ -7,10 +7,10 @@ public class Node {
 	@SuppressWarnings("unused") private final ArrayList<Node> adjacents;
 
 	public Node(int x, int y) {
-		this(new Coord((byte) x, (byte) y), new ArrayList<Node>());
+		this(new Coord((byte) x, (byte) y), new ArrayList<>());
 	}
 	public Node(byte x, byte y) {
-		this(new Coord(x, y), new ArrayList<Node>());
+		this(new Coord(x, y), new ArrayList<>());
 	}
 	public Node(byte x, byte y, ArrayList<Node> adjacents) {
 		this(new Coord(x, y), adjacents);
