@@ -11,7 +11,6 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
-	private boolean turningLeft, turningRight;
 	private final byte darkThreshold = 80;
 
 	public Ex3P1B() {
