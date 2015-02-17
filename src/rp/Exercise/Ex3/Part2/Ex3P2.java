@@ -51,7 +51,6 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			this.isTravelling = true;
 			this.pilot.forward();				// TODO: Make the BlackLineSensor follow the line and adjust angle while
 			try {
-				System.out.println("waiting");
 				this.wait(0);					// Wait for intersection to be reached
 			}
 			catch (InterruptedException e) {
@@ -65,8 +64,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	public synchronized void onIntersectionArrive() {
 		if (this.isTravelling) {
 			this.isTravelling = false;
-			System.out.println("notify");
-			this.notify();			// Wake up loop to continue on path
+			this.notify();						// Wake up loop to continue on path
 		}
 	}
 
