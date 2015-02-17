@@ -6,5 +6,5 @@ public interface StateChanged {
 	 * @param value Current distance
 	 * @param oldValue Previous distance
 	 */
-	public void stateChanged(double value, double oldValue);
+	void stateChanged(double value, double oldValue);
 }
