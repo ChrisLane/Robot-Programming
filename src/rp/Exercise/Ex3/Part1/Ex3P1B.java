@@ -11,46 +11,47 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
-	private final byte darkThreshold = 80;
+	private final byte darkThreshold = 75;
 
 	public Ex3P1B() {
-		this.lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, darkThreshold);
-		this.lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, darkThreshold);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, darkThreshold);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, darkThreshold);
 
-		GeoffBot.calibrateLeftLS(this.lsLeft);
-		GeoffBot.calibrateRightLS(this.lsRight);
+		GeoffBot.calibrateLeftLS(lsLeft);
+		GeoffBot.calibrateRightLS(lsRight);
 	}
 
 	@Override
 	public void run() {
-		this.lsLeft.addChangeListener(new LineListener() {
+		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				LCD.clear(0);
 				LCD.drawString(Integer.toString(lightValue), 0, 0);
 
 				if (onLine)
-					pilot.steer(120);
+					pilot.steer(-120);
 
 				else
-					Ex3P1B.this.pilot.forward();
+					pilot.forward();
 			}
 		});
 
-		this.lsRight.addChangeListener(new LineListener() {
+		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				LCD.clear(1);
 				LCD.drawString(Integer.toString(lightValue), 0, 1);
+
 				if (onLine)
-					Ex3P1B.this.pilot.steer(120);
+					pilot.steer(120);
 				else
-					Ex3P1B.this.pilot.forward();
+					pilot.forward();
 			}
 		});
 
-		this.pilot.forward();
-		while (this.isRunning)
+		pilot.forward();
+		while (isRunning)
 			Thread.yield();
 	}
 

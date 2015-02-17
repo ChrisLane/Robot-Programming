@@ -12,6 +12,7 @@ public class CalibrateLightSensors extends RunSystem {
 	public void run() {
 		LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
 		LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
+
 		LCD.drawString("Calibrate sensor's\nLOW value...", 0, 0);
 		Button.waitForAnyPress();
 		lsLeft.calibrateLow();
