@@ -26,4 +26,9 @@ public class Node {
 	public Coord getDelta(Node to) {
 		return this.location.getDelta(to.location);
 	}
+
+	@Override
+	public String toString() {
+		return location.toString();
+	}
 }

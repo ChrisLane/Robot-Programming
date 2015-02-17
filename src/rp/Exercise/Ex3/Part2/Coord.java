@@ -27,4 +27,9 @@ public class Coord {
 	public Coord getDelta(Coord c) {
 		return new Coord(c.x - this.x, c.y - this.y);
 	}
+
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ")";
+	}
 }
