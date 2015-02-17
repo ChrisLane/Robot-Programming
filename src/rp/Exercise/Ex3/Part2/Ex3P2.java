@@ -39,6 +39,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	public synchronized void run() {
 		while (!this.path.empty()) {
 			this.target = (Node) path.pop();
+			System.out.println("target is " + this.target);
 
 			Coord delta = this.location.getDelta(this.target);				// Get difference between two co-ordinates
 			Compass destHeading = this.heading.getRelativeHeading(delta);	// Get a compass heading to turn from current
@@ -50,6 +51,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			this.isTravelling = true;
 			this.pilot.forward();				// TODO: Make the BlackLineSensor follow the line and adjust angle while
 			try {
+				System.out.println("waiting");
 				this.wait(0);					// Wait for intersection to be reached
 			}
 			catch (InterruptedException e) {
@@ -64,11 +66,13 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		if (this.isTravelling) {
 			this.isTravelling = false;
 			System.out.println("notify");
-			this.notifyAll();			// Wake up loop to continue on path
+			this.notify();			// Wake up loop to continue on path
 		}
 	}
 
 	public static void main(String[] args) {
+		GeoffBot.connectRemote();
+
 		Queue<Node> path = new Queue<Node>();
 		path.addElement(new Node(0, 1));
 		path.addElement(new Node(0, 2));

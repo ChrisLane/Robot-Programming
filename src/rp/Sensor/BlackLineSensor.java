@@ -2,10 +2,10 @@ package rp.Sensor;
 
 import java.util.ArrayList;
 
-import rp.Listener.LineListener;
-
 import lejos.nxt.ADSensorPort;
 import lejos.nxt.LightSensor;
+
+import rp.Listener.LineListener;
 
 public class BlackLineSensor extends LightSensor implements Runnable {
 	private ArrayList<LineListener> listeners;
@@ -34,10 +34,10 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 			this.lightValue = this.getLightValue();
 			this.onLine = (this.lightValue < this.darkTolerance);
 
-			for (LineListener ls : this.listeners) {
-				this.pollThread.setPriority(Thread.MAX_PRIORITY);
+			if (!this.listeners.isEmpty())
+				this.pollThread.setPriority(Thread.NORM_PRIORITY);
+			for (LineListener ls : this.listeners)
 				ls.lineChanged(this.onLine, this.lightValue);
-			}
 		}
 	}
 

@@ -15,21 +15,16 @@ public class IntersectionSensor {
 		left.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine) {
-					System.out.println("left dark " + lightValue);
-					leftDark = onLine;
-					stateChanged();
-				}
+				leftDark = onLine;
+				stateChanged();
+
 			}
 		});
 		right.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine) {
-					System.out.println("right dark " + lightValue);
-					rightDark = onLine;
-					stateChanged();
-				}
+				rightDark = onLine;
+				stateChanged();
 			}
 		});
 	}
@@ -41,12 +36,11 @@ public class IntersectionSensor {
 
 	private void stateChanged() {
 		if (this.leftDark && this.rightDark && !onIntersection) {
-			System.out.println("intersectionchanged");
 			onIntersection = true;
 			for (IntersectionListener ls : this.listeners)
 				ls.onIntersectionArrive();
 		}
-		else
+		else if (!this.leftDark && !this.rightDark)
 			onIntersection = false;
 	}
 }
