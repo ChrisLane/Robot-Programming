@@ -14,7 +14,7 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 	private boolean isRunning;
 
 	private boolean onLine;
-	private int lightValue, oldLightValue;
+	private int lightValue;
 	private final int darkTolerance;
 
 	public BlackLineSensor(ADSensorPort port, boolean floodlight, int tolerance) {
@@ -30,7 +30,6 @@ public class BlackLineSensor extends LightSensor implements Runnable {
 		while (this.isRunning) {
 			this.pollThread.setPriority(Thread.MAX_PRIORITY);
 
-			this.oldLightValue = this.lightValue;
 			this.lightValue = this.getLightValue();
 			this.onLine = (this.lightValue < this.darkTolerance);
 
