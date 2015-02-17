@@ -33,7 +33,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateLeftLS(left);
 		GeoffBot.calibrateRightLS(right);
 
-		new IntersectionSensor(left, right);
+		new IntersectionSensor(left, right).addArriveListener(this);
 	}
 	@Override
 	public synchronized void run() {
@@ -76,6 +76,8 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		path.addElement(new Node(2, 2));
 		path.addElement(new Node(3, 2));
 		path.addElement(new Node(3, 1));
+		path.addElement(new Node(2, 1));
+		path.addElement(new Node(2, 0));
 
 		Ex3P2 program = new Ex3P2(path, new Node(0, 0), Compass.UP);
 		program.run();
