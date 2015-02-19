@@ -12,6 +12,7 @@ public class IntersectionSensor {
 
 	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right) {
 		listeners = new ArrayList<>();
+
 		left.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
@@ -29,8 +30,9 @@ public class IntersectionSensor {
 		});
 	}
 
-	public void addArriveListener(IntersectionListener listener) {
+	public IntersectionSensor addChangeListener(IntersectionListener listener) {
 		listeners.add(listener);
+		return this;
 	}
 
 	private void stateChanged() {
@@ -39,7 +41,10 @@ public class IntersectionSensor {
 			for (IntersectionListener ls : listeners)
 				ls.onIntersectionArrive();
 		}
-		else if (!this.leftDark && !this.rightDark)
+		else if (!this.leftDark && !this.rightDark) {
 			onIntersection = false;
+			for (IntersectionListener ls : listeners)
+				ls.onIntersectionDepart();
+		}
 	}
 }

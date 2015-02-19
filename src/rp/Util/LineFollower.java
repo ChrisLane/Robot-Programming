@@ -1,17 +1,21 @@
 package rp.Util;
 
+import rp.Listener.IntersectionListener;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
+import rp.Sensor.IntersectionSensor;
 
 import lejos.robotics.navigation.DifferentialPilot;
 
-public class LineFollower {
+public class LineFollower implements IntersectionListener {
 
-	public LineFollower(final DifferentialPilot pilot, BlackLineSensor lsLeft, BlackLineSensor lsRight, final int turnRate, final int turnAngle, final boolean immediateReturn) {
+	private boolean onIntersection;
+
+	public LineFollower(IntersectionSensor intersectionSensor, final DifferentialPilot pilot, BlackLineSensor lsLeft, BlackLineSensor lsRight, final int turnRate, final int turnAngle, final boolean immediateReturn) {
 		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine)
+				if (onLine && !onIntersection)
 					pilot.steer(turnRate, -turnAngle, immediateReturn);
 				else
 					pilot.forward();
@@ -21,11 +25,23 @@ public class LineFollower {
 		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine)
+				if (onLine && !onIntersection)
 					pilot.steer(turnRate, turnAngle, immediateReturn);
 				else
 					pilot.forward();
 			}
 		});
+
+		intersectionSensor.addChangeListener(this);
+	}
+
+	@Override
+	public void onIntersectionArrive() {
+		onIntersection = true;
+	}
+
+	@Override
+	public void onIntersectionDepart() {
+		onIntersection = false;
 	}
 }
