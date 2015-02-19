@@ -9,7 +9,7 @@ import lejos.nxt.SensorPortListener;
 import rp.Listener.LineListener;
 
 public class BlackLineSensor extends LightSensor implements SensorPortListener {
-	private ArrayList<LineListener> listeners;
+	private final ArrayList<LineListener> listeners;
 
 	private final int lightThreshold;
 

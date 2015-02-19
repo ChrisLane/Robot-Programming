@@ -5,7 +5,7 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 
 public class BumperSensor implements SensorPortListener {
-	private BumperHitListener listener;
+	private final BumperHitListener listener;
 
 	public BumperSensor(SensorPort port, BumperHitListener listener) {
 		this.listener = listener;

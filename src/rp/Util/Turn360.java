@@ -6,7 +6,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class Turn360 extends RunSystem {
 
-	DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+	final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 	@Override
 	public void run() {

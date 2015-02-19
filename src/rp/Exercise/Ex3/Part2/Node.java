@@ -3,8 +3,8 @@ package rp.Exercise.Ex3.Part2;
 import java.util.ArrayList;
 
 public class Node {
-	private Coord location;
-	@SuppressWarnings("unused") private ArrayList<Node> adjacents;
+	private final Coord location;
+	@SuppressWarnings("unused") private final ArrayList<Node> adjacents;
 
 	public Node(int x, int y) {
 		this(new Coord((byte) x, (byte) y), new ArrayList<Node>());

@@ -7,11 +7,11 @@ import rp.Listener.LineListener;
 
 public class IntersectionSensor {
 	private boolean leftDark, rightDark;
-	private ArrayList<IntersectionListener> listeners;
+	private final ArrayList<IntersectionListener> listeners;
 	private boolean onIntersection;
 
 	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right) {
-		this.listeners = new ArrayList<>();
+		listeners = new ArrayList<>();
 		left.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
@@ -29,15 +29,14 @@ public class IntersectionSensor {
 		});
 	}
 
-	public IntersectionSensor addArriveListener(IntersectionListener listener) {
-		this.listeners.add(listener);
-		return this;
+	public void addArriveListener(IntersectionListener listener) {
+		listeners.add(listener);
 	}
 
 	private void stateChanged() {
 		if (this.leftDark && this.rightDark && !onIntersection) {
 			onIntersection = true;
-			for (IntersectionListener ls : this.listeners)
+			for (IntersectionListener ls : listeners)
 				ls.onIntersectionArrive();
 		}
 		else if (!this.leftDark && !this.rightDark)
