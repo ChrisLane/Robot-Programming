@@ -11,11 +11,11 @@ import rp.Util.RunSystem;
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
-	private final byte darkThreshold = 75;
+	private final byte lightThreshold = 75;
 
 	public Ex3P1B() {
-		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, darkThreshold);
-		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, darkThreshold);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, lightThreshold);
 
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
@@ -30,7 +30,7 @@ public class Ex3P1B extends RunSystem {
 				LCD.drawString(Integer.toString(lightValue), 0, 0);
 
 				if (onLine)
-					pilot.steer(200, -1, true);
+					pilot.steer(200, -10);
 				else
 					pilot.forward();
 			}
@@ -43,7 +43,7 @@ public class Ex3P1B extends RunSystem {
 				LCD.drawString(Integer.toString(lightValue), 0, 1);
 
 				if (onLine)
-					pilot.steer(200, 1, true);
+					pilot.steer(200, 10);
 				else
 					pilot.forward();
 			}

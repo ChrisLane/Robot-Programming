@@ -4,56 +4,35 @@ import java.util.ArrayList;
 
 import lejos.nxt.ADSensorPort;
 import lejos.nxt.LightSensor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.SensorPortListener;
 
 import rp.Listener.LineListener;
 
-public class BlackLineSensor extends LightSensor implements Runnable {
+public class BlackLineSensor extends LightSensor implements SensorPortListener {
 	private ArrayList<LineListener> listeners;
 
-	private Thread pollThread;
-	private boolean isRunning;
-
-	private boolean onLine;
-	private int lightValue;
 	private final int darkTolerance;
 
-	public BlackLineSensor(ADSensorPort port, boolean floodlight, int tolerance) {
+	public BlackLineSensor(SensorPort port, boolean floodlight, int tolerance) {
 		super(port, floodlight);
 		this.darkTolerance = tolerance;
 		this.listeners = new ArrayList<>();
 
-		this.startPolling();
-	}
-
-	@Override
-	public void run() {
-		while (this.isRunning) {
-			this.pollThread.setPriority(Thread.MAX_PRIORITY);
-
-			this.lightValue = this.getLightValue();
-			this.onLine = (this.lightValue < this.darkTolerance);
-
-			if (!this.listeners.isEmpty())
-				this.pollThread.setPriority(Thread.NORM_PRIORITY);
-			for (LineListener ls : this.listeners)
-				ls.lineChanged(this.onLine, this.lightValue);
-		}
-	}
-
-	protected void startPolling() {
-		this.pollThread = new Thread(this);
-		this.pollThread.setDaemon(true);
-		this.isRunning = true;
-		this.pollThread.start();
-	}
-
-	public void stop() throws InterruptedException {
-		this.isRunning = false;
-		this.pollThread.join();
+		port.addSensorPortListener(this);
 	}
 
 	public BlackLineSensor addChangeListener(LineListener listener) {
 		this.listeners.add(listener);
 		return this;
+	}
+
+	@Override
+	public void stateChanged(SensorPort sensorPort, int i, int i1) {
+		int lightValue = this.getLightValue();
+		boolean onLine = (lightValue < this.darkTolerance);
+
+		for (LineListener ls : this.listeners)
+			ls.lineChanged(onLine, lightValue);
 	}
 }
