@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Node {
 	private final Coord location;
-	@SuppressWarnings("unused") private final ArrayList<Node> adjacents;
+	private final ArrayList<Node> adjacents;
 
 	public Node(int x, int y) {
 		this(new Coord((byte) x, (byte) y), new ArrayList<Node>());
