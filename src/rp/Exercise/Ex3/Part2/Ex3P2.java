@@ -17,16 +17,16 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	private Queue<Node> path;
 	private Node location, target;
-	private Compass heading;
+	private Compass facing;
 
 	private boolean isTravelling = false;
 
-	public Ex3P2(Queue<Node> path, Node location, Compass heading) {
+	public Ex3P2(Queue<Node> path, Node location, Compass facing) {
 		if (path.empty())
 			return;
 
 		this.path = path;
-		this.heading = heading;
+		this.facing = facing;
 		this.location = location;
 
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 75);
@@ -35,20 +35,27 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateRightLS(lsRight);
 
 		new IntersectionSensor(lsLeft, lsRight).addArriveListener(this);
-		new LineFollower(pilot, lsLeft, lsRight, 200, 5, true);
+		new LineFollower(pilot, lsLeft, lsRight, 120, 2, true);
 	}
 	@Override
 	public synchronized void run() {
 
 		while (!this.path.empty()) {
 			this.target = (Node) path.pop();
+			System.out.println("location is " + this.location);
 			System.out.println("target is " + this.target);
 
-			Coord delta = this.location.getDelta(this.target);				// Get difference between two co-ordinates
-			Compass destHeading = this.heading.getRelativeHeading(delta);	// Get a compass heading to turn from current
+			System.out.println("facing " + this.facing);
+			Compass heading = this.facing.getHeadingFrom(this.location.getCoord(), this.target.getCoord());
+			System.out.println("rel head is " + heading);
+			System.out.println("------------------------");
 			// stance towards target node
-			if (destHeading != Compass.UP)
-				this.pilot.rotate(destHeading.toDegrees());					// Rotate to face target node if not already
+			if (heading != Compass.UP) {
+				this.pilot.travel(2.8, true);							// Move 2.8cm to centre wheels on intersection
+				while (pilot.isMoving())
+					Thread.yield();
+				this.pilot.rotate(heading.toDegrees());					// Rotate to face target node if not already
+			}
 
 			// Drive to 'location'
 			this.isTravelling = true;
@@ -75,14 +82,14 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.connectRemote();
 
 		Queue<Node> path = new Queue<>();
+		path.addElement(new Node(1, 0));
+		path.addElement(new Node(1, 1));
 		path.addElement(new Node(0, 1));
-		path.addElement(new Node(0, 2));
-		path.addElement(new Node(1, 2));
-		path.addElement(new Node(2, 2));
-		path.addElement(new Node(3, 2));
-		path.addElement(new Node(3, 1));
-		path.addElement(new Node(2, 1));
-		path.addElement(new Node(2, 0));
+		path.addElement(new Node(0, 0));
+		path.addElement(new Node(1, 0));
+		path.addElement(new Node(1, 1));
+		path.addElement(new Node(0, 1));
+		path.addElement(new Node(0, 0));
 
 		Ex3P2 program = new Ex3P2(path, new Node(0, 0), Compass.UP);
 		program.run();
