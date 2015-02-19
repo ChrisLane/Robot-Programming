@@ -81,4 +81,10 @@ public class Compass {
 				return "No Direction";
 		}
 	}
+
+	public Compass add(Compass heading) {
+		int val = heading.val + this.val;
+		System.out.println(heading.val + " + " + this.val + " = " + val);
+		return getCompass(val);
+	}
 }

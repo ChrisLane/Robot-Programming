@@ -47,6 +47,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 			System.out.println("facing " + this.facing);
 			Compass heading = this.facing.getHeadingFrom(this.location.getCoord(), this.target.getCoord());
+			facing = this.facing.add(heading);
 			System.out.println("rel head is " + heading);
 			System.out.println("------------------------");
 			// stance towards target node
