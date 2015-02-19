@@ -8,11 +8,12 @@ import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
+import rp.Util.LineFollower;
 import rp.Util.RunSystem;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-	private BlackLineSensor left, right;
+	private BlackLineSensor lsLeft, lsRight;
 
 	private Queue<Node> path;
 	private Node location, target;
@@ -28,15 +29,17 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		this.heading = heading;
 		this.location = location;
 
-		left = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 75);
-		right = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 75);
-		GeoffBot.calibrateLeftLS(left);
-		GeoffBot.calibrateRightLS(right);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 75);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 75);
+		GeoffBot.calibrateLeftLS(lsLeft);
+		GeoffBot.calibrateRightLS(lsRight);
 
-		new IntersectionSensor(left, right).addArriveListener(this);
+		new IntersectionSensor(lsLeft, lsRight).addArriveListener(this);
+		new LineFollower(pilot, lsLeft, lsRight, 200, 5, true);
 	}
 	@Override
 	public synchronized void run() {
+
 		while (!this.path.empty()) {
 			this.target = (Node) path.pop();
 			System.out.println("target is " + this.target);

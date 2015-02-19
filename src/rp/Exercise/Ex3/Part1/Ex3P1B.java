@@ -1,11 +1,11 @@
 package rp.Exercise.Ex3.Part1;
 
-import lejos.nxt.LCD;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
+import rp.Util.LineFollower;
 import rp.Util.RunSystem;
 
 public class Ex3P1B extends RunSystem {
@@ -19,36 +19,12 @@ public class Ex3P1B extends RunSystem {
 
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
+
+		new LineFollower(pilot, lsLeft, lsRight, 200, 10, false);
 	}
 
 	@Override
 	public void run() {
-		lsLeft.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				LCD.clear(0);
-				LCD.drawString(Integer.toString(lightValue), 0, 0);
-
-				if (onLine)
-					pilot.steer(200, -10);
-				else
-					pilot.forward();
-			}
-		});
-
-		lsRight.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				LCD.clear(1);
-				LCD.drawString(Integer.toString(lightValue), 0, 1);
-
-				if (onLine)
-					pilot.steer(200, 10);
-				else
-					pilot.forward();
-			}
-		});
-
 		pilot.forward();
 		while (isRunning)
 			Thread.yield();
