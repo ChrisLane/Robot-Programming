@@ -21,10 +21,6 @@ public class Compass {
 		return getRelativeHeading(delta.getX(), delta.getY(), this);
 	}
 
-	public Compass getRelativeHeading(int x, int y) {
-		return getRelativeHeading(x, y, this);
-	}
-
 	public int toDegrees() {
 		if (this.val < 3)
 			return this.val * 90;
@@ -33,7 +29,7 @@ public class Compass {
 	}
 
 	public static Compass getRelativeHeading(int x, int y, Compass heading) {
-		return getCompass((byte) ((getHeading(x, y).val + heading.val) % 4));
+		return getCompass(getHeading(x, y).val - heading.val);
 	}
 
 	public static Compass getHeading(int x, int y) {
@@ -47,15 +43,15 @@ public class Compass {
 		else if (y != 0)
 			switch ((short) Math.signum(y)) {
 				case -1:
-					return UP;
-				case 1:
 					return DOWN;
+				case 1:
+					return UP;
 			}
 
 		throw new IllegalArgumentException("X or Y must be 0");
 	}
 
-	public static Compass getCompass(byte heading) {
+	public static Compass getCompass(int heading) {
 		switch (heading % 4) {
 			case 0:
 				return UP;
@@ -67,6 +63,22 @@ public class Compass {
 				return LEFT;
 			default:
 				return NONE;
+		}
+	}
+
+	@Override
+	public String toString() {
+		switch (val) {
+			case 0:
+				return "North";
+			case 1:
+				return "East";
+			case 2:
+				return "South";
+			case 3:
+				return "West";
+			default:
+				return "No Direction";
 		}
 	}
 }
