@@ -19,7 +19,7 @@ public class Ex3P1B extends RunSystem {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		new LineFollower(pilot, lsLeft, lsRight, 200, 10, false);
+		new LineFollower(null, pilot, lsLeft, lsRight, 200, 10, false);
 	}
 
 	@Override

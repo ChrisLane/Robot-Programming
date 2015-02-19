@@ -12,6 +12,9 @@ public class LineFollower implements IntersectionListener {
 	private boolean onIntersection;
 
 	public LineFollower(IntersectionSensor intersectionSensor, final DifferentialPilot pilot, BlackLineSensor lsLeft, BlackLineSensor lsRight, final int turnRate, final int turnAngle, final boolean immediateReturn) {
+		if (intersectionSensor != null)
+			intersectionSensor.addChangeListener(this);
+
 		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
@@ -31,8 +34,6 @@ public class LineFollower implements IntersectionListener {
 					pilot.forward();
 			}
 		});
-
-		intersectionSensor.addChangeListener(this);
 	}
 
 	@Override
