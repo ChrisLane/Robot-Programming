@@ -3,7 +3,6 @@ package rp.Exercise.Ex3.Part1;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import rp.GeoffBot;
-import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.LineFollower;
 import rp.Util.RunSystem;
