@@ -8,7 +8,6 @@ import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
-import rp.Util.LineFollower;
 import rp.Util.RunSystem;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
@@ -34,9 +33,9 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
-		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
+		new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
 	}
+
 	@Override
 	public synchronized void run() {
 
@@ -52,7 +51,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			System.out.println("------------------------");
 			// stance towards target node
 			if (heading != Compass.UP) {
-				this.pilot.travel(2.8, true);							// Move 2.8cm to centre wheels on intersection
+				this.pilot.travel(2.5, true);							// Move 2.8cm to centre wheels on intersection
 				while (pilot.isMoving())
 					Thread.yield();
 				this.pilot.rotate(heading.toDegrees());					// Rotate to face target node if not already
@@ -71,6 +70,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			this.location = this.target;		// We are now at the target location
 		}
 	}
+
 	@Override
 	public synchronized void onIntersectionArrive() {
 		if (this.isTravelling) {

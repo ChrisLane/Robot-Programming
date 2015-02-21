@@ -85,6 +85,8 @@ public class Compass {
 	public Compass add(Compass heading) {
 		int val = heading.val + this.val;
 		System.out.println(heading.val + " + " + this.val + " = " + val);
+		System.out.println(val % 4);
+		System.out.println(getCompass(val));
 		return getCompass(val);
 	}
 }
