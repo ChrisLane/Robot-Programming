@@ -55,9 +55,9 @@ Since we have moved the light sensors closer together in order to combat the rob
 
 
 ###Part 3
-Part 3 of this exercise is a little more complicated than the other parts since it requires using new software that we are not familiar with and configuring a camera in order for it to output object coordinates. There are many difficulties to overcome when using the camera since the image quality is not very good and so the camera often picks up unwated objects or loses sight of the object we want. The camera does not have a wide viewing angle.
+Part 3 of this exercise is a little more complicated than the other parts since it requires using new software that we are not familiar with and configuring a camera in order for it to output object coordinates. There are many difficulties to overcome when using the camera since the image quality is not very good and so the camera often picks up unwanted objects or loses sight of the object we want. The camera does not have a wide viewing angle.
 
-One issue that we anticipate is that there is far too much interferance from the camera. If there is too much interferance from the camera output then we may be able to use a PID in order to follow the rectangles that are present most often.
+One issue that we anticipate is that there is far too much interference from the camera. If there is too much interference from the camera output then we may be able to use a PID in order to follow the rectangles that are present most often.
 
 1. Our first solution for part 3 was to put the NXTCam on a motor so that we can track a brightly coloured ball independently of the robot's location. Moving the camera on a motor would allow us to always have the ball in the site of the camera, even while the robot is adjusting its rotation/movement.
   * While this would be a very nice solution to part 3, we all agreed that it is a little more complicated than the solution needs to be. This might be something that we come back to if we have extra time. A much simpler solution is to just have the robot rotate to keep the ball in view.
