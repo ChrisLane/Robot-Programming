@@ -52,6 +52,7 @@ public class Compass {
 	}
 
 	public static Compass getCompass(int heading) {
+		heading +=4;	// This fixes negative numbers giving unexpected values with modulo
 		switch (heading % 4) {
 			case 0:
 				return UP;
@@ -62,7 +63,8 @@ public class Compass {
 			case 3:
 				return LEFT;
 			default:
-				return NONE;
+				//return NONE;
+				throw new IllegalArgumentException("No heading");
 		}
 	}
 
@@ -83,10 +85,6 @@ public class Compass {
 	}
 
 	public Compass add(Compass heading) {
-		int val = heading.val + this.val;
-		System.out.println(heading.val + " + " + this.val + " = " + val);
-		System.out.println(val % 4);
-		System.out.println(getCompass(val));
-		return getCompass(val);
+		return getCompass(heading.val + this.val);
 	}
 }
