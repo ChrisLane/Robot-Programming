@@ -23,7 +23,7 @@ public class Ex3P1B extends RunSystem {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				if (onLine)
-					pilot.steer(200, -10, true);
+					pilot.steer(200, -10, false);
 				else
 					pilot.forward();
 			}
@@ -32,7 +32,7 @@ public class Ex3P1B extends RunSystem {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
 				if (onLine)
-					pilot.steer(200, 10, true);
+					pilot.steer(200, 10, false);
 				else
 					pilot.forward();
 			}
