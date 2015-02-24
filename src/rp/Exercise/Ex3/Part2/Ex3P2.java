@@ -7,6 +7,7 @@ import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
+import rp.Util.LineFollower;
 import rp.Util.RunSystem;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
@@ -27,13 +28,13 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		this.facing = facing;
 		this.location = location;
 
-		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 75);
-		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 75);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 50);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 50);
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
 		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
-		// new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
+		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
 	}
 
 	@Override
@@ -69,8 +70,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public synchronized void onIntersectionArrive() {
-		System.out.println(lsLeft.getLightValue() + " " + lsRight.getLightValue());
-		this.pilot.travel(3);
+		this.pilot.travel(4.4);					// Travel to align wheels with the intersection
 
 		if (this.isTravelling) {
 			this.isTravelling = false;
@@ -80,11 +80,10 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public void onIntersectionDepart() {
-
 	}
 
 	public static void main(String[] args) {
-		GeoffBot.connectRemote();
+		// GeoffBot.connectRemote();
 
 		Queue<Node> path = new Queue<>();
 		path.addElement(new Node(1, 0));
