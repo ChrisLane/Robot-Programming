@@ -8,7 +8,6 @@ import rp.Sensor.IntersectionSensor;
 import rp.Util.RunSystem;
 
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.util.Delay;
 
 import java.util.Queue;
 
@@ -40,19 +39,19 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				Delay.msDelay(250);
-				if (onLine && !intersectionSensor.isOnIntersection() && !isTravelling)
-					pilot.steer(60);
+				// Delay.msDelay(250);
+				if (onLine && !intersectionSensor.isOnIntersection() && isTravelling)
+					pilot.steer(-60);
 				else
 					pilot.forward();
 
 			}
 		});
-		lsLeft.addChangeListener(new LineListener() {
+		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				Delay.msDelay(250);
-				if (onLine && !intersectionSensor.isOnIntersection() && !isTravelling)
+				// Delay.msDelay(250);
+				if (onLine && !intersectionSensor.isOnIntersection() && isTravelling)
 					pilot.steer(60);
 				else
 					pilot.forward();
@@ -62,7 +61,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public synchronized void run() {
-		while (!path.empty()) {
+		while (!path.empty() && isRunning) {
 			target = (Node) path.pop();
 
 			Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
