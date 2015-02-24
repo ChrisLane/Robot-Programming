@@ -18,6 +18,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private Queue<Node> path;
 	private Node location, target;
 	private Compass facing;
+	private Thread steerLeftThread, steerRightThread;
 
 	private boolean isTravelling = false;
 
@@ -34,27 +35,59 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight, true).addChangeListener(this);
+		new IntersectionSensor(lsLeft, lsRight, true).addChangeListener(this);
 
 		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				// Delay.msDelay(250);
-				if (onLine && !intersectionSensor.isOnIntersection() && isTravelling)
-					pilot.steer(-60);
-				else
-					pilot.forward();
-
+				synchronized (steerRightThread) {
+					steerRightThread.notify();
+				}
 			}
 		});
 		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				// Delay.msDelay(250);
-				if (onLine && !intersectionSensor.isOnIntersection() && isTravelling)
-					pilot.steer(60);
-				else
-					pilot.forward();
+				synchronized (steerLeftThread) {
+					steerLeftThread.notify();
+				}
+			}
+		});
+
+		steerLeftThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (isRunning) {
+					try {
+						wait(0);
+						Thread.sleep(250);
+					}
+					catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (isTravelling)
+						pilot.steer(-60);
+					else
+						pilot.forward();
+				}
+			}
+		});
+		steerRightThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (isRunning) {
+					try {
+						wait(0);
+						Thread.sleep(250);
+					}
+					catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (isTravelling)
+						pilot.steer(60);
+					else
+						pilot.forward();
+				}
 			}
 		});
 	}
