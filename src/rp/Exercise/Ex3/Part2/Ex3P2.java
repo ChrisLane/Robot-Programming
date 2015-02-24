@@ -1,14 +1,14 @@
 package rp.Exercise.Ex3.Part2;
 
-import java.util.Queue;
-
-import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
 import rp.Util.RunSystem;
+
+import lejos.robotics.navigation.DifferentialPilot;
+
+import java.util.Queue;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -33,7 +33,8 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
+		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
+		//new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
 	}
 
 	@Override
@@ -51,9 +52,6 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			System.out.println("------------------------");
 			// stance towards target node
 			if (heading != Compass.UP) {
-				this.pilot.travel(2.5, true);							// Move 2.8cm to centre wheels on intersection
-				while (pilot.isMoving())
-					Thread.yield();
 				this.pilot.rotate(heading.toDegrees());					// Rotate to face target node if not already
 			}
 
@@ -73,6 +71,9 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public synchronized void onIntersectionArrive() {
+		System.out.println(lsLeft.getLightValue() + " " + lsRight.getLightValue());
+		this.pilot.travel(3);
+
 		if (this.isTravelling) {
 			this.isTravelling = false;
 			this.notify();						// Wake up loop to continue on path
