@@ -6,7 +6,6 @@ import rp.Sensor.BlackLineSensor;
 import rp.Util.RunSystem;
 
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.util.Delay;
 
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -32,7 +31,6 @@ public class Ex3P1B extends RunSystem {
 		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				Delay.msDelay(250);
 				if (onLine)
 					pilot.steer(200, 10, true);
 				else
