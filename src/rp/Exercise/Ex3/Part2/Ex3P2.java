@@ -2,12 +2,13 @@ package rp.Exercise.Ex3.Part2;
 
 import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
+import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
-import rp.Util.LineFollower;
 import rp.Util.RunSystem;
 
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.util.Delay;
 
 import java.util.Queue;
 
@@ -35,12 +36,32 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateRightLS(lsRight);
 
 		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight, true).addChangeListener(this);
-		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 60, 1);
+
+		lsLeft.addChangeListener(new LineListener() {
+			@Override
+			public void lineChanged(boolean onLine, int lightValue) {
+				Delay.msDelay(250);
+				if (onLine && !intersectionSensor.isOnIntersection() && !isTravelling)
+					pilot.steer(60);
+				else
+					pilot.forward();
+
+			}
+		});
+		lsLeft.addChangeListener(new LineListener() {
+			@Override
+			public void lineChanged(boolean onLine, int lightValue) {
+				Delay.msDelay(250);
+				if (onLine && !intersectionSensor.isOnIntersection() && !isTravelling)
+					pilot.steer(60);
+				else
+					pilot.forward();
+			}
+		});
 	}
 
 	@Override
 	public synchronized void run() {
-
 		while (!path.empty()) {
 			target = (Node) path.pop();
 

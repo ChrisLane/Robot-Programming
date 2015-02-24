@@ -12,6 +12,8 @@ public class IntersectionSensor {
 
 	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right, boolean onIntersection) {
 		this.onIntersection = onIntersection;
+		this.leftDark = onIntersection;
+		this.rightDark = onIntersection;
 		listeners = new ArrayList<>();
 
 		left.addChangeListener(new LineListener() {
@@ -36,6 +38,10 @@ public class IntersectionSensor {
 		return this;
 	}
 
+	public boolean isOnIntersection() {
+		return onIntersection;
+	}
+
 	private void stateChanged() {
 		if (this.leftDark && this.rightDark && !onIntersection) {
 			onIntersection = true;
@@ -48,4 +54,5 @@ public class IntersectionSensor {
 				ls.onIntersectionDepart();
 		}
 	}
+
 }
