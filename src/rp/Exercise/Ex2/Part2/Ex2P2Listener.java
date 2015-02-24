@@ -1,12 +1,13 @@
 package rp.Exercise.Ex2.Part2;
 
+import rp.Exercise.Ex2.Part1.Paths.MovementPath;
+import rp.Exercise.Ex2.Part1.Paths.ReverseAndTurn;
+import rp.GeoffBot;
+
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
-import rp.GeoffBot;
-import rp.Exercise.Ex2.Part1.Paths.MovementPath;
-import rp.Exercise.Ex2.Part1.Paths.ReverseAndTurn;
 
 public class Ex2P2Listener {
 	public void run() {

@@ -1,10 +1,11 @@
 package rp.Exercise.Ex3.Part1;
 
+import rp.GeoffBot;
+import rp.Util.RunSystem;
+
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.RangeFinder;
 import lejos.robotics.navigation.DifferentialPilot;
-import rp.GeoffBot;
-import rp.Util.RunSystem;
 
 public class Ex3P1A extends RunSystem {
 	private double mv = 20; // manipulated variable (speed)

@@ -1,11 +1,5 @@
 package rp.Exercise.Ex2.Part3;
 
-import lejos.nxt.Button;
-import lejos.nxt.SensorPort;
-import lejos.nxt.TouchSensor;
-import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.addon.OpticalDistanceSensor;
-import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.Listener.ArcRadiusChangeListener;
 import rp.Listener.BumperHitListener;
@@ -14,6 +8,13 @@ import rp.Listener.WallFalloffListener;
 import rp.Sensor.BumperSensor;
 import rp.Sensor.InfraredSideSensor;
 import rp.Sensor.UltrasonicFrontSensor;
+
+import lejos.nxt.Button;
+import lejos.nxt.SensorPort;
+import lejos.nxt.TouchSensor;
+import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.addon.OpticalDistanceSensor;
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P3 implements ArcRadiusChangeListener, BumperHitListener,
 		WallApproachListener, WallFalloffListener {

@@ -1,9 +1,9 @@
 package rp.Sensor;
 
-import java.util.ArrayList;
-
 import rp.Listener.IntersectionListener;
 import rp.Listener.LineListener;
+
+import java.util.ArrayList;
 
 public class IntersectionSensor {
 	private boolean leftDark, rightDark;

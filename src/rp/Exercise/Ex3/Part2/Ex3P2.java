@@ -1,14 +1,15 @@
 package rp.Exercise.Ex3.Part2;
 
-import java.util.Queue;
-
-import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
 import rp.Util.LineFollower;
 import rp.Util.RunSystem;
+
+import lejos.robotics.navigation.DifferentialPilot;
+
+import java.util.Queue;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();

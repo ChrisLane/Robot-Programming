@@ -2,6 +2,7 @@ package rp.Sensor;
 
 import rp.Listener.UltrasonicDistanceListener;
 import rp.Listener.WallApproachListener;
+
 import lejos.nxt.UltrasonicSensor;
 
 public class UltrasonicFrontSensor extends UltrasonicDistanceListener {

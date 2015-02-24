@@ -1,12 +1,13 @@
 package rp.Exercise.Ex3.Part3;
 
-import java.awt.geom.Rectangle2D;
+import rp.GeoffBot;
+import rp.Util.RunSystem;
 
 import lejos.nxt.addon.NXTCam;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
-import rp.GeoffBot;
-import rp.Util.RunSystem;
+
+import java.awt.geom.Rectangle2D;
 
 public class Ex3P3 extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();

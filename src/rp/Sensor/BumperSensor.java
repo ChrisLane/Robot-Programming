@@ -1,6 +1,7 @@
 package rp.Sensor;
 
 import rp.Listener.BumperHitListener;
+
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 

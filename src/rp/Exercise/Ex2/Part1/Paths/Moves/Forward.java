@@ -1,8 +1,8 @@
 package rp.Exercise.Ex2.Part1.Paths.Moves;
 
-import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.Exercise.Ex2.Part1.Paths.Movement;
+
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class Forward extends Movement {
 	private final double dist;

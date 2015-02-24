@@ -2,6 +2,7 @@ package rp.Exercise.Ex2.Part2;
 
 import rp.GeoffBot;
 import rp.Sensor.InfraredSideSensor;
+
 import lejos.nxt.Button;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
