@@ -1,14 +1,13 @@
 package rp.Exercise.Ex3.Part2;
 
+import java.util.Queue;
+
+import lejos.robotics.navigation.DifferentialPilot;
 import rp.GeoffBot;
 import rp.Listener.IntersectionListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Sensor.IntersectionSensor;
 import rp.Util.RunSystem;
-
-import lejos.robotics.navigation.DifferentialPilot;
-
-import java.util.Queue;
 
 public class Ex3P2 extends RunSystem implements IntersectionListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -34,7 +33,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateRightLS(lsRight);
 
 		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
-		//new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
+		// new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
 	}
 
 	@Override
@@ -51,9 +50,8 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			System.out.println("rel head is " + heading);
 			System.out.println("------------------------");
 			// stance towards target node
-			if (heading != Compass.UP) {
+			if (heading != Compass.UP)
 				this.pilot.rotate(heading.toDegrees());					// Rotate to face target node if not already
-			}
 
 			// Drive to 'location'
 			this.isTravelling = true;
