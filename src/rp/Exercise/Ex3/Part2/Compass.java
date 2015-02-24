@@ -1,7 +1,6 @@
 package rp.Exercise.Ex3.Part2;
 
 public class Compass {
-	public static final Compass NONE = new Compass((byte) 255);
 	public static final Compass UP = new Compass((byte) 0);
 	public static final Compass RIGHT = new Compass((byte) 1);
 	public static final Compass DOWN = new Compass((byte) 2);
@@ -63,7 +62,6 @@ public class Compass {
 			case 3:
 				return LEFT;
 			default:
-				//return NONE;
 				throw new IllegalArgumentException("No heading");
 		}
 	}
