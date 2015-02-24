@@ -28,54 +28,50 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		this.facing = facing;
 		this.location = location;
 
-		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 50);
-		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 50);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 40);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 40);
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
 		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
-		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 200, 1, true);
+		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 40, 1, true);
 	}
 
 	@Override
 	public synchronized void run() {
 
-		while (!this.path.empty()) {
-			this.target = (Node) path.pop();
-			System.out.println("location is " + this.location);
-			System.out.println("target is " + this.target);
+		while (!path.empty()) {
+			target = (Node) path.pop();
 
-			System.out.println("facing " + this.facing);
-			Compass heading = this.facing.getHeadingFrom(this.location.getCoord(), this.target.getCoord());
-			facing = this.facing.add(heading);
-			System.out.println("rel head is " + heading);
-			System.out.println("------------------------");
+			Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
+			facing = facing.add(heading);
+
 			// stance towards target node
 			if (heading != Compass.UP)
-				this.pilot.rotate(heading.toDegrees());					// Rotate to face target node if not already
+				pilot.rotate(heading.toDegrees());		// Rotate to face target node if not already
 
 			// Drive to 'location'
-			this.isTravelling = true;
-			this.pilot.forward();				// TODO: Make the BlackLineSensor follow the line and adjust angle while
-			try {
-				this.wait(0);					// Wait for intersection to be reached
+			isTravelling = true;
+			pilot.forward();							// TODO: Make the BlackLineSensor follow
+
+			try {										// the line and adjust angle while
+				this.wait(0);							// Wait for intersection to be reached
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			this.location = this.target;		// We are now at the target location
+			pilot.travel(4);							// Travel to align wheels with the intersection
+			isTravelling = false;
+
+			location = target;							// We are now at the target location
 		}
 	}
 
 	@Override
 	public synchronized void onIntersectionArrive() {
-		this.pilot.travel(4.4);					// Travel to align wheels with the intersection
-
-		if (this.isTravelling) {
-			this.isTravelling = false;
-			this.notify();						// Wake up loop to continue on path
-		}
+		if (isTravelling)
+			notify();									// Wake up loop to continue on path
 	}
 
 	@Override

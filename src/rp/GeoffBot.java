@@ -12,13 +12,14 @@ public class GeoffBot {
 	private final static int LSLeftLow = 436, LSRightLow = 351, LSLeftHigh = 555, LSRightHigh = 483;
 	// GeoffBot sizes
 	private final static double WHEELDIAMETER = 6.88;
-	private final static double TRACKWIDTH = 13.29; // Both in cm
+	private final static double TRACKWIDTH = 13.1; // Both in cm
 	private static final DifferentialPilot diffPilot;
 
 	// GeoffBot settings
 	static {
 		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
-		diffPilot.setTravelSpeed(15);
+		diffPilot.setTravelSpeed(20);
+		diffPilot.setRotateSpeed(60);
 		Bluetooth.setFriendlyName("GeoffBot");
 	}
 
