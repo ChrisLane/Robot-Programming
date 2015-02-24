@@ -35,7 +35,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		GeoffBot.calibrateRightLS(lsRight);
 
 		IntersectionSensor intersectionSensor = new IntersectionSensor(lsLeft, lsRight).addChangeListener(this);
-		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 40, 1, true);
+		new LineFollower(intersectionSensor, pilot, lsLeft, lsRight, 60, 1);
 	}
 
 	@Override

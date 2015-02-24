@@ -11,31 +11,41 @@ import lejos.util.Delay;
 public class LineFollower implements IntersectionListener {
 	private boolean onIntersection;
 
-	public LineFollower(IntersectionSensor intersectionSensor, final DifferentialPilot pilot, BlackLineSensor lsLeft, BlackLineSensor lsRight, final int turnRate, final int turnAngle, final boolean immediateReturn) {
-		if (intersectionSensor != null)
+	public LineFollower(IntersectionSensor intersectionSensor, final DifferentialPilot pilot, BlackLineSensor lsLeft, BlackLineSensor lsRight, final int turnRate, final int turnAngle) {
+		if (intersectionSensor != null) {
 			intersectionSensor.addChangeListener(this);
-		else
-			throw new IllegalArgumentException("intersectionSensor cannot be null");
+			this.onIntersection = true;						// By default start on an intersection
+		}
 
 		lsLeft.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				Delay.msDelay(250);
-				if (onLine && !onIntersection)
-					pilot.steer(turnRate, -turnAngle, immediateReturn);
-				else
-					pilot.forward();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Delay.msDelay(250);
+						if (onLine && !onIntersection)
+							pilot.steer(turnRate, -turnAngle);
+						else
+							pilot.forward();
+					}
+				}).start();
 			}
 		});
 
 		lsRight.addChangeListener(new LineListener() {
 			@Override
 			public void lineChanged(boolean onLine, int lightValue) {
-				Delay.msDelay(250);
-				if (onLine && !onIntersection)
-					pilot.steer(turnRate, turnAngle, immediateReturn);
-				else
-					pilot.forward();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Delay.msDelay(250);
+						if (onLine && !onIntersection)
+							pilot.steer(turnRate, turnAngle);
+						else
+							pilot.forward();
+					}
+				}).start();
 			}
 		});
 	}
