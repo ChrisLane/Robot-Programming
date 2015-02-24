@@ -1,12 +1,12 @@
 package rp.Sensor;
 
-import java.util.ArrayList;
+import rp.Listener.LineListener;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 
-import rp.Listener.LineListener;
+import java.util.ArrayList;
 
 public class BlackLineSensor extends LightSensor implements SensorPortListener {
 	private final ArrayList<LineListener> listeners;

@@ -1,11 +1,11 @@
 package rp.Exercise.Ex3.Part1;
 
-import lejos.robotics.navigation.DifferentialPilot;
-
 import rp.GeoffBot;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.LineFollower;
 import rp.Util.RunSystem;
+
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex3P1B extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
