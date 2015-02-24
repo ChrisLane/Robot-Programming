@@ -10,7 +10,8 @@ public class IntersectionSensor {
 	private final ArrayList<IntersectionListener> listeners;
 	private boolean onIntersection;
 
-	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right) {
+	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right, boolean onIntersection) {
+		this.onIntersection = onIntersection;
 		listeners = new ArrayList<>();
 
 		left.addChangeListener(new LineListener() {
