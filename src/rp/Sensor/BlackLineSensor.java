@@ -21,16 +21,17 @@ public class BlackLineSensor extends LightSensor implements SensorPortListener {
 		port.addSensorPortListener(this);
 	}
 
-	public void addChangeListener(LineListener listener) {
+	public BlackLineSensor addChangeListener(LineListener listener) {
 		listeners.add(listener);
+		return this;
 	}
 
 	@Override
-	public void stateChanged(SensorPort sensorPort, int i, int i1) {
+	public void stateChanged(SensorPort sensorPort, int ov, int nv) {
 		int lightValue = this.getLightValue();
 		boolean onLine = (lightValue < this.lightThreshold);
 
 		for (LineListener ls : listeners)
-			ls.lineChanged(onLine, lightValue);
+			ls.lineChanged(this, onLine, lightValue);
 	}
 }

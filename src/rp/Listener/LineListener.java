@@ -1,5 +1,7 @@
 package rp.Listener;
 
+import rp.Sensor.BlackLineSensor;
+
 public interface LineListener {
-	void lineChanged(boolean onLine, int lightValue);
+	void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue);
 }
