@@ -73,12 +73,12 @@ public class Ex3P2Simple extends RunSystem {
 		while (!path.empty() && isRunning) {
 
 			if (leftOnline && rightOnline) {
+				System.out.println("Reached intersect");
 				Node target = (Node) path.pop();
 
 				Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
 				facing = facing.add(heading);
 
-				System.out.println("Reached intersection");
 				pilot.travel(4);
 
 				location = target;
@@ -88,13 +88,13 @@ public class Ex3P2Simple extends RunSystem {
 				leftOnline = false;
 				rightOnline = false;
 			} else if (leftOnline) {
-				System.out.println("Left sensor on");
+				System.out.println("Left on line");
 				pilot.steer(200, -10, false);
 
 				leftOnline = false;
 				rightOnline = false;
 			} else if (rightOnline) {
-				System.out.println("Right sensor on");
+				System.out.println("Right on line");
 				pilot.steer(200, 10, false);
 
 				leftOnline = false;
