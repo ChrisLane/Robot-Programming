@@ -10,6 +10,11 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex3P1A extends RunSystem {
 	private double mv = 20; // manipulated variable (speed)
 
+	public static void main(String[] args) {
+		Ex3P1A program = new Ex3P1A();
+		program.run();
+	}
+
 	@Override
 	public void run() {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
@@ -25,10 +30,4 @@ public class Ex3P1A extends RunSystem {
 			pilot.setTravelSpeed(mv);
 		}
 	}
-
-	public static void main(String[] args) {
-		Ex3P1A program = new Ex3P1A();
-		program.run();
-	}
-
 }
