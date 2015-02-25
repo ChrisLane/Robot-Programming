@@ -39,6 +39,8 @@ public class Ex3P2Simple extends RunSystem {
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
 				if (lsLeft.getLightValue() < lightThreshold)
 					leftOnline = true;
+				else
+					leftOnline = false;
 			}
 		});
 
@@ -47,6 +49,8 @@ public class Ex3P2Simple extends RunSystem {
 			public void stateChanged(SensorPort sensorPort, int oldVal, int newVal) {
 				if (lsRight.getLightValue() < lightThreshold)
 					rightOnline = true;
+				else
+					rightOnline = false;
 			}
 		});
 	}
@@ -84,21 +88,12 @@ public class Ex3P2Simple extends RunSystem {
 				location = target;
 
 				pilot.rotate(heading.toDegrees());
-
-				leftOnline = false;
-				rightOnline = false;
 			} else if (leftOnline) {
 				System.out.println("Left on line");
-				pilot.steer(200, -10, false);
-
-				leftOnline = false;
-				rightOnline = false;
+				pilot.steer(180, -2, false);
 			} else if (rightOnline) {
 				System.out.println("Right on line");
-				pilot.steer(200, 10, false);
-
-				leftOnline = false;
-				rightOnline = false;
+				pilot.steer(180, 2, false);
 			}
 			pilot.forward();
 		}
