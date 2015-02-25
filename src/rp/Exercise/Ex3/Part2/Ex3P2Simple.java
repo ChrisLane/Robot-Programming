@@ -83,8 +83,7 @@ public class Ex3P2Simple extends RunSystem {
 
 				location = target;
 
-				if (heading != Compass.UP)
-					pilot.rotate(heading.toDegrees());
+				pilot.rotate(heading.toDegrees());
 
 				leftOnline = false;
 				rightOnline = false;

@@ -100,9 +100,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 			Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
 			facing = facing.add(heading);
 
-			// stance towards target node
-			if (heading != Compass.UP)
-				pilot.rotate(heading.toDegrees());		// Rotate to face target node if not already
+			pilot.rotate(heading.toDegrees());			// Rotate to face target node if not already
 
 			// Drive to 'location'
 			isTravelling = true;
