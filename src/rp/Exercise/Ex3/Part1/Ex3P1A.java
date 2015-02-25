@@ -15,7 +15,7 @@ public class Ex3P1A extends RunSystem {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 		RangeFinder rf = new UltrasonicSensor(GeoffBot.getFrontUltrasonicPort());
 		pilot.forward();
-		while (isRunning /* && rf.getRange() > sp */) {
+		while (isRunning) {
 			double pv = rf.getRange();
 			double sp = 25;
 			double threshold = 5 * sp;
@@ -24,7 +24,6 @@ public class Ex3P1A extends RunSystem {
 			mv += (0.003 * error);
 			pilot.setTravelSpeed(mv);
 		}
-		pilot.stop();
 	}
 
 	public static void main(String[] args) {
