@@ -7,7 +7,7 @@ import rp.Util.RunSystem;
 
 import lejos.robotics.navigation.DifferentialPilot;
 
-public class Ex3P1B extends RunSystem {
+public class Ex3P1B extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
 	private final byte lightThreshold = 75;
@@ -19,24 +19,8 @@ public class Ex3P1B extends RunSystem {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		lsLeft.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine)
-					pilot.steer(200, -10, false);
-				else
-					pilot.forward();
-			}
-		});
-		lsRight.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				if (onLine)
-					pilot.steer(200, 10, false);
-				else
-					pilot.forward();
-			}
-		});
+		lsLeft.addChangeListener(this);
+		lsRight.addChangeListener(this);
 	}
 
 	@Override
@@ -44,6 +28,14 @@ public class Ex3P1B extends RunSystem {
 		pilot.forward();
 		while (isRunning)
 			Thread.yield();
+	}
+
+	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
+		int angle = (sensor == lsLeft ? -10 : 10);
+		if (onLine)
+			pilot.steer(200, angle, false);
+		else
+			pilot.forward();
 	}
 
 	public static void main(String[] args) {

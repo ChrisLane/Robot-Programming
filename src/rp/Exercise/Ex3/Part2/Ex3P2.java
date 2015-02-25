@@ -11,7 +11,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 import java.util.Queue;
 
-public class Ex3P2 extends RunSystem implements IntersectionListener {
+public class Ex3P2 extends RunSystem implements IntersectionListener, LineListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private BlackLineSensor lsLeft, lsRight;
 
@@ -30,29 +30,12 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 		this.facing = facing;
 		this.location = location;
 
-		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 40);
-		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 40);
+		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 40).addChangeListener(this);
+		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 40).addChangeListener(this);
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
 		new IntersectionSensor(lsLeft, lsRight, true).addChangeListener(this);
-
-		lsLeft.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				synchronized (steerRightThread) {
-					steerRightThread.notify();
-				}
-			}
-		});
-		lsRight.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				synchronized (steerLeftThread) {
-					steerLeftThread.notify();
-				}
-			}
-		});
 
 		steerLeftThread = new Thread(new Runnable() {
 			@Override
@@ -128,6 +111,17 @@ public class Ex3P2 extends RunSystem implements IntersectionListener {
 
 	@Override
 	public void onIntersectionDepart() {
+	}
+
+	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
+		if (sensor == lsRight)
+			synchronized (steerLeftThread) {
+				steerLeftThread.notify();
+			}
+		else
+			synchronized (steerRightThread) {
+				steerRightThread.notify();
+			}
 	}
 
 	public static void main(String[] args) {

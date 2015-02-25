@@ -5,32 +5,21 @@ import rp.Listener.LineListener;
 
 import java.util.ArrayList;
 
-public class IntersectionSensor {
-	private boolean leftDark, rightDark;
+public class IntersectionSensor implements LineListener {
 	private final ArrayList<IntersectionListener> listeners;
-	private boolean onIntersection;
+	private BlackLineSensor leftSensor;
+	private boolean leftDark, rightDark, onIntersection;
 
 	public IntersectionSensor(BlackLineSensor left, BlackLineSensor right, boolean onIntersection) {
+		listeners = new ArrayList<>();
+		leftSensor = left;
+
 		this.onIntersection = onIntersection;
 		this.leftDark = onIntersection;
 		this.rightDark = onIntersection;
-		listeners = new ArrayList<>();
 
-		left.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				leftDark = onLine;
-				stateChanged();
-
-			}
-		});
-		right.addChangeListener(new LineListener() {
-			@Override
-			public void lineChanged(boolean onLine, int lightValue) {
-				rightDark = onLine;
-				stateChanged();
-			}
-		});
+		left.addChangeListener(this);
+		right.addChangeListener(this);
 	}
 
 	public IntersectionSensor addChangeListener(IntersectionListener listener) {
@@ -40,6 +29,14 @@ public class IntersectionSensor {
 
 	public boolean isOnIntersection() {
 		return onIntersection;
+	}
+
+	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
+		if (sensor == leftSensor)
+			leftDark = onLine;
+		else
+			rightDark = onLine;
+		stateChanged();
 	}
 
 	private void stateChanged() {
