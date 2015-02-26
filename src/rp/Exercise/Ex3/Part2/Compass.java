@@ -20,6 +20,7 @@ public class Compass {
 		return getRelativeHeading(delta.getX(), delta.getY(), this);
 	}
 
+	// Returns the number of degrees to turn to face the target
 	public int toDegrees() {
 		if (this.val < 3)
 			return this.val * 90;
@@ -67,6 +68,7 @@ public class Compass {
 	}
 
 	@Override
+	// Useful for debugging, this returns the names of directions for each case
 	public String toString() {
 		switch (val) {
 			case 0:
