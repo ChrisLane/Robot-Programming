@@ -21,10 +21,10 @@ public class Ex3P3 extends RunSystem {
 
 
 	public Ex3P3() {
-		this.cam = new NXTCam(GeoffBot.getCameraPort());
-		this.cam.setTrackingMode(NXTCam.COLOR);
-		this.cam.sortBy(NXTCam.SIZE);
-		this.cam.enableTracking(true);
+		cam = new NXTCam(GeoffBot.getCameraPort());
+		cam.setTrackingMode(NXTCam.COLOR);
+		cam.sortBy(NXTCam.SIZE);
+		cam.enableTracking(true);
 	}
 
 	public static void main(String[] args) {
@@ -35,8 +35,8 @@ public class Ex3P3 extends RunSystem {
 	@Override
 	public void run() {
 
-		while (this.isRunning) {
-			Rectangle2D rec = this.cam.getRectangle(0);
+		while (isRunning) {
+			Rectangle2D rec = cam.getRectangle(0);
 
 			double setPoint = 40;    //this is the width of the rectangle containing the largest tracked object
 			double width = rec.getWidth();
@@ -55,13 +55,13 @@ public class Ex3P3 extends RunSystem {
 				}
 			}
 
-			if (rec.getCenterX() < this.rightT) {
-				this.radius = constant * (this.rightT - rec.getCenterX());
-				this.pilot.arcForward(-this.radius);
+			if (rec.getCenterX() < rightT) {
+				radius = constant * (rightT - rec.getCenterX());
+				pilot.arcForward(-radius);
 				Delay.msDelay(30);
-			} else if (rec.getCenterX() > this.leftT) {
-				this.radius = constant * (rec.getCenterX() - this.leftT);
-				this.pilot.arcForward(this.radius);
+			} else if (rec.getCenterX() > leftT) {
+				radius = constant * (rec.getCenterX() - leftT);
+				pilot.arcForward(radius);
 				Delay.msDelay(30);
 			}
 			Delay.msDelay(30);
