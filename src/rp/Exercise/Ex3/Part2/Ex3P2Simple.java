@@ -18,7 +18,6 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 	private BlackLineSensor lsLeft, lsRight;
 
 	public Ex3P2Simple(Queue<Node> path, Node location, Compass facing) {
-
 		if (path.empty())
 			return;
 
@@ -35,6 +34,7 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
+		// Increased speed as robot can handle it fine
 		pilot.setTravelSpeed(25);
 		pilot.setRotateSpeed(180);
 	}
@@ -71,17 +71,16 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 
 				intersectionHit(true);
 			}
-			// Added onIntersection to fix a big bug where it would pass all
-			// intersections in a straight line after the first one.
-			// This works by incrementing the current node after it has left the
-			// current intersection so not to skip them all at once.
 			else if (!leftOnline && !rightOnline)
+				// Added onIntersection to fix a big bug where it would pass all
+				// intersections in a straight line after the first one.
+				// This works by incrementing the current node after it has left the
+				// current intersection so not to skip them all at once.
 				onIntersection = false;
 
-			// If the left sensor is on the line then turn left
+			// If on the line then turn the respective direction to correct
 			if (leftOnline)
 				pilot.arcForward(-40);
-			// If the right sensor is on the line then turn right
 			else if (rightOnline)
 				pilot.arcForward(40);
 			else
