@@ -24,17 +24,22 @@ public class Ex3P1A extends RunSystem {
 			double range = rf.getRange(); // process variable
 			double targetRange = 30; // setpoint
 
+			// If too far from target range, gradually increase forward speed
 			if (range >= targetRange) {
 				double error = range - targetRange;
 				mv += 0.5 * error;
 				pilot.forward();
 				pilot.setTravelSpeed(mv);
-			} else if (range <= targetRange) {
+			}
+			// If we're past the target range, gradually increase reverse speed
+			else if (range <= targetRange) {
 				double error = targetRange - range;
 				mv += 2 * error;
 				pilot.backward();
 				pilot.setTravelSpeed(mv);
-			} else pilot.setTravelSpeed(0);
+			}
+			// We're at the target distance, stop the robot.
+			else pilot.setTravelSpeed(0);
 		}
 	}
 }
