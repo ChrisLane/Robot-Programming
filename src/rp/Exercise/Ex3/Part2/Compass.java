@@ -12,22 +12,6 @@ public class Compass {
 		this.val = val;
 	}
 
-	public Compass getHeadingFrom(Coord a, Coord b) {
-		return getRelativeHeading(a.getDelta(b));
-	}
-
-	public Compass getRelativeHeading(Coord delta) {
-		return getRelativeHeading(delta.getX(), delta.getY(), this);
-	}
-
-	// Returns the number of degrees to turn to face the target
-	public int toDegrees() {
-		if (this.val < 3)
-			return this.val * 90;
-		else
-			return -90;
-	}
-
 	public static Compass getRelativeHeading(int x, int y, Compass heading) {
 		return getCompass(getHeading(x, y).val - heading.val);
 	}
@@ -52,7 +36,7 @@ public class Compass {
 	}
 
 	public static Compass getCompass(int heading) {
-		heading +=4;	// This fixes negative numbers giving unexpected values with modulo
+		heading += 4;    // This fixes negative numbers giving unexpected values with modulo
 		switch (heading % 4) {
 			case 0:
 				return UP;
@@ -65,6 +49,22 @@ public class Compass {
 			default:
 				throw new IllegalArgumentException("No heading");
 		}
+	}
+
+	public Compass getHeadingFrom(Coord a, Coord b) {
+		return getRelativeHeading(a.getDelta(b));
+	}
+
+	public Compass getRelativeHeading(Coord delta) {
+		return getRelativeHeading(delta.getX(), delta.getY(), this);
+	}
+
+	// Returns the number of degrees to turn to face the target
+	public int toDegrees() {
+		if (this.val < 3)
+			return this.val * 90;
+		else
+			return -90;
 	}
 
 	@Override

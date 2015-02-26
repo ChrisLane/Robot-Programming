@@ -13,8 +13,6 @@ public class Ex3P3 extends RunSystem {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final NXTCam cam;
 
-	// double radius = 30;
-
 	private double leftT = 136; // right and left thresholds before turning either side
 	private double rightT = 50;	//range of x is (15 - 171) therefore middle is 93 + 43 on each side
 	private double radius;
