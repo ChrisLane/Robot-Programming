@@ -14,6 +14,7 @@ public class Ex3P1B extends RunSystem implements LineListener {
 
 	public Ex3P1B() {
 		byte lightThreshold = 75;
+
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold);
 		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, lightThreshold);
 
@@ -34,13 +35,16 @@ public class Ex3P1B extends RunSystem implements LineListener {
 		pilot.forward();
 
 		while (isRunning) {
+			// If the left sensor is on the line, turn left
 			if (leftOnline)
 				pilot.steer(200, -10, false);
+			// If the right sensor is on the line, turn right
 			else if (rightOnline)
 				pilot.steer(200, 10, false);
 		}
 	}
 
+	// Sets a boolean for if each sensor is on the line or not
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
 			leftOnline = onLine;
