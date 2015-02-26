@@ -71,6 +71,10 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 
 				intersectionHit(true);
 			}
+			// Added onIntersection to fix a big bug where it would pass all
+			// intersections in a straight line after the first one.
+			// This works by incrementing the current node after it has left the
+			// current intersection so not to skip them all at once.
 			else if (!leftOnline && !rightOnline)
 				onIntersection = false;
 
@@ -105,7 +109,7 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 		}
 	}
 
-	// / Sets a boolean for if each sensor is on the line or not
+	// Sets a boolean for if each sensor is on the line or not
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
 			leftOnline = onLine;
