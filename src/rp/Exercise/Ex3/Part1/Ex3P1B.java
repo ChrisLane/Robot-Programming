@@ -32,8 +32,6 @@ public class Ex3P1B extends RunSystem implements LineListener {
 
 	@Override
 	public void run() {
-		pilot.forward();
-
 		while (isRunning) {
 			// If the left sensor is on the line, turn left
 			if (leftOnline)
@@ -41,6 +39,9 @@ public class Ex3P1B extends RunSystem implements LineListener {
 			// If the right sensor is on the line, turn right
 			else if (rightOnline)
 				pilot.steer(200, 10, false);
+			// otherwise continue on straight
+			else
+				pilot.forward();
 		}
 	}
 
