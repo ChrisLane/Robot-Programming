@@ -44,8 +44,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 					try {
 						wait(0);
 						Thread.sleep(250);
-					}
-					catch (InterruptedException e) {
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					if (isTravelling)
@@ -62,8 +61,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 					try {
 						wait(0);
 						Thread.sleep(250);
-					}
-					catch (InterruptedException e) {
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					if (isTravelling)
@@ -75,6 +73,22 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 		});
 	}
 
+	public static void main(String[] args) {
+
+		Queue<Node> path = new Queue<>();
+		path.addElement(new Node(1, 0));
+		path.addElement(new Node(1, 1));
+		path.addElement(new Node(0, 1));
+		path.addElement(new Node(0, 0));
+		path.addElement(new Node(1, 0));
+		path.addElement(new Node(1, 1));
+		path.addElement(new Node(0, 1));
+		path.addElement(new Node(0, 0));
+
+		Ex3P2 program = new Ex3P2(path, new Node(0, 0), Compass.UP);
+		program.run();
+	}
+
 	@Override
 	public synchronized void run() {
 		while (!path.empty() && isRunning) {
@@ -83,30 +97,29 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 			Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
 			facing = facing.add(heading);
 
-			pilot.rotate(heading.toDegrees());			// Rotate to face target node if not already
+			pilot.rotate(heading.toDegrees()); // Rotate to face target node if not already
 
 			// Drive to 'location'
 			isTravelling = true;
-			pilot.forward();							// TODO: Make the BlackLineSensor follow
+			pilot.forward();
 
-			try {										// the line and adjust angle while
-				this.wait(0);							// Wait for intersection to be reached
-			}
-			catch (InterruptedException e) {
+			try { // the line and adjust angle while
+				this.wait(0); // Wait for intersection to be reached
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			pilot.travel(4);							// Travel to align wheels with the intersection
+			pilot.travel(4); // Travel to align wheels with the intersection
 			isTravelling = false;
 
-			location = target;							// We are now at the target location
+			location = target;  // We are now at the target location
 		}
 	}
 
 	@Override
 	public synchronized void onIntersectionArrive() {
 		if (isTravelling)
-			notify();									// Wake up loop to continue on path
+			notify(); // Wake up loop to continue on path
 	}
 
 	@Override
@@ -122,22 +135,5 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 			synchronized (steerRightThread) {
 				steerRightThread.notify();
 			}
-	}
-
-	public static void main(String[] args) {
-		// GeoffBot.connectRemote();
-
-		Queue<Node> path = new Queue<>();
-		path.addElement(new Node(1, 0));
-		path.addElement(new Node(1, 1));
-		path.addElement(new Node(0, 1));
-		path.addElement(new Node(0, 0));
-		path.addElement(new Node(1, 0));
-		path.addElement(new Node(1, 1));
-		path.addElement(new Node(0, 1));
-		path.addElement(new Node(0, 0));
-
-		Ex3P2 program = new Ex3P2(path, new Node(0, 0), Compass.UP);
-		program.run();
 	}
 }
