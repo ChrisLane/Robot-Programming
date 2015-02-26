@@ -23,6 +23,7 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 	private boolean isTravelling = false;
 
 	public Ex3P2(Queue<Node> path, Node location, Compass facing) {
+		// If the path is empty then we can't do anything
 		if (path.empty())
 			return;
 
@@ -32,9 +33,11 @@ public class Ex3P2 extends RunSystem implements IntersectionListener, LineListen
 
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, 40).addChangeListener(this);
 		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, 40).addChangeListener(this);
+
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
+		// Detect intersections
 		new IntersectionSensor(lsLeft, lsRight, true).addChangeListener(this);
 
 		steerLeftThread = new Thread(new Runnable() {
