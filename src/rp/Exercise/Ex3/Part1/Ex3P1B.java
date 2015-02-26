@@ -39,7 +39,7 @@ public class Ex3P1B extends RunSystem implements LineListener {
 			// If the right sensor is on the line, turn right
 			else if (rightOnLine)
 				pilot.steer(200, 10, false);
-			// otherwise continue on straight
+			// Otherwise continue on straight
 			else
 				pilot.forward();
 		}
