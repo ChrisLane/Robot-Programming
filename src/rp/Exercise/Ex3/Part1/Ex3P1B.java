@@ -23,6 +23,11 @@ public class Ex3P1B extends RunSystem implements LineListener {
 		lsRight.addChangeListener(this);
 	}
 
+	public static void main(String[] args) {
+		final Ex3P1B program = new Ex3P1B();
+		program.run();
+	}
+
 	@Override
 	public void run() {
 		pilot.forward();
@@ -36,10 +41,5 @@ public class Ex3P1B extends RunSystem implements LineListener {
 			pilot.steer(200, angle, false);
 		else
 			pilot.forward();
-	}
-
-	public static void main(String[] args) {
-		final Ex3P1B program = new Ex3P1B();
-		program.run();
 	}
 }
