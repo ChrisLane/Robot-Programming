@@ -12,9 +12,9 @@ import java.util.Queue;
 public class Ex3P2Simple extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private Queue<Node> path;
-	private Node location;
+	private Node location, target;
 	private Compass facing;
-	private boolean leftOnline, rightOnline;
+	private boolean leftOnline, rightOnline, onIntersection;
 	private BlackLineSensor lsLeft, lsRight;
 
 	public Ex3P2Simple(Queue<Node> path, Node location, Compass facing) {
@@ -25,6 +25,8 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 		this.path = path;
 		this.facing = facing;
 		this.location = location;
+		this.leftOnline = true;
+		this.rightOnline = true;
 
 		int lightThreshold = 75;
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold).addChangeListener(this);
@@ -32,17 +34,22 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
+
+		pilot.setTravelSpeed(25);
+		pilot.setRotateSpeed(180);
 	}
 
 	public static void main(String[] args) {
-		//Path of nodes for robot to follow
+		// Path of nodes for robot to follow
 		Queue<Node> path = new Queue<>();
 		path.addElement(new Node(1, 0));
 		path.addElement(new Node(1, 1));
-		path.addElement(new Node(0, 1));
-		path.addElement(new Node(0, 0));
-		path.addElement(new Node(1, 0));
+		path.addElement(new Node(1, 2));
+		path.addElement(new Node(1, 3));
+		path.addElement(new Node(1, 2));
 		path.addElement(new Node(1, 1));
+		path.addElement(new Node(1, 0));
+		path.addElement(new Node(0, 0));
 		path.addElement(new Node(0, 1));
 		path.addElement(new Node(0, 0));
 
@@ -53,34 +60,52 @@ public class Ex3P2Simple extends RunSystem implements LineListener {
 
 	@Override
 	public void run() {
-		while (!path.empty() && isRunning) {
-
+		intersectionHit(false);
+		while (isRunning) {
 			// If both sensors are the line then we've reached an intersection. Rotate towards new target.
-			if (leftOnline && rightOnline) {
-				Node target = (Node) path.pop();
+			if (leftOnline && rightOnline && !onIntersection) {
+				onIntersection = true;
+				// Finish path traversal if there are no more nodes left
+				if (path.empty())
+					return;
 
-				Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
-				facing = facing.add(heading);
-
-				pilot.travel(4);
-
-				location = target;
-
-				pilot.rotate(heading.toDegrees());
+				intersectionHit(true);
 			}
+			else if (!leftOnline && !rightOnline)
+				onIntersection = false;
+
 			// If the left sensor is on the line then turn left
-			else if (leftOnline) {
-				pilot.steer(180, -2, false);
-			}
+			if (leftOnline)
+				pilot.arcForward(-40);
 			// If the right sensor is on the line then turn right
-			else if (rightOnline) {
-				pilot.steer(180, 2, false);
-			}
-			pilot.forward();
+			else if (rightOnline)
+				pilot.arcForward(40);
+			else
+				pilot.forward();
 		}
 	}
 
-	/// Sets a boolean for if each sensor is on the line or not
+	public void intersectionHit(boolean moveForward) {
+		// New target is next node in path
+		target = (Node) path.pop();
+
+		// Get relative heading from current location and global heading
+		Compass heading = facing.getHeadingFrom(location.getCoord(), target.getCoord());
+		// Add relative heading to global heading
+		facing = facing.add(heading);
+
+		location = target;
+
+		// Turn towards new target node if it isn't straight ahead
+		int degrees = heading.toDegrees();
+		if (degrees != 0) {
+			if (moveForward)
+				pilot.travel(4);
+			pilot.rotate(degrees);
+		}
+	}
+
+	// / Sets a boolean for if each sensor is on the line or not
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
 			leftOnline = onLine;
