@@ -21,8 +21,9 @@ public class Ex3P1A extends RunSystem {
 
 		pilot.forward();
 
+		double mv = 0;
+
 		while (isRunning) {
-			double mv = 0;
 			double range = rf.getRange();
 			double targetRange = 30;
 
