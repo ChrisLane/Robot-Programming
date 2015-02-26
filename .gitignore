@@ -17,3 +17,6 @@ out
 #build
 *.xml
 *.properties
+
+#windows
+Thumbs.db
