@@ -10,7 +10,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Ex3P1B extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 	private final BlackLineSensor lsLeft, lsRight;
-	private boolean leftOnline, rightOnline;
+	private boolean leftOnLine, rightOnLine;
 
 	public Ex3P1B() {
 		byte lightThreshold = 75;
@@ -34,10 +34,10 @@ public class Ex3P1B extends RunSystem implements LineListener {
 	public void run() {
 		while (isRunning) {
 			// If the left sensor is on the line, turn left
-			if (leftOnline)
+			if (leftOnLine)
 				pilot.steer(200, -10, false);
 			// If the right sensor is on the line, turn right
-			else if (rightOnline)
+			else if (rightOnLine)
 				pilot.steer(200, 10, false);
 			// otherwise continue on straight
 			else
@@ -48,8 +48,8 @@ public class Ex3P1B extends RunSystem implements LineListener {
 	// Sets a boolean for if each sensor is on the line or not
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
-			leftOnline = onLine;
+			leftOnLine = onLine;
 		else
-			rightOnline = onLine;
+			rightOnLine = onLine;
 	}
 }

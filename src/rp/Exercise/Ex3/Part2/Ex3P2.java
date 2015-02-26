@@ -14,7 +14,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 	private Queue<Node> path;
 	private Node location, target;
 	private Compass facing;
-	private boolean leftOnline, rightOnline, onIntersection;
+	private boolean leftOnLine, rightOnLine, onIntersection;
 	private BlackLineSensor lsLeft, lsRight;
 
 	public Ex3P2(Queue<Node> path, Node location, Compass facing) {
@@ -24,8 +24,8 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		this.path = path;
 		this.facing = facing;
 		this.location = location;
-		this.leftOnline = true;
-		this.rightOnline = true;
+		this.leftOnLine = true;
+		this.rightOnLine = true;
 
 		int lightThreshold = 75;
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold).addChangeListener(this);
@@ -63,7 +63,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		intersectionHit(false);
 		while (isRunning) {
 			// If both sensors are the line then we've reached an intersection. Rotate towards new target.
-			if (leftOnline && rightOnline && !onIntersection) {
+			if (leftOnLine && rightOnLine && !onIntersection) {
 				onIntersection = true;
 				// Finish path traversal if there are no more nodes left
 				if (path.empty())
@@ -71,7 +71,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 
 				intersectionHit(true);
 			}
-			else if (!leftOnline && !rightOnline)
+			else if (!leftOnLine && !rightOnLine)
 				// Added onIntersection to fix a big bug where it would pass all
 				// intersections in a straight line after the first one.
 				// This works by incrementing the current node after it has left the
@@ -79,9 +79,9 @@ public class Ex3P2 extends RunSystem implements LineListener {
 				onIntersection = false;
 
 			// If on the line then turn the respective direction to correct
-			if (leftOnline)
+			if (leftOnLine)
 				pilot.arcForward(-40);
-			else if (rightOnline)
+			else if (rightOnLine)
 				pilot.arcForward(40);
 			else
 				pilot.forward();
@@ -111,8 +111,8 @@ public class Ex3P2 extends RunSystem implements LineListener {
 	// Sets a boolean for if each sensor is on the line or not
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
-			leftOnline = onLine;
+			leftOnLine = onLine;
 		else
-			rightOnline = onLine;
+			rightOnLine = onLine;
 	}
 }
