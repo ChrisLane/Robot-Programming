@@ -1,3 +1,3 @@
-[submodule "NickEx4Stuff"]
-	path = NickEx4Stuff
-	url = git://github.com/hawesie/rp14-exercise4.git
+[submodule "rp14-exercise4"]
+	path = rp14-exercise4
+	url = https://github.com/hawesie/rp14-exercise4.git
