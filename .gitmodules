@@ -4,7 +4,7 @@
 [submodule "rp-utils"]
 	path = rp-utils
 	url = git://github.com/hawesie/rp-utils.git
+
 [submodule "search"]
 	path = search
-	url = git://github.com/frebib/GraphSearch.git
-
+	url = git@github.com:frebib/GraphSearch.git
