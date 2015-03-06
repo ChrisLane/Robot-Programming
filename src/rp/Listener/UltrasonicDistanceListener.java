@@ -16,19 +16,19 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 		this.tolerance = tolerance;
 		sensor.setMode(UltrasonicSensor.MODE_CONTINUOUS);
 
-		this.pollThread = new Thread(this);
-		this.pollThread.setDaemon(true);
-		this.isRunning = true;
-		this.pollThread.start();
+		pollThread = new Thread(this);
+		pollThread.setDaemon(true);
+		isRunning = true;
+		pollThread.start();
 	}
 
 	@Override
 	public void run() {
-		while (this.isRunning) {
-			this.previous = this.current;
-			this.current = this.sensor.getDistance();
-			if (Math.abs(this.previous - this.current) >= this.tolerance)
-				this.stateChanged(this.current, this.previous);
+		while (isRunning) {
+			previous = current;
+			current = sensor.getDistance();
+			if (Math.abs(previous - current) >= tolerance)
+				stateChanged(current, previous);
 
 			/*
 			 * try { Thread.sleep(50); } catch (InterruptedException e) {
@@ -38,11 +38,11 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 	}
 
 	public int getLastValue() {
-		return this.current;
+		return current;
 	}
 
 	public double getTolerance() {
-		return this.tolerance;
+		return tolerance;
 	}
 
 	public void setTolerance(double tolerance) {
@@ -52,7 +52,7 @@ public abstract class UltrasonicDistanceListener implements Runnable {
 	public abstract void stateChanged(int value, int oldValue);
 
 	public void stop() throws InterruptedException {
-		this.isRunning = false;
-		this.pollThread.join();
+		isRunning = false;
+		pollThread.join();
 	}
 }

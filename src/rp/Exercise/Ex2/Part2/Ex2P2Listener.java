@@ -1,8 +1,8 @@
 package rp.Exercise.Ex2.Part2;
 
+import rp.GeoffBot;
 import rp.Exercise.Ex2.Part1.Paths.MovementPath;
 import rp.Exercise.Ex2.Part1.Paths.ReverseAndTurn;
-import rp.GeoffBot;
 
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;
@@ -22,15 +22,13 @@ public class Ex2P2Listener {
 				if (path.isRunning())
 					path.waitStop();
 				path.start(pilot, true);
-				while (path.isRunning())
-					;
+				while (path.isRunning());
 				pilot.forward();
 			}
 		});
 
 		pilot.forward();
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
-			;
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 	}
 
 	public static void main(String[] args) {

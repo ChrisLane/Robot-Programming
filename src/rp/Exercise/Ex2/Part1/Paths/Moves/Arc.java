@@ -15,6 +15,6 @@ public class Arc extends Movement {
 
 	@Override
 	protected void startMoving(DifferentialPilot pilot) {
-		pilot.travelArc(this.angle, this.radius, true);
+		pilot.travelArc(angle, radius, true);
 	}
 }

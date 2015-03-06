@@ -7,7 +7,7 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 
-public class LightSensorReadout extends RunSystem{
+public class LightSensorReadout extends RunSystem {
 
 	@Override
 	public void run() {

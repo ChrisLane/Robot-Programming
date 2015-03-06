@@ -61,8 +61,8 @@ public class Compass {
 
 	// Returns the number of degrees to turn to face the target
 	public int toDegrees() {
-		if (this.val < 3)
-			return this.val * 90;
+		if (val < 3)
+			return val * 90;
 		else
 			return -90;
 	}
@@ -85,6 +85,6 @@ public class Compass {
 	}
 
 	public Compass add(Compass heading) {
-		return getCompass(heading.val + this.val);
+		return getCompass(heading.val + val);
 	}
 }

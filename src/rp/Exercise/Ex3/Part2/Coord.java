@@ -9,11 +9,11 @@ public class Coord {
 	}
 
 	public byte getX() {
-		return this.x;
+		return x;
 	}
 
 	public byte getY() {
-		return this.y;
+		return y;
 	}
 
 	public void setX(byte x) {
@@ -25,7 +25,7 @@ public class Coord {
 	}
 
 	public Coord getDelta(Coord c) {
-		return new Coord((byte) (c.x - this.x), (byte) (c.y - this.y));
+		return new Coord((byte) (c.x - x), (byte) (c.y - y));
 	}
 
 	@Override

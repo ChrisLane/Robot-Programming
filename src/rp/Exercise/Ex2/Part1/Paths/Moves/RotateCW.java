@@ -14,6 +14,6 @@ public class RotateCW extends Movement {
 
 	@Override
 	protected void startMoving(DifferentialPilot pilot) {
-		pilot.rotate(this.angle, true);
+		pilot.rotate(angle, true);
 	}
 }

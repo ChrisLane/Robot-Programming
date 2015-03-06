@@ -6,20 +6,20 @@ public abstract class SensorListener implements Runnable {
 
 	@Override
 	public void run() {
-		while (this.isRunning)
-			this.pollTick();
+		while (isRunning)
+			pollTick();
 	}
 
 	protected abstract void pollTick();
 
 	protected void startPolling() {
-		this.pollThread = new Thread(this);
-		this.pollThread.setDaemon(true);
-		this.isRunning = true;
-		this.pollThread.start();
+		pollThread = new Thread(this);
+		pollThread.setDaemon(true);
+		isRunning = true;
+		pollThread.start();
 	}
 	public void stop() throws InterruptedException {
-		this.isRunning = false;
-		this.pollThread.join();
+		isRunning = false;
+		pollThread.join();
 	}
 }

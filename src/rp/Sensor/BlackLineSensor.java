@@ -28,8 +28,8 @@ public class BlackLineSensor extends LightSensor implements SensorPortListener {
 
 	@Override
 	public void stateChanged(SensorPort sensorPort, int ov, int nv) {
-		int lightValue = this.getLightValue();
-		boolean onLine = (lightValue < this.lightThreshold);
+		int lightValue = getLightValue();
+		boolean onLine = (lightValue < lightThreshold);
 
 		for (LineListener ls : listeners)
 			ls.lineChanged(this, onLine, lightValue);

@@ -28,28 +28,28 @@ public class InfraredSideSensor extends OpticalDistanceListener {
 
 	@Override
 	public void stateChanged(double value, double oldValue) {
-		this.currentDistance = value;
+		currentDistance = value;
 
 		LCD.clear();
-		LCD.drawString(Double.toString(this.currentDistance), 0, 0);
+		LCD.drawString(Double.toString(currentDistance), 0, 0);
 
-		final double offset = TARGETDISTANCE - this.currentDistance;
+		final double offset = TARGETDISTANCE - currentDistance;
 		LCD.drawString(Double.toString(offset), 0, 1);
 		if (-offset >= TARGETDISTANCE) {
 			LCD.drawString("Wall falloff!", 0, 4);
-			this.wfl.onWallFalloff(this.currentDistance);
+			wfl.onWallFalloff(currentDistance);
 		}
 		else {
-			double radius = this.calcRadius(offset);
+			double radius = calcRadius(offset);
 			radius = Math.abs(radius);
-			if (this.currentDistance > TARGETDISTANCE) // Turn
+			if (currentDistance > TARGETDISTANCE) // Turn
 				radius *= -1;
 
-			final double oldAR = this.arcRadius;
-			this.arcRadius = radius;
+			final double oldAR = arcRadius;
+			arcRadius = radius;
 
-			if (Math.abs(oldAR - this.arcRadius) > this.THRESHOLD)
-				this.arcl.onRadiusChanged(this.arcRadius);
+			if (Math.abs(oldAR - arcRadius) > THRESHOLD)
+				arcl.onRadiusChanged(arcRadius);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class InfraredSideSensor extends OpticalDistanceListener {
 	}
 
 	public double getArcRadius() {
-		return this.arcRadius;
+		return arcRadius;
 	}
 
 }

@@ -19,7 +19,6 @@ public class Ex3P3 extends RunSystem {
 	private final double constant = 0.7;
 	private double speed = 10;
 
-
 	public Ex3P3() {
 		cam = new NXTCam(GeoffBot.getCameraPort());
 		cam.setTrackingMode(NXTCam.COLOR);
@@ -37,7 +36,7 @@ public class Ex3P3 extends RunSystem {
 
 		while (isRunning) {
 			Rectangle2D rec = cam.getRectangle(0);
-			
+
 			double setPoint = 40;    //this is the width of the rectangle containing the largest tracked object
 			double width = rec.getWidth();
 			double error = (width <= setPoint ? setPoint - width : -(width - setPoint));
@@ -48,19 +47,18 @@ public class Ex3P3 extends RunSystem {
 				pilot.stop();
 				pilot.setTravelSpeed(10);
 
-				if (width >= 65) {            //if overly close reverses away
+				if (width >= 65)
 					pilot.backward();
-				}
 			}
-			
-			
+
 			pilot.forward();
 
 			if (rec.getCenterX() < rightT) {
 				radius = constant * (rightT - rec.getCenterX());
 				pilot.arcForward(-radius);
 				Delay.msDelay(30);
-			} else if (rec.getCenterX() > leftT) {
+			}
+			else if (rec.getCenterX() > leftT) {
 				radius = constant * (rec.getCenterX() - leftT);
 				pilot.arcForward(radius);
 				Delay.msDelay(30);

@@ -1,11 +1,11 @@
 package rp.Exercise.Ex2.Part1;
 
+import rp.GeoffBot;
 import rp.Exercise.Ex2.Part1.Paths.BackForthPath;
 import rp.Exercise.Ex2.Part1.Paths.CirclePath;
 import rp.Exercise.Ex2.Part1.Paths.MovementPath;
 import rp.Exercise.Ex2.Part1.Paths.SquarePath;
 import rp.Exercise.Ex2.Part1.Paths.TrianglePath;
-import rp.GeoffBot;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -22,9 +22,7 @@ public class Ex2P1 {
 
 		final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
-		final MovementPath[] paths = {
-				new SquarePath(), new BackForthPath(), new CirclePath(), new TrianglePath()
-		};
+		final MovementPath[] paths = { new SquarePath(), new BackForthPath(), new CirclePath(), new TrianglePath() };
 
 		Button.ENTER.addButtonListener(new ButtonListener() {
 			private MovementPath path = paths[0];
@@ -37,25 +35,25 @@ public class Ex2P1 {
 				 */
 
 				// Stop the current path if it is running and wait for termination
-				if (this.path.isRunning()) {
+				if (path.isRunning()) {
 					LCD.drawString("Stopping...", 3, 5);
-					this.path.waitStop();
+					path.waitStop();
 				}
 
 				// Loop path index
-				if (++this.index == paths.length)
+				if (++index == paths.length)
 					System.exit(0);
 				// index = 0;
 
-				this.path = paths[this.index];
+				path = paths[index];
 			}
 
 			@Override
 			public void buttonReleased(Button b) {
 				// Draw path name in middle of screen
 				LCD.clear();
-				LCD.drawString(this.path.getName(), (int) Math.ceil((LCD.DISPLAY_CHAR_WIDTH - this.path.getName().length()) / 2.0), 2);
-				this.path.start(pilot);
+				LCD.drawString(path.getName(), (int) Math.ceil((LCD.DISPLAY_CHAR_WIDTH - path.getName().length()) / 2.0), 2);
+				path.start(pilot);
 			}
 		});
 

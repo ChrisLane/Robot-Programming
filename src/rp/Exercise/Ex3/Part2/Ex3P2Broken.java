@@ -132,6 +132,7 @@ public class Ex3P2Broken extends RunSystem implements LineListener {
 	public void onIntersectionDepart() {
 	}
 
+	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsRight)
 			synchronized (steerLeftThread) {

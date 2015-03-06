@@ -26,11 +26,11 @@ public class Node {
 	}
 
 	public Coord getCoord() {
-		return this.location;
+		return location;
 	}
 
 	public Coord getDelta(Node to) {
-		return this.location.getDelta(to.location);
+		return location.getDelta(to.location);
 	}
 
 	@Override

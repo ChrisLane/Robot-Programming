@@ -7,24 +7,23 @@ public abstract class Movement {
 	private boolean isRunning;
 
 	public Movement() {
-		this.isRunning = true;
+		isRunning = true;
 	}
 
 	public void run(DifferentialPilot pilot) {
 		this.pilot = pilot;
-		this.startMoving(pilot);
-		while (this.isRunning())
-			;
+		startMoving(pilot);
+		while (isRunning());
 	}
 
 	protected abstract void startMoving(DifferentialPilot pilot);
 
 	public void stop() {
-		this.pilot.stop();
-		this.isRunning = false;
+		pilot.stop();
+		isRunning = false;
 	}
 
 	public boolean isRunning() {
-		return this.isRunning || this.pilot.isMoving();
+		return isRunning || pilot.isMoving();
 	}
 }

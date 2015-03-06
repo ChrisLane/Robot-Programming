@@ -11,23 +11,23 @@ public abstract class OpticalDistanceListener extends SensorListener implements 
 	public OpticalDistanceListener(OpticalDistanceSensor sensor, double tolerance) {
 		this.sensor = sensor;
 		this.tolerance = tolerance;
-		this.startPolling();
+		startPolling();
 	}
 
 	@Override
 	protected void pollTick() {
-		this.previous = this.current;
-		this.current = (this.sensor.getDistance() / 10.0) + 4.0;
-		if (Math.abs(this.previous - this.current) >= this.tolerance)
-			this.stateChanged(this.current, this.previous);
+		previous = current;
+		current = (sensor.getDistance() / 10.0) + 4.0;
+		if (Math.abs(previous - current) >= tolerance)
+			stateChanged(current, previous);
 	}
 
 	public double getLastValue() {
-		return this.current;
+		return current;
 	}
 
 	public double getTolerance() {
-		return this.tolerance;
+		return tolerance;
 	}
 
 	public void setTolerance(double tolerance) {

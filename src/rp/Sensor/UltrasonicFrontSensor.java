@@ -16,6 +16,6 @@ public class UltrasonicFrontSensor extends UltrasonicDistanceListener {
 	@Override
 	public void stateChanged(int value, int oldValue) {
 		if (oldValue - value > 0 && value < InfraredSideSensor.TARGETDISTANCE * 0.75) // if getting closer to wall
-			this.listener.wallApproaching(value);
+			listener.wallApproaching(value);
 	}
 }

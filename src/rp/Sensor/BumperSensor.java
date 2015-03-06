@@ -16,7 +16,7 @@ public class BumperSensor implements SensorPortListener {
 	@Override
 	public void stateChanged(SensorPort aSource, int oldVal, int newVal) {
 		if (oldVal - newVal >= 40)
-			this.listener.onBumperHit();
+			listener.onBumperHit();
 		aSource.reset();
 	}
 }

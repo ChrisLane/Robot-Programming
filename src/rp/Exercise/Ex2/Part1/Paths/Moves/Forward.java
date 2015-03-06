@@ -9,11 +9,11 @@ public class Forward extends Movement {
 
 	public Forward(double distance) {
 		super();
-		this.dist = distance;
+		dist = distance;
 	}
 
 	@Override
 	protected void startMoving(DifferentialPilot pilot) {
-		pilot.travel(this.dist, true);
+		pilot.travel(dist, true);
 	}
 }

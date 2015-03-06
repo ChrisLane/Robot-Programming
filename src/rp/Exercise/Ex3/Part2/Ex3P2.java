@@ -24,8 +24,8 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		this.path = path;
 		this.facing = facing;
 		this.location = location;
-		this.leftOnLine = true;
-		this.rightOnLine = true;
+		leftOnLine = true;
+		rightOnLine = true;
 
 		int lightThreshold = 75;
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold).addChangeListener(this);
@@ -109,6 +109,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 	}
 
 	// Sets a boolean for if each sensor is on the line or not
+	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
 			leftOnLine = onLine;

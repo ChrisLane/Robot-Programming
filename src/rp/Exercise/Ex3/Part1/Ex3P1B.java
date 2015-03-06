@@ -32,7 +32,7 @@ public class Ex3P1B extends RunSystem implements LineListener {
 
 	@Override
 	public void run() {
-		while (isRunning) {
+		while (isRunning)
 			// If the left sensor is on the line, turn left
 			if (leftOnLine)
 				pilot.steer(200, -10, false);
@@ -42,10 +42,10 @@ public class Ex3P1B extends RunSystem implements LineListener {
 			// Otherwise continue on straight
 			else
 				pilot.forward();
-		}
 	}
 
 	// Sets a boolean for if each sensor is on the line or not
+	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
 			leftOnLine = onLine;

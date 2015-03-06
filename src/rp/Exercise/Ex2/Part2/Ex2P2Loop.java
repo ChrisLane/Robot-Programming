@@ -13,14 +13,13 @@ public class Ex2P2Loop {
 		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
 
 		pilot.forward();
-		while (!Button.ESCAPE.isDown()) {
+		while (!Button.ESCAPE.isDown())
 			if (ts.isPressed()) {
 				pilot.stop();
 				pilot.travel(-InfraredSideSensor.TARGETDISTANCE);
 				pilot.rotate(90);
 				pilot.forward();
 			}
-		}
 	}
 
 	public static void main(String[] args) {
