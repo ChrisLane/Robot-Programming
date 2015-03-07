@@ -41,13 +41,6 @@ public class GridMap implements IGridMap {
 		return yStart + y * cellSize;
 	}
 
-	public float getWidth() {
-		return getGridX(xSize);
-	}
-	public float getHeight() {
-		return getGridY(ySize);
-	}
-
 	@Override
 	public boolean isValidGridPosition(int x, int y) {
 		return x >= 0 && y >= 0 && x < xSize && y < ySize;
@@ -64,8 +57,6 @@ public class GridMap implements IGridMap {
 	}
 	@Override
 	public boolean isValidTransition(int x1, int y1, int x2, int y2) {
-		// TODO: Discuss if this should be between two points more than 1 distance from each other
-		// TODO: Check for wall intersections between two points
 		if (isObstructed(x1, y1) || isObstructed(x2, y2) || !isValidGridPosition(x1, y1) || !isValidGridPosition(x2, y2))
 			return false;
 
