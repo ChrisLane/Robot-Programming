@@ -50,8 +50,7 @@ public class GridMap implements IGridMap {
 
 	@Override
 	public boolean isValidGridPosition(int x, int y) {
-		Point coords = getCoordinatesOfGridPosition(x, y);
-		return coords.x >= 0 && coords.y >= 0 && coords.x < getWidth() && coords.y < getHeight();
+		return x >= 0 && y >= 0 && x < xSize && y < ySize;
 	}
 
 	@Override
