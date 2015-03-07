@@ -29,35 +29,39 @@ public class GridMap implements IGridMap {
 	public int getXSize() {
 		return xSize;
 	}
-
 	@Override
 	public int getYSize() {
 		return ySize;
+	}
+	public float getWidth() {
+		return xStart + xSize * cellSize;
+	}
+	public float getHeight() {
+		return yStart + ySize * cellSize;
 	}
 
 	@Override
 	public boolean isValidGridPosition(int x, int y) {
 		Point coords = getCoordinatesOfGridPosition(x, y);
-		return coords.x > 0 && coords.y > 0 && coords.x <= xSize && coords.y <= ySize;
+		return coords.x >= 0 && coords.y >= 0 && coords.x < getWidth() && coords.y < getHeight();
 	}
 
 	@Override
 	public boolean isObstructed(int x, int y) {
-		return !lineMap.inside(new Point(x, y));
+		return !lineMap.inside(getCoordinatesOfGridPosition(x, y));
 	}
 
 	@Override
 	public Point getCoordinatesOfGridPosition(int x, int y) {
 		return new Point(xStart + x * cellSize, yStart + y * cellSize);
 	}
-
 	@Override
 	public boolean isValidTransition(int x1, int y1, int x2, int y2) {
-		Point pos1 = new Point(x1, y1);
-		Point pos2 = new Point(x2, y2);
-
 		// TODO: Discuss if this should be between two points more than 1 distance from each other
-		return lineMap.inside(pos1) && lineMap.inside(pos2);
+		// TODO: Check for wall intersections between two points
+		if (isObstructed(x1, y1) || isObstructed(x2, y2) || !isValidGridPosition(x1, y1) || !isValidGridPosition(x2, y2))
+			return false;
+		return true;
 	}
 	@Override
 	public float rangeToObstacleFromGridPosition(int x, int y, float heading) {
