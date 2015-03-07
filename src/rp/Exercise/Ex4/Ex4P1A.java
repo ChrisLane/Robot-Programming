@@ -54,8 +54,8 @@ public class Ex4P1A {
 		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2);
 
 		frame.add(mapVis);
-		frame.pack();
-		frame.setSize(800, 600);
+		frame.setSize(700, 600);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
