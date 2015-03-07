@@ -10,12 +10,18 @@ public class GridMap implements IGridMap {
 
 	private final int xSize;
 	private final int ySize;
+	private float xStart;
+	private float yStart;
+	private float cellSize;
 	private final RPLineMap lineMap;
 
-	public GridMap(int xSize, int ySize, RPLineMap lineMap) {
+	public GridMap(int xSize, int ySize, float xStart, float yStart, float cellSize, RPLineMap lineMap) {
 		super();
 		this.xSize = xSize;
 		this.ySize = ySize;
+		this.xStart = xStart;
+		this.yStart = yStart;
+		this.cellSize = cellSize;
 		this.lineMap = lineMap;
 	}
 
