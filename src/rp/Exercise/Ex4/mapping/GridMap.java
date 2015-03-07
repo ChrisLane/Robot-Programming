@@ -55,10 +55,12 @@ public class GridMap implements IGridMap {
 		Point pos1 = new Point(x1, y1);
 		Point pos2 = new Point(x2, y2);
 
-		// TODO: Discuss if this should be between two points more than 1 distance from each other
+		// TODO: Discuss if this should be between two points more than 1 distance from each other#
+		// SearchFunction<Point> euclidean = (a, b) -> Math.abs(a.contents.x - b.contents.x) + Math.abs(a.contents.y - b.contents.y);
+		// SearchFunction<Point> manhattan = (a, b) -> (float) Math.sqrt(Math.pow(a.contents.x - b.contents.x, 2) + Math.pow(a.contents.y - b.contents.y, 2));
+		// return !AStar.findPathFrom(new Node<Point>(pos1), new Node<Point>(pos2), manhattan, euclidean).isNothing();
 		return lineMap.inside(pos1) && lineMap.inside(pos2);
 	}
-
 	@Override
 	public float rangeToObstacleFromGridPosition(int x, int y, float heading) {
 		return lineMap.range(new Pose(x, y, heading));
