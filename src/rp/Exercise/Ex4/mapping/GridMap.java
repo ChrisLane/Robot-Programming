@@ -47,8 +47,7 @@ public class GridMap implements IGridMap {
 
 	@Override
 	public Point getCoordinatesOfGridPosition(int x, int y) {
-		// TODO: Implement getCoordinatesOfGridPosition(x, y)
-		return null;
+		return new Point(xStart + x * cellSize, yStart + y * cellSize);
 	}
 
 	@Override
