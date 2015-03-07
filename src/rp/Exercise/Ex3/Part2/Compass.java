@@ -16,6 +16,7 @@ public class Compass {
 		return getCompass(getHeading(x, y).val - heading.val);
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public static Compass getHeading(int x, int y) {
 		if (x != 0)
 			switch ((short) Math.signum(x)) {

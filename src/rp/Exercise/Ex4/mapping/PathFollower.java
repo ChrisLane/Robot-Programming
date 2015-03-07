@@ -75,6 +75,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void intersectionHit(boolean moveForward) {
 		location.setLocation(target);
 		target = ((Node<Point>) path.pop()).contents;
