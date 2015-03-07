@@ -5,7 +5,7 @@ import rp.robotics.mapping.GridMapTest;
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.RPLineMap;
 
-public class Ex4P1 extends GridMapTest {
+public class Ex4P1B extends GridMapTest {
 
 	/***
 	 * Create an instance of an object that implements IGridMap from a LineMap.
