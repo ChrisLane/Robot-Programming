@@ -16,7 +16,7 @@ public class Ex4P1B extends GridMapTest {
 	 * @param xStart The x coordinate where grid position (0,0) starts
 	 * @param yStart The y coordinate where grid position (0,0) starts
 	 * @param cellSize The distance between grid positions
-	 * @return
+	 * @return Returns a new GripMap
 	 */
 	public static IGridMap createGridMap(RPLineMap lineMap, int gridXSize, int gridYSize, float xStart, float yStart, float cellSize) {
 		return new GridMap(gridXSize, gridYSize, xStart, yStart, cellSize, lineMap);
