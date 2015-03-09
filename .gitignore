@@ -1,5 +1,7 @@
 #eclipse
 bin
+doc
+test*
 .settings
 .classpath
 .project
@@ -20,3 +22,6 @@ out
 
 #windows
 Thumbs.db
+
+#java
+hs_err*
