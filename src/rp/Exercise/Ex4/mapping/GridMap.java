@@ -2,12 +2,14 @@ package rp.Exercise.Ex4.mapping;
 
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.RPLineMap;
+import search.Node;
 
 import lejos.geom.Line;
 import lejos.geom.Point;
 import lejos.robotics.navigation.Pose;
 
 public class GridMap implements IGridMap {
+	private Object[] nodes;
 
 	private final int xSize;
 	private final int ySize;
@@ -24,8 +26,28 @@ public class GridMap implements IGridMap {
 		this.yStart = yStart;
 		this.cellSize = cellSize;
 		this.lineMap = lineMap;
-	}
 
+		nodes = new Object[xSize * ySize];
+		for (int x = 0; x < xSize; x++)
+			for (int y = 0; y < ySize; y++)
+				nodes[x + y * xSize] = new Node<Point>(new Point(x, y));
+
+		// Set successors
+		for (Object o : nodes) {
+			Node<Point> node = (Node<Point>) o;
+			addSuccessor(node, 0, 1);
+			addSuccessor(node, 0, -1);
+			addSuccessor(node, 1, 0);
+			addSuccessor(node, -1, 0);
+		}
+		System.out.println();
+	}
+	private void addSuccessor(Node<Point> n, int dx, int dy) {
+		int x = (int) n.contents.x;
+		int y = (int) n.contents.y;
+		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
+			n.addSuccessor(getNodeAt(x + dx, y + dy));
+	}
 	@Override
 	public int getXSize() {
 		return xSize;
@@ -70,5 +92,10 @@ public class GridMap implements IGridMap {
 	@Override
 	public float rangeToObstacleFromGridPosition(int x, int y, float heading) {
 		return lineMap.range(new Pose(x, y, heading));
+	}
+
+	@SuppressWarnings("unchecked")
+	public Node<Point> getNodeAt(int x, int y) {
+		return (Node<Point>) nodes[x + y * xSize];
 	}
 }

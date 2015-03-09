@@ -1,10 +1,11 @@
 package rp.Exercise.Ex4.mapping;
 
+import search.Node;
+
 import rp.GeoffBot;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.RunSystem;
-import search.graph.Node;
 
 import lejos.geom.Point;
 import lejos.robotics.navigation.DifferentialPilot;

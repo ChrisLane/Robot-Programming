@@ -2,30 +2,21 @@ package rp.Exercise.Ex4;
 
 import rp.Exercise.Ex4.mapping.GridMap;
 import rp.robotics.mapping.Heading;
-import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
 import rp.robotics.visualisation.KillMeNow;
+import search.AStar;
+import search.Node;
+import search.SearchFunction;
+
+import lejos.geom.Point;
+
+import java.util.List;
 
 import javax.swing.JFrame;
 
 public class Ex4P1A {
-
-	/***
-	 * Create an instance of an object that implements IGridMap from a LineMap. You don't need to use this method, but it's a useful way for me to document the parameters you might need.
-	 *
-	 * @param _lineMap The underlying line map
-	 * @param _gridXSize How many grid positions along the x axis
-	 * @param _gridYSize How many grid positions along the y axis
-	 * @param _xStart The x coordinate where grid position (0,0) starts
-	 * @param _yStart The y coordinate where grid position (0,0) starts
-	 * @param _cellSize The distance between grid positions
-	 * @return
-	 */
-	public static IGridMap createGridMap(RPLineMap lineMap, int gridXSize, int gridYSize, float xStart, float yStart, float cellSize) {
-		return new GridMap(gridXSize, gridYSize, xStart, yStart, cellSize, lineMap);
-	}
 
 	public void run() {
 		JFrame frame = new JFrame("Map Viewer");
@@ -41,7 +32,7 @@ public class Ex4P1A {
 		int xInset = 14;
 		int yInset = 31;
 
-		IGridMap gridMap = createGridMap(lineMap, xJunctions, yJunctions, xInset, yInset, junctionSeparation);
+		GridMap gridMap = new GridMap(xJunctions, yJunctions, xInset, yInset, junctionSeparation, lineMap);
 
 		int x = 1, y = 1;
 
@@ -52,13 +43,14 @@ public class Ex4P1A {
 
 		// view the map with 2 pixels as 1 cm
 		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2);
+		List<Node<Point>> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(6, 3), SearchFunction.euclidean, SearchFunction.manhattan);
+		mapVis.setPath(path);
 
 		frame.add(mapVis);
 		frame.setSize(700, 600);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-
 	public static void main(String[] args) {
 		Ex4P1A demo = new Ex4P1A();
 		demo.run();
