@@ -12,6 +12,7 @@ import search.SearchFunction;
 
 import lejos.geom.Point;
 
+import javax.swing.JFrame;
 import java.util.List;
 
 public class Ex4P1A {
@@ -39,7 +40,7 @@ public class Ex4P1A {
 		System.out.println("distance MINUS_X (left): " + gridMap.rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(Heading.MINUS_X)));
 
 		// view the map with 2 pixels as 1 cm
-		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2);
+		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2, true);
 		List<Node<Point>> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(6, 3), SearchFunction.euclidean, SearchFunction.manhattan);
 		mapVis.setPath(path);
 
