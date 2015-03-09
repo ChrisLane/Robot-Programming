@@ -34,6 +34,7 @@ public class GridMap implements IGridMap {
 
 		// Set successors
 		for (Object o : nodes) {
+			@SuppressWarnings("unchecked")
 			Node<Point> node = (Node<Point>) o;
 			addSuccessor(node, 0, 1);
 			addSuccessor(node, 0, -1);

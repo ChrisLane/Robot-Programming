@@ -14,10 +14,7 @@ import lejos.geom.Point;
 
 import java.util.List;
 
-import javax.swing.JFrame;
-
 public class Ex4P1A {
-
 	public void run() {
 		JFrame frame = new JFrame("Map Viewer");
 		frame.addWindowListener(new KillMeNow());
