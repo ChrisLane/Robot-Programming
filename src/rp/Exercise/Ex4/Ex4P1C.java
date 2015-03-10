@@ -25,7 +25,7 @@ public class Ex4P1C {
 		Node<Coordinate> goal = gridMap.getNodeAt(9, 6);
 		List<Node<Coordinate>> path = AStar.findPathFrom(start, goal, SearchFunction.euclidean, SearchFunction.manhattan);
 		path.remove(0);
-		PathFollower pf = new PathFollower(GeoffBot.getDifferentialPilot(), path, start, Heading.UP);
+		final PathFollower pf = new PathFollower(GeoffBot.getDifferentialPilot(), path, start, Heading.UP);
 		for (Node<Coordinate> n : path) {
 			Coordinate p = n.payload;
 			System.out.println("new Point(" + p.x + ", " + p.y + "),");
