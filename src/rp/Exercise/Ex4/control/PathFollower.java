@@ -45,13 +45,14 @@ public class PathFollower extends RunSystem implements LineListener {
 		pilot.setTravelSpeed(20);
 		pilot.setRotateSpeed(120);
 
-		if (path.size() <= pathCount)
-			return;
+		if (path.size() <= pathCount) {
+		}
 	}
 
 	public void start() {
 		followThread.start();
 	}
+
 	@Override
 	public void run() {
 		intersectionHit(false);
@@ -62,8 +63,7 @@ public class PathFollower extends RunSystem implements LineListener {
 					return;
 
 				intersectionHit(true);
-			}
-			else if (!leftOnLine && !rightOnLine)
+			} else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
 
 			if (leftOnLine)
