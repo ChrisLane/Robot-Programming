@@ -41,13 +41,16 @@ public class PathFollower extends RunSystem implements LineListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		// Increased speed as robot can handle it fine
 		pilot.setTravelSpeed(20);
 		pilot.setRotateSpeed(120);
 	}
 
 	public void start() {
 		followThread.start();
+	}
+	public void stop() throws InterruptedException {
+		isRunning = false;
+		followThread.join();
 	}
 
 	@Override
@@ -60,7 +63,8 @@ public class PathFollower extends RunSystem implements LineListener {
 					return;
 
 				intersectionHit(true);
-			} else if (!leftOnLine && !rightOnLine)
+			}
+			else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
 
 			if (leftOnLine)
@@ -80,7 +84,6 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		location = target;
 
-		// Turn towards new target node if it isn't straight ahead
 		int degrees = heading.toDegrees();
 		if (degrees != 0) {
 			if (moveForward)
@@ -89,7 +92,6 @@ public class PathFollower extends RunSystem implements LineListener {
 		}
 	}
 
-	// Sets a boolean for if each sensor is on the line or not
 	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
