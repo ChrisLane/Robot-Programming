@@ -44,9 +44,6 @@ public class PathFollower extends RunSystem implements LineListener {
 		// Increased speed as robot can handle it fine
 		pilot.setTravelSpeed(20);
 		pilot.setRotateSpeed(120);
-
-		if (path.size() <= pathCount) {
-		}
 	}
 
 	public void start() {
