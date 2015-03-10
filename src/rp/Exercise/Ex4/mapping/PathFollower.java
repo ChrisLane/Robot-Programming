@@ -4,34 +4,33 @@ import rp.GeoffBot;
 import rp.Listener.LineListener;
 import rp.Sensor.BlackLineSensor;
 import rp.Util.RunSystem;
+import rp.robotics.mapping.Heading;
+import search.Coordinate;
 import search.Node;
 
-import lejos.geom.Point;
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.robotics.navigation.Pose;
 
 import java.util.List;
 
 public class PathFollower extends RunSystem implements LineListener {
-	private Thread followerThread;
-
 	private final DifferentialPilot pilot;
 	private BlackLineSensor lsLeft, lsRight;
 
-	private List<Node<Point>> path;
-	private Pose pose;
-	private Point target;
-	private boolean leftOnLine, rightOnLine, onIntersection;
-	private int pathCount = 0;
+	private Thread followThread;
 
-	public PathFollower(DifferentialPilot pilot, List<Node<Point>> path, Pose location) {
-		followerThread = new Thread(this);
+	private Node<Coordinate> location, target;
+	private List<Node<Coordinate>> path;
+	private Heading facing;
+	private boolean leftOnLine, rightOnLine, onIntersection;
+	private byte pathCount;
+
+	public PathFollower(DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing) {
+		followThread = new Thread(this);
 
 		this.pilot = pilot;
 		this.path = path;
-		// TODO: Should use OdometryPoseProvider(pilot).getPose() instead.
-		// Need to fix conflict with Node points to actual grid locations in centimetres
-		pose = location;
+		this.facing = facing;
+		this.location = location;
 		leftOnLine = true;
 		rightOnLine = true;
 
@@ -42,27 +41,26 @@ public class PathFollower extends RunSystem implements LineListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		pilot.setTravelSpeed(25);
-		pilot.setRotateSpeed(180);
+		// Increased speed as robot can handle it fine
+		pilot.setTravelSpeed(20);
+		pilot.setRotateSpeed(120);
+
+		if (path.size() <= pathCount)
+			return;
 	}
 
 	public void start() {
-		followerThread.start();
+		followThread.start();
 	}
-
 	@Override
 	public void run() {
-		if (path.isEmpty())
-			return;
-
 		intersectionHit(false);
 		while (isRunning) {
 			if (leftOnLine && rightOnLine && !onIntersection) {
 				onIntersection = true;
-				if (path.isEmpty())
+				if (path.size() <= pathCount)
 					return;
 
-				pose.setLocation(target);
 				intersectionHit(true);
 			}
 			else if (!leftOnLine && !rightOnLine)
@@ -78,16 +76,23 @@ public class PathFollower extends RunSystem implements LineListener {
 	}
 
 	public void intersectionHit(boolean moveForward) {
-		target = path.get(++pathCount).contents;
+		target = path.get(pathCount++);
 
-		float degrees = pose.angleTo(target);
-		if ((int) degrees > -85 && degrees < 85) {
+		Heading heading = facing.getHeadingFrom(location.payload, target.payload);
+		facing = facing.add(heading);
+
+		location = target;
+
+		// Turn towards new target node if it isn't straight ahead
+		int degrees = heading.toDegrees();
+		if (degrees != 0) {
 			if (moveForward)
-				pilot.travel(4);
+				pilot.travel(1.5);
 			pilot.rotate(degrees);
-			pose.rotateUpdate(degrees);
 		}
 	}
+
+	// Sets a boolean for if each sensor is on the line or not
 	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
