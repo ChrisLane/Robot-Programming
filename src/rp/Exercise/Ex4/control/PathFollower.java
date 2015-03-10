@@ -8,6 +8,8 @@ import rp.robotics.mapping.Heading;
 import search.Coordinate;
 import search.Node;
 
+import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.RangeFinder;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import java.util.List;
@@ -15,16 +17,17 @@ import java.util.List;
 public class PathFollower extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot;
 	private BlackLineSensor lsLeft, lsRight;
+	private RangeFinder rangeFinder;
 
 	private Thread followThread;
 
 	private Node<Coordinate> location, target;
 	private List<Node<Coordinate>> path;
 	private Heading facing;
-	private boolean leftOnLine, rightOnLine, onIntersection;
+	private boolean leftOnLine, rightOnLine, onIntersection, reversing;
 	private byte pathCount;
 
-	public PathFollower(DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing) {
+	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing) {
 		followThread = new Thread(this);
 
 		this.pilot = pilot;
@@ -37,6 +40,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		int lightThreshold = 75;
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold).addChangeListener(this);
 		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, lightThreshold).addChangeListener(this);
+		rangeFinder = new UltrasonicSensor(GeoffBot.getFrontUltrasonicPort());
 
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
@@ -57,7 +61,7 @@ public class PathFollower extends RunSystem implements LineListener {
 	public void run() {
 		intersectionHit(false);
 		while (isRunning) {
-			if (leftOnLine && rightOnLine && !onIntersection) {
+			if (leftOnLine && rightOnLine && !onIntersection && !reversing) {
 				onIntersection = true;
 				if (path.size() <= pathCount)
 					return;
@@ -71,7 +75,15 @@ public class PathFollower extends RunSystem implements LineListener {
 				pilot.arcForward(-40);
 			else if (rightOnLine)
 				pilot.arcForward(40);
-			else
+			else if (onIntersection && reversing) {
+				reversing = false;
+				// TODO: Create a method to use here that can be passed a blocked coordinate and follow a new path with that data
+			}
+			else if (rangeFinder.getRange() < 5) {
+				reversing = true;
+				pilot.backward();
+			}
+			else if (!reversing)
 				pilot.forward();
 		}
 	}
