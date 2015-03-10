@@ -16,7 +16,7 @@ public class BlackLineSensor extends LightSensor implements SensorPortListener {
 	public BlackLineSensor(SensorPort port, boolean floodlight, int lightThreshold) {
 		super(port, floodlight);
 		this.lightThreshold = lightThreshold;
-		listeners = new ArrayList<>();
+		listeners = new ArrayList<LineListener>();
 
 		port.addSensorPortListener(this);
 	}

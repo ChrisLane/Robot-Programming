@@ -31,7 +31,7 @@ public class GridMap implements IGridMap {
 		nodes = new Object[xSize * ySize];
 		for (int x = 0; x < xSize; x++)
 			for (int y = 0; y < ySize; y++)
-				nodes[x + y * xSize] = new Node<>(new Coordinate(x, y));
+				nodes[x + y * xSize] = new Node<Coordinate>(new Coordinate(x, y));
 
 		// Set successors
 		for (Object o : nodes) {
