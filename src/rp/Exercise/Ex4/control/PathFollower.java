@@ -1,4 +1,4 @@
-package rp.Exercise.Ex4.mapping;
+package rp.Exercise.Ex4.control;
 
 import rp.GeoffBot;
 import rp.Listener.LineListener;

@@ -2,7 +2,7 @@ package rp.Exercise.Ex4;
 
 import rp.GeoffBot;
 import rp.Exercise.Ex4.mapping.GridMap;
-import rp.Exercise.Ex4.mapping.PathFollower;
+import rp.Exercise.Ex4.control.PathFollower;
 import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
