@@ -72,14 +72,22 @@ public class PathFollower extends RunSystem implements LineListener {
 				onIntersection = false;
 
 			if (leftOnLine)
-				pilot.arcForward(-40);
+				if (!reversing)
+					pilot.arcForward(-40);
+				else
+					pilot.arcBackward(-40);
 			else if (rightOnLine)
-				pilot.arcForward(40);
+				if (!reversing)
+					pilot.arcForward(40);
+				else
+					pilot.arcBackward(40);
 			else if (onIntersection && reversing) {
+				System.out.println("Reached an intersection while reversing");
 				reversing = false;
 				// TODO: Create a method to use here that can be passed a blocked coordinate and follow a new path with that data
 			}
 			else if (rangeFinder.getRange() < 5) {
+				System.out.println("OH FUCK, A WALL!");
 				reversing = true;
 				pilot.backward();
 			}
