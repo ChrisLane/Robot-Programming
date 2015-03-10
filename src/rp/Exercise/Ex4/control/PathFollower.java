@@ -63,7 +63,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		intersectionHit(false);
 		while (isRunning) {
 			// Robot is now on an intersection, adjust robot to next position
-			if (leftOnLine && rightOnLine && !onIntersection && !reversing) {
+			if (leftOnLine && rightOnLine && !onIntersection) {
 				onIntersection = true;
 				if (path.size() <= pathCount || reversing)
 					return;
@@ -80,12 +80,12 @@ public class PathFollower extends RunSystem implements LineListener {
 				if (!reversing)
 					pilot.arcForward(-40);
 				else
-					pilot.arcBackward(-40);
+					pilot.arcBackward(40);
 			} else if (rightOnLine) {
 				if (!reversing)
 					pilot.arcForward(40);
 				else
-					pilot.arcBackward(40);
+					pilot.arcBackward(-40);
 			}
 
 			// Reversed to an intersection, create and use a new path
