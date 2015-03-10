@@ -2,6 +2,7 @@ package rp.Exercise.Ex4.mapping;
 
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.RPLineMap;
+import search.Coordinate;
 import search.Node;
 
 import lejos.geom.Line;
@@ -30,12 +31,12 @@ public class GridMap implements IGridMap {
 		nodes = new Object[xSize * ySize];
 		for (int x = 0; x < xSize; x++)
 			for (int y = 0; y < ySize; y++)
-				nodes[x + y * xSize] = new Node<>(new Point(x, y));
+				nodes[x + y * xSize] = new Node<>(new Coordinate(x, y));
 
 		// Set successors
 		for (Object o : nodes) {
 			@SuppressWarnings("unchecked")
-			Node<Point> node = (Node<Point>) o;
+			Node<Coordinate> node = (Node<Coordinate>) o;
 			addSuccessor(node, 0, 1);
 			addSuccessor(node, 0, -1);
 			addSuccessor(node, 1, 0);
@@ -43,9 +44,9 @@ public class GridMap implements IGridMap {
 		}
 		System.out.println();
 	}
-	private void addSuccessor(Node<Point> n, int dx, int dy) {
-		int x = (int) n.contents.x;
-		int y = (int) n.contents.y;
+	private void addSuccessor(Node<Coordinate> n, int dx, int dy) {
+		int x = n.payload.x;
+		int y = n.payload.y;
 		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
 			n.addSuccessor(getNodeAt(x + dx, y + dy));
 	}
@@ -96,7 +97,7 @@ public class GridMap implements IGridMap {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Node<Point> getNodeAt(int x, int y) {
-		return (Node<Point>) nodes[x + y * xSize];
+	public Node<Coordinate> getNodeAt(int x, int y) {
+		return (Node<Coordinate>) nodes[x + y * xSize];
 	}
 }

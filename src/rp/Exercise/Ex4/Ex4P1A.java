@@ -1,19 +1,17 @@
 package rp.Exercise.Ex4;
 
 import rp.Exercise.Ex4.mapping.GridMap;
-import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
 import rp.robotics.visualisation.KillMeNow;
-import search.AStar;
+import search.Coordinate;
 import search.Node;
-import search.SearchFunction;
 
-import lejos.geom.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
-import java.util.List;
 
 public class Ex4P1A {
 	public void run() {
@@ -32,16 +30,27 @@ public class Ex4P1A {
 
 		GridMap gridMap = new GridMap(xJunctions, yJunctions, xInset, yInset, junctionSeparation, lineMap);
 
-		int x = 1, y = 1;
-
-		System.out.println("distance PLUS_Y (down): " + gridMap.rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(Heading.PLUS_Y)));
-		System.out.println("distance PLUS_X (right): " + gridMap.rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(Heading.PLUS_X)));
-		System.out.println("distance MINUS_Y (up): " + gridMap.rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(Heading.MINUS_Y)));
-		System.out.println("distance MINUS_X (left): " + gridMap.rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(Heading.MINUS_X)));
-
 		// view the map with 2 pixels as 1 cm
 		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2, true);
-		List<Node<Point>> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(6, 3), SearchFunction.euclidean, SearchFunction.manhattan);
+		// List<Node<Coordinate>> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(6, 4), SearchFunction.euclidean, SearchFunction.manhattan);
+		List<Node<Coordinate>> path = new ArrayList<Node<Coordinate>>();
+		path.add(new Node<Coordinate>(new Coordinate(0, 0)));
+		path.add(new Node<Coordinate>(new Coordinate(0, 1)));
+		path.add(new Node<Coordinate>(new Coordinate(1, 1)));
+		path.add(new Node<Coordinate>(new Coordinate(1, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(2, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(3, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(4, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(5, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(6, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(7, 2)));
+		path.add(new Node<Coordinate>(new Coordinate(7, 3)));
+		path.add(new Node<Coordinate>(new Coordinate(7, 4)));
+		path.add(new Node<Coordinate>(new Coordinate(7, 5)));
+		path.add(new Node<Coordinate>(new Coordinate(7, 6)));
+		path.add(new Node<Coordinate>(new Coordinate(8, 6)));
+		path.add(new Node<Coordinate>(new Coordinate(9, 6)));
+
 		mapVis.setPath(path);
 
 		frame.add(mapVis);
