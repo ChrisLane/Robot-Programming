@@ -1,7 +1,6 @@
 package rp.exercise.Ex4;
 
 import rp.exercise.Ex4.mapping.GridMap;
-
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;

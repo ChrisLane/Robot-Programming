@@ -1,10 +1,9 @@
 package rp.Exercise.Ex4.control;
 
 import rp.GeoffBot;
-import rp.Listener.LineListener;
-import rp.Sensor.BlackLineSensor;
-import rp.Util.RunSystem;
 import rp.robotics.mapping.Heading;
+import rp.sensor.BlackLineSensor;
+import rp.util.RunSystem;
 import search.Coordinate;
 import search.Node;
 
@@ -81,7 +80,8 @@ public class PathFollower extends RunSystem implements LineListener {
 					pilot.arcForward(-40);
 				else
 					pilot.arcBackward(40);
-			} else if (rightOnLine) {
+			}
+			else if (rightOnLine) {
 				if (!reversing)
 					pilot.arcForward(40);
 				else

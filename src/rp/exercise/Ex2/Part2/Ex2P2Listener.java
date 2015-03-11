@@ -1,9 +1,8 @@
 package rp.exercise.Ex2.Part2;
 
+import rp.GeoffBot;
 import rp.exercise.Ex2.Part1.Paths.MovementPath;
 import rp.exercise.Ex2.Part1.Paths.ReverseAndTurn;
-
-import rp.GeoffBot;
 
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;

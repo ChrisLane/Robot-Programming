@@ -1,14 +1,13 @@
 package rp.exercise.Ex2.Part3;
 
+import rp.GeoffBot;
 import rp.listener.ArcRadiusChangeListener;
 import rp.listener.BumperHitListener;
 import rp.listener.WallApproachListener;
 import rp.listener.WallFalloffListener;
-
 import rp.sensor.BumperSensor;
 import rp.sensor.InfraredSideSensor;
 import rp.sensor.UltrasonicFrontSensor;
-import rp.GeoffBot;
 
 import lejos.nxt.Button;
 import lejos.nxt.SensorPort;

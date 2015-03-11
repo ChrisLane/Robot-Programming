@@ -1,8 +1,7 @@
 package rp.exercise.Ex2.Part2;
 
-import rp.sensor.InfraredSideSensor;
-
 import rp.GeoffBot;
+import rp.sensor.InfraredSideSensor;
 
 import lejos.nxt.Button;
 import lejos.nxt.TouchSensor;

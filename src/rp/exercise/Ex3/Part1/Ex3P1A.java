@@ -1,8 +1,7 @@
 package rp.exercise.Ex3.Part1;
 
-import rp.util.RunSystem;
-
 import rp.GeoffBot;
+import rp.util.RunSystem;
 
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.RangeFinder;

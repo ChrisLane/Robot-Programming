@@ -1,9 +1,8 @@
 package rp.exercise.Ex4;
 
+import rp.GeoffBot;
 import rp.exercise.Ex4.control.PathFollower;
 import rp.exercise.Ex4.mapping.GridMap;
-
-import rp.GeoffBot;
 import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;

@@ -1,10 +1,9 @@
 package rp.exercise.Ex3.Part1;
 
+import rp.GeoffBot;
 import rp.listener.LineListener;
-
 import rp.sensor.BlackLineSensor;
 import rp.util.RunSystem;
-import rp.GeoffBot;
 
 import lejos.robotics.navigation.DifferentialPilot;
 
@@ -37,10 +36,10 @@ public class Ex3P1B extends RunSystem implements LineListener {
 			// If the left sensor is on the line, turn left
 			if (leftOnLine)
 				pilot.steer(200, -10, false);
-			// If the right sensor is on the line, turn right
+		// If the right sensor is on the line, turn right
 			else if (rightOnLine)
 				pilot.steer(200, 10, false);
-			// Otherwise continue on straight
+		// Otherwise continue on straight
 			else
 				pilot.forward();
 	}

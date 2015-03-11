@@ -1,12 +1,11 @@
 package rp.exercise.Ex2.Part1;
 
+import rp.GeoffBot;
 import rp.exercise.Ex2.Part1.Paths.BackForthPath;
 import rp.exercise.Ex2.Part1.Paths.CirclePath;
 import rp.exercise.Ex2.Part1.Paths.MovementPath;
 import rp.exercise.Ex2.Part1.Paths.SquarePath;
 import rp.exercise.Ex2.Part1.Paths.TrianglePath;
-
-import rp.GeoffBot;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;

@@ -1,11 +1,10 @@
 package rp.exercise.Ex3.Part2;
 
+import rp.GeoffBot;
 import rp.listener.LineListener;
-
+import rp.robotics.mapping.Heading;
 import rp.sensor.BlackLineSensor;
 import rp.util.RunSystem;
-import rp.GeoffBot;
-import rp.robotics.mapping.Heading;
 import search.Coordinate;
 import search.Node;
 

@@ -5,20 +5,15 @@ import rp.robotics.localisation.GridPositionDistribution;
 import rp.robotics.mapping.Heading;
 
 /**
- * Example structure for an action model that should move the probabilities 1
- * cell in the requested direction. In the case where the move would take the
- * robot into an obstacle or off the map, this model assumes the robot stayed in
- * one place. This is the same as the model presented in Robot Programming
- * lecture on action models. Note that this class doesn't actually do this,
- * instead it shows you a <b>possible</b> structure for your action model.
+ * Example structure for an action model that should move the probabilities 1 cell in the requested direction. In the case where the move would take the robot into an obstacle or off the map, this model assumes the robot stayed in one place. This is the same as the model presented in Robot
+ * Programming lecture on action models. Note that this class doesn't actually do this, instead it shows you a <b>possible</b> structure for your action model.
  *
  * @author Matthias Casula
  */
 public class PerfectActionModel implements ActionModel {
 
 	@Override
-	public GridPositionDistribution updateAfterMove(
-			GridPositionDistribution _from, Heading _heading) {
+	public GridPositionDistribution updateAfterMove(GridPositionDistribution _from, Heading _heading) {
 
 		// Create the new distribution that will result from applying the action
 		// model
@@ -28,13 +23,12 @@ public class PerfectActionModel implements ActionModel {
 		// Move the probability in the correct direction for the action
 		if (_heading == Heading.RIGHT)
 			movePlusX(_from, to);
-		else if (_heading == Heading.UP) {
+		else if (_heading == Heading.UP)
 			movePlusY(_from, to);
-		} else if (_heading == Heading.LEFT) {
+		else if (_heading == Heading.LEFT)
 			moveMinusX(_from, to);
-		} else if (_heading == Heading.DOWN) {
+		else if (_heading == Heading.DOWN)
 			moveMinusY(_from, to);
-		}
 
 		return to;
 	}
@@ -45,8 +39,7 @@ public class PerfectActionModel implements ActionModel {
 	 * @param _from
 	 * @param _to
 	 */
-	private void movePlusX(GridPositionDistribution _from,
-			GridPositionDistribution _to) {
+	private void movePlusX(GridPositionDistribution _from, GridPositionDistribution _to) {
 
 		// iterate through points updating as appropriate
 		for (int y = 0; y < _to.getGridHeight(); y++)
@@ -81,8 +74,7 @@ public class PerfectActionModel implements ActionModel {
 				}
 	}
 
-	private void movePlusY(GridPositionDistribution _from,
-			GridPositionDistribution _to) {
+	private void movePlusY(GridPositionDistribution _from, GridPositionDistribution _to) {
 
 		// iterate through points updating as appropriate
 		for (int y = 0; y < _to.getGridHeight(); y++)
@@ -107,8 +99,7 @@ public class PerfectActionModel implements ActionModel {
 				}
 	}
 
-	private void moveMinusX(GridPositionDistribution _from,
-			GridPositionDistribution _to) {
+	private void moveMinusX(GridPositionDistribution _from, GridPositionDistribution _to) {
 
 		// iterate through points updating as appropriate
 		for (int y = 0; y < _to.getGridHeight(); y++)
@@ -133,8 +124,7 @@ public class PerfectActionModel implements ActionModel {
 				}
 	}
 
-	private void moveMinusY(GridPositionDistribution _from,
-			GridPositionDistribution _to) {
+	private void moveMinusY(GridPositionDistribution _from, GridPositionDistribution _to) {
 
 		// iterate through points updating as appropriate
 		for (int y = 0; y < _to.getGridHeight(); y++)

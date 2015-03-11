@@ -1,8 +1,7 @@
 package rp.exercise.Ex3.Part3;
 
-import rp.util.RunSystem;
-
 import rp.GeoffBot;
+import rp.util.RunSystem;
 
 import lejos.nxt.addon.NXTCam;
 import lejos.robotics.navigation.DifferentialPilot;
