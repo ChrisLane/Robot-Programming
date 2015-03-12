@@ -6,7 +6,9 @@ import rp.robotics.mapping.Heading;
 import search.Coordinate;
 
 /**
- * Example structure for an action model that should move the probabilities 1 cell in the requested direction. In the case where the move would take the robot into an obstacle or off the map, this model assumes the robot stayed in one place. This is the same as the model presented in Robot
+ * Example structure for an action model that should move the probabilities 1 cell in the requested direction.
+ * In the case where the move would take the robot into an obstacle or off the map, this model assumes the robot stayed in one place.
+ * This is the same as the model presented in Robot
  * Programming lecture on action models. Note that this class doesn't actually do this, instead it shows you a <b>possible</b> structure for your action model.
  *
  * @author Matthias Casula
