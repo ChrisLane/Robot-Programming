@@ -95,7 +95,7 @@ public class PathFollower extends RunSystem implements LineListener {
 			// Reversed to an intersection, create and use a new path
 			if (onIntersection && reversing) {
 				reversing = false;
-				// TODO: Create a method to use here that can be passed a blocked coordinate and follow a new path with that data
+				// TODO: We've reached an unexpected obstacle, re-localise the robot!
 			}
 
 			// Reverse if we meet an obstacle
