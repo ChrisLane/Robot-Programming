@@ -10,14 +10,13 @@ import lejos.geom.Point;
 import lejos.robotics.navigation.Pose;
 
 public class GridMap implements IGridMap {
-	private Object[] nodes;
-
 	private final int xSize;
 	private final int ySize;
+	private final RPLineMap lineMap;
+	private Object[] nodes;
 	private float xStart;
 	private float yStart;
 	private float cellSize;
-	private final RPLineMap lineMap;
 
 	public GridMap(int xSize, int ySize, float xStart, float yStart, float cellSize, RPLineMap lineMap) {
 		super();
@@ -44,23 +43,28 @@ public class GridMap implements IGridMap {
 		}
 		System.out.println();
 	}
+
 	private void addSuccessor(Node<Coordinate> n, int dx, int dy) {
 		int x = n.payload.x;
 		int y = n.payload.y;
 		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
 			n.addSuccessor(getNodeAt(x + dx, y + dy));
 	}
+
 	@Override
 	public int getXSize() {
 		return xSize;
 	}
+
 	@Override
 	public int getYSize() {
 		return ySize;
 	}
+
 	public float getGridX(int x) {
 		return xStart + x * cellSize;
 	}
+
 	public float getGridY(int y) {
 		return yStart + y * cellSize;
 	}
@@ -79,6 +83,7 @@ public class GridMap implements IGridMap {
 	public Point getCoordinatesOfGridPosition(int x, int y) {
 		return new Point(getGridX(x), getGridY(y));
 	}
+
 	@Override
 	public boolean isValidTransition(int x1, int y1, int x2, int y2) {
 		if (isObstructed(x1, y1) || isObstructed(x2, y2) || !isValidGridPosition(x1, y1) || !isValidGridPosition(x2, y2))
@@ -91,6 +96,7 @@ public class GridMap implements IGridMap {
 
 		return true;
 	}
+
 	@Override
 	public float rangeToObstacleFromGridPosition(int x, int y, float heading) {
 		return lineMap.range(new Pose(x, y, heading));
