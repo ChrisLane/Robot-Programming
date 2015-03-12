@@ -18,11 +18,11 @@ import java.util.List;
 
 public class Ex4P1C {
 	public static void main(String[] args) {
-		RPLineMap lineMap = MapUtils.create2014Map2();
-		GridMap gridMap = new GridMap(10, 7, 14, 31, 30, lineMap);
+		RPLineMap lineMap = MapUtils.create2015Map1();
+		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
 
 		Node<Coordinate> start = gridMap.getNodeAt(0, 0);
-		Node<Coordinate> goal = gridMap.getNodeAt(9, 6);
+		Node<Coordinate> goal = gridMap.getNodeAt(11, 7);
 		List<Node<Coordinate>> path = AStar.findPathFrom(start, goal, SearchFunction.euclidean, SearchFunction.manhattan);
 		path.remove(0);
 		final PathFollower pf = new PathFollower(GeoffBot.getDifferentialPilot(), path, start, Heading.UP);

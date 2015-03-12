@@ -45,8 +45,8 @@ public class PathFollower extends RunSystem implements LineListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		pilot.setTravelSpeed(20);
-		pilot.setRotateSpeed(120);
+		pilot.setTravelSpeed(25);
+		pilot.setRotateSpeed(180);
 	}
 
 	public void start() {
@@ -120,7 +120,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		int degrees = heading.toDegrees();
 		if (degrees != 0) {
 			if (moveForward)
-				pilot.travel(1.5);
+				pilot.travel(2.8);
 			pilot.rotate(degrees);
 		}
 	}
