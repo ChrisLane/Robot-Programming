@@ -13,8 +13,8 @@ public class LightSensorReadout extends RunSystem {
 	public void run() {
 
 		// Create new light sensors
-		LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
-		LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
+		final LightSensor lsLeft = new LightSensor(GeoffBot.getLightSensorLeftPort(), true);
+		final LightSensor lsRight = new LightSensor(GeoffBot.getLightSensorRightPort(), true);
 
 		// Calibrate light sensors
 		GeoffBot.calibrateLeftLS(lsLeft);
