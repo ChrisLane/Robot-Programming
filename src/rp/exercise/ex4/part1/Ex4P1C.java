@@ -37,10 +37,17 @@ public class Ex4P1C {
 			}
 			@Override
 			public void buttonPressed(Button b) {
-				System.exit(0);
+				try {
+					pf.stop();
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+					Button.waitForAnyPress();
+					System.exit(0);
+				}
 			}
 		});
 
-		pf.run();
+		pf.start();
 	}
 }

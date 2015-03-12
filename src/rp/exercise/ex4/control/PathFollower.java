@@ -18,6 +18,8 @@ public class PathFollower extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot;
 	private BlackLineSensor lsLeft, lsRight;
 	private RangeFinder rangeFinder;
+	
+	private Thread followThread;
 
 	private Node<Coordinate> location, target;
 	private List<Node<Coordinate>> path;
@@ -26,6 +28,7 @@ public class PathFollower extends RunSystem implements LineListener {
 	private byte pathCount;
 
 	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing) {
+		followThread = new Thread(this);
 
 		this.pilot = pilot;
 		this.path = path;
@@ -44,6 +47,15 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		pilot.setTravelSpeed(25);
 		pilot.setRotateSpeed(180);
+	}
+	
+	public void start() {
+		followThread.start();
+	}
+
+	public void stop() throws InterruptedException {
+		isRunning = false;
+		followThread.join();
 	}
 
 	@Override
