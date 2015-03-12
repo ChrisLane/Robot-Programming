@@ -1,14 +1,7 @@
 package rp.exercise.ex4.part2;
 
-import javax.swing.JFrame;
-
-import lejos.geom.Point;
-import lejos.robotics.mapping.LineMap;
-import lejos.robotics.navigation.Pose;
-import lejos.util.Delay;
 import rp.robotics.localisation.ActionModel;
 import rp.robotics.localisation.GridPositionDistribution;
-import rp.robotics.localisation.MarkovLocalisationSkeleton;
 import rp.robotics.localisation.PerfectSensorModel;
 import rp.robotics.localisation.SensorModel;
 import rp.robotics.mapping.Heading;
@@ -17,9 +10,15 @@ import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.NicksGridMap;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.simulation.SimulatedRobot;
-import rp.robotics.visualisation.GridMapViewer;
 import rp.robotics.visualisation.GridPositionDistributionVisualisation;
 import rp.robotics.visualisation.KillMeNow;
+
+import lejos.geom.Point;
+import lejos.robotics.mapping.LineMap;
+import lejos.robotics.navigation.Pose;
+import lejos.util.Delay;
+
+import javax.swing.JFrame;
 
 public class MarkovLocSkeleton {
 
@@ -38,8 +37,7 @@ public class MarkovLocSkeleton {
 	private GridPositionDistributionVisualisation m_mapVis;
 	private final float m_translationAmount;
 
-	public MarkovLocSkeleton(SimulatedRobot _robot, LineMap _lineMap,
-			IGridMap _gridMap, float _translationAmount) {
+	public MarkovLocSkeleton(SimulatedRobot _robot, LineMap _lineMap, IGridMap _gridMap, float _translationAmount) {
 
 		m_robot = _robot;
 		m_lineMap = _lineMap;
@@ -49,17 +47,14 @@ public class MarkovLocSkeleton {
 	}
 
 	/**
-	 * Optionally run the visualisation of the robot and localisation process.
-	 * This is not necessary to run the localisation and could be removed once
-	 * on the real robot.
+	 * Optionally run the visualisation of the robot and localisation process. This is not necessary to run the localisation and could be removed once on the real robot.
 	 */
 	public void visualise() {
 		JFrame frame = new JFrame("Map Viewer");
 		frame.addWindowListener(new KillMeNow());
 
 		// visualise the distribution on top of a line map
-		m_mapVis = new GridPositionDistributionVisualisation(m_distribution,
-				m_lineMap, 2, true);
+		m_mapVis = new GridPositionDistributionVisualisation(m_distribution, m_lineMap, 2, true);
 
 		// Visualise the robot
 		m_mapVis.addRobot(m_robot);
@@ -77,8 +72,7 @@ public class MarkovLocSkeleton {
 	 * @param _heading
 	 * @param _sensorModel
 	 */
-	private void move(float distance, Heading _heading,
-			ActionModel _actionModel, SensorModel _sensorModel) {
+	private void move(float distance, Heading _heading, ActionModel _actionModel, SensorModel _sensorModel) {
 		// move robot
 		m_robot.translate(m_translationAmount);
 
@@ -92,9 +86,8 @@ public class MarkovLocSkeleton {
 		// A short delay so we can see what's going on
 		Delay.msDelay(1000);
 		/**
-		m_distribution = _sensorModel.updateAfterSensing(m_distribution,
-				_heading, m_robot.getRangeValues());
-		**/
+		 * m_distribution = _sensorModel.updateAfterSensing(m_distribution, _heading, m_robot.getRangeValues());
+		 **/
 		// if visualising, update the shown distribution
 		if (m_mapVis != null)
 			m_mapVis.setDistribution(m_distribution);
@@ -121,29 +114,25 @@ public class MarkovLocSkeleton {
 			movementHeading = Heading.RIGHT;
 			moves = horizontal;
 			for (int i = 0; i < moves; i++)
-				move(m_translationAmount, movementHeading, actionModel,
-						sensorModel);
+				move(m_translationAmount, movementHeading, actionModel, sensorModel);
 
 			m_robot.rotate(90);
 			movementHeading = Heading.UP;
 			moves = vertical;
 			for (int i = 0; i < moves; i++)
-				move(m_translationAmount, movementHeading, actionModel,
-						sensorModel);
+				move(m_translationAmount, movementHeading, actionModel, sensorModel);
 
 			m_robot.rotate(90);
 			movementHeading = Heading.LEFT;
 			moves = horizontal;
 			for (int i = 0; i < moves; i++)
-				move(m_translationAmount, movementHeading, actionModel,
-						sensorModel);
+				move(m_translationAmount, movementHeading, actionModel, sensorModel);
 
 			m_robot.rotate(90);
 			movementHeading = Heading.DOWN;
 			moves = vertical;
 			for (int i = 0; i < moves; i++)
-				move(m_translationAmount, movementHeading, actionModel,
-						sensorModel);
+				move(m_translationAmount, movementHeading, actionModel, sensorModel);
 
 			m_robot.rotate(90);
 
@@ -155,7 +144,7 @@ public class MarkovLocSkeleton {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		LineMap lineMap = MapUtils.create2015Map1();
+		RPLineMap lineMap = MapUtils.create2015Map1();
 		IGridMap gridMap = new NicksGridMap(12, 8, 15, 15, 30, lineMap);
 
 		// the starting position of the robot for the simulation. This is not
@@ -181,9 +170,8 @@ public class MarkovLocSkeleton {
 		// SimulatedRobot robot = SimulatedRobot.createSingleSensorRobot(
 		// startPose, lineMap);
 
-		MarkovLocalisationSkeleton ml = new MarkovLocalisationSkeleton(robot, lineMap, gridMap, 30);
+		MarkovLocSkeleton ml = new MarkovLocSkeleton(robot, lineMap, gridMap, 30);
 		ml.visualise();
 		ml.run();
-
 	}
 }
