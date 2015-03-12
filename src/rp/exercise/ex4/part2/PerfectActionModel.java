@@ -47,7 +47,7 @@ public class PerfectActionModel implements ActionModel {
 					// set probability for position after move
 					to.setProbability(toX, toY, fromProb);
 				}
-
+		to.normalise();
 		return to;
 	}
 }
