@@ -19,8 +19,6 @@ public class PathFollower extends RunSystem implements LineListener {
 	private BlackLineSensor lsLeft, lsRight;
 	private RangeFinder rangeFinder;
 
-	private Thread followThread;
-
 	private Node<Coordinate> location, target;
 	private List<Node<Coordinate>> path;
 	private Heading facing;
@@ -28,7 +26,6 @@ public class PathFollower extends RunSystem implements LineListener {
 	private byte pathCount;
 
 	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing) {
-		followThread = new Thread(this);
 
 		this.pilot = pilot;
 		this.path = path;
@@ -49,40 +46,34 @@ public class PathFollower extends RunSystem implements LineListener {
 		pilot.setRotateSpeed(180);
 	}
 
-	public void start() {
-		followThread.start();
-	}
-
-	public void stop() throws InterruptedException {
-		isRunning = false;
-		followThread.join();
-	}
-
 	@Override
 	public void run() {
 		intersectionHit(false);
+		
 		while (isRunning) {
 			// Robot is now on an intersection, adjust robot to next position
 			if (leftOnLine && rightOnLine && !onIntersection) {
 				onIntersection = true;
-				if (path.size() <= pathCount || reversing)
+				if (reversing)
+					continue;
+				if (path.size() <= pathCount)
 					return;
 
 				intersectionHit(true);
 			}
 
 			// Robot is no longer on an intersection
-			else if (!leftOnLine && !rightOnLine)
+			else if (!leftOnLine && !rightOnLine && onIntersection)
 				onIntersection = false;
-
+				
 			// Adjust robot to stay on the line
-			if (leftOnLine) {
+			if (leftOnLine && !rightOnLine) {
 				if (!reversing)
 					pilot.arcForward(-40);
 				else
 					pilot.arcBackward(40);
 			}
-			else if (rightOnLine) {
+			else if (rightOnLine && !leftOnLine) {
 				if (!reversing)
 					pilot.arcForward(40);
 				else
@@ -90,15 +81,13 @@ public class PathFollower extends RunSystem implements LineListener {
 			}
 
 			// Reversed to an intersection, create and use a new path
-			else if (onIntersection && reversing) {
-				System.out.println("Reached an intersection while reversing");
+			if (onIntersection && reversing) {
 				reversing = false;
 				// TODO: Create a method to use here that can be passed a blocked coordinate and follow a new path with that data
 			}
 
 			// Reverse if we meet an obstacle
-			else if (rangeFinder.getRange() < 10) {
-				System.out.println("OH FUCK, A WALL!");
+			else if (rangeFinder.getRange() < 10 && !reversing) {
 				reversing = true;
 				pilot.backward();
 			}
