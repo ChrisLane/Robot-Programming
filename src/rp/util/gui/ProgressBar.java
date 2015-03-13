@@ -1,6 +1,5 @@
 package rp.util.gui;
 
-import lejos.nxt.Button;
 import lejos.nxt.LCD;
 
 public class ProgressBar {
@@ -53,10 +52,5 @@ public class ProgressBar {
 			LCD.setPixel(X, i, 1);
 			LCD.setPixel(WIDTH, i, 1);
 		}
-	}
-
-	public static void main(String[] args) {
-		new ProgressBar("Progress Test!", (byte) 82);
-		Button.waitForAnyPress();
 	}
 }
