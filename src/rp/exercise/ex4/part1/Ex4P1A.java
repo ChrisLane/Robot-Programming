@@ -4,7 +4,6 @@ import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
-import rp.robotics.visualisation.KillMeNow;
 import search.AStar;
 import search.Coordinate;
 import search.Node;
@@ -32,7 +31,7 @@ public class Ex4P1A {
 		mapVis.setPath(path);
 
 		frame = new JFrame("Map Viewer");
-		frame.addWindowListener(new KillMeNow());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(mapVis);
 		frame.setSize(820, 600);
 		frame.setLocationRelativeTo(null);
