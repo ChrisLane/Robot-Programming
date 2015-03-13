@@ -73,22 +73,22 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;		// Do nothing here
 				}
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-				try {
-					System.out.println("Connection Closed");
-					conn.close();
-				}
-				catch (IOException e1) {
-					e1.printStackTrace();
-					break;
-				}
+		catch (IOException e) {
+			e.printStackTrace();
+			try {
+				System.out.println("Connection Closed");
+				conn.close();
+			}
+			catch (IOException e1) {
+				e1.printStackTrace();
 				break;
 			}
+			break;
+		}
 	}
 	public void start() {
 		setVisible(true);
-		/*conn = connect.getConnection();
+		conn = connect.getConnection();
 		// TODO: Test if this works when connected
 		if (conn.getNXTComm() != null) {
 			is = new DataInputStream(conn.getInputStream());
@@ -97,7 +97,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 		}
 		else
 			System.exit(1);
-		 */
+
 	}
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
