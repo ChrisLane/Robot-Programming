@@ -1,6 +1,7 @@
 package rp.util.remote;
 
 import rp.util.remote.packet.DisconnectPacket;
+import rp.util.remote.packet.PacketSender;
 import rp.util.remote.packet.RobotPacket;
 
 import lejos.nxt.Button;
@@ -13,7 +14,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Queue;
 
-public class LocationCommunicator extends Thread {
+public class LocationCommunicator extends Thread implements PacketSender {
 	private BTConnection bt;
 	// private DataInputStream is;
 	private DataOutputStream os;
@@ -22,6 +23,10 @@ public class LocationCommunicator extends Thread {
 
 	private boolean isRunning = true;
 
+	public LocationCommunicator() {
+		System.setOut(new ConsoleStream(this));
+		System.setErr(new ConsoleStream(this, true));
+	}
 	public void connect() throws NXTCommException, IOException {
 		toSend = new Queue<RobotPacket<?>>();
 
@@ -45,6 +50,8 @@ public class LocationCommunicator extends Thread {
 	public void disconnect(int exitCode) {
 		send(new DisconnectPacket((byte) exitCode));
 	}
+
+	@Override
 	public synchronized <E> void send(RobotPacket<E> data) {
 		toSend.addElement(data);
 		notifyAll();
@@ -57,9 +64,9 @@ public class LocationCommunicator extends Thread {
 				try {
 					wait();
 				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
 			synchronized (os) {
 				if (bt == null)
