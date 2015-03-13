@@ -1,7 +1,6 @@
 package rp.util.remote;
 
 import rp.robotics.LocalisedRangeScanner;
-import rp.robotics.RangeReadingsFilter;
 
 import lejos.robotics.RangeFinder;
 import lejos.robotics.RangeReadings;
@@ -16,14 +15,8 @@ import lejos.robotics.navigation.Pose;
 public class RemoteRobot implements LocalisedRangeScanner {
 
 	private Pose m_pose;
-	private final LineMap m_map;
 	private RangeReadings m_readings;
 	private final float[] m_readingAngles;
-	private boolean m_needReadings = true;
-	private final float m_sensorMinRange;
-	private final float m_sensorMaxRange;
-	private final float m_sensorOutOfRange;
-	private RangeReadingsFilter m_rangeFilter;
 
 	/**
 	 * @param _pose The initial pose of the robot
@@ -33,15 +26,10 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	 * @param _sensorMinRange Maximum sensor reading to return
 	 * @param _sensorOfOutRange The value to return if the sensor would fall outside the max or min values.
 	 */
-	public RemoteRobot(Pose _pose, LineMap _map, float[] _readingAngles, float _sensorMinRange, float _sensorMaxRange, float _sensorOfOutRange, RangeReadingsFilter _filter) {
+	public RemoteRobot(Pose _pose, LineMap _map, float[] _readingAngles) {
 		m_pose = _pose;
-		m_map = _map;
 		m_readings = new RangeReadings(_readingAngles.length);
 		m_readingAngles = _readingAngles;
-		m_sensorMaxRange = _sensorMaxRange;
-		m_sensorMinRange = _sensorMinRange;
-		m_sensorOutOfRange = _sensorOfOutRange;
-		m_rangeFilter = _filter;
 	}
 
 	@Override
@@ -83,7 +71,6 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	 */
 	public void rotate(int _angle) {
 		m_pose.rotateUpdate(_angle);
-		m_needReadings = true;
 	}
 
 	/***
@@ -93,6 +80,5 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	 */
 	public void translate(float _distance) {
 		m_pose.moveUpdate(_distance);
-		m_needReadings = true;
 	}
 }

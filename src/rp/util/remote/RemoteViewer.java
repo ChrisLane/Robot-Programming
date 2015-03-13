@@ -48,7 +48,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 	public RemoteViewer(IGridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
 		vis = new GridMapVisualisation(gridMap, lineMap, scale, flip);
-		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f }, 5, 240, 255, null);
+		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
 		conn = new NXTConnector();
 
