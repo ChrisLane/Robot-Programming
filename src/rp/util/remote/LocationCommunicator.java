@@ -9,14 +9,13 @@ import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.pc.comm.NXTCommException;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Queue;
 
 public class LocationCommunicator extends Thread {
 	private BTConnection bt;
-	private DataInputStream is;
+	// private DataInputStream is;
 	private DataOutputStream os;
 
 	private Queue<RobotPacket<?>> toSend;
@@ -36,7 +35,7 @@ public class LocationCommunicator extends Thread {
 			throw new NXTCommException("An error connecting to the LocationCommunicator");
 		LCD.clear();
 
-		is = bt.openDataInputStream();
+		// is = bt.openDataInputStream();
 		os = bt.openDataOutputStream();
 
 		setPriority(MAX_PRIORITY);
@@ -58,9 +57,9 @@ public class LocationCommunicator extends Thread {
 				try {
 					wait();
 				}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 
 			synchronized (os) {
 				if (bt == null)
@@ -70,7 +69,10 @@ public class LocationCommunicator extends Thread {
 					dat.write(os);
 					os.flush();
 					if (dat instanceof DisconnectPacket) {
-						// TODO: Clean up resources after disconnect
+						os.close();
+						bt.close();
+						isRunning = false;
+						break;
 					}
 				}
 				catch (IOException e) {
