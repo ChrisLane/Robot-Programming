@@ -6,15 +6,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PosePacket implements RobotPacket<Pose> {
-	public static final byte IDENTIFIER = 1;
-	private final Pose p;
+public class PosePacket extends RobotPacket<Pose> {
+	public static final byte ID = 10;
 
-	public PosePacket(Pose p) {
-		this.p = p;
+	public PosePacket(Pose pose) {
+		super(pose);
 	}
 	public PosePacket(DataInputStream is) throws IOException {
-		p = read(is);
+		super(is);
 	}
 
 	@Override
@@ -23,12 +22,9 @@ public class PosePacket implements RobotPacket<Pose> {
 	}
 	@Override
 	public void write(DataOutputStream os) throws IOException {
-		os.writeByte(IDENTIFIER);
-		os.writeFloat(p.getX());
-		os.writeFloat(p.getY());
-		os.writeFloat(p.getHeading());
-	}
-	public Pose getPose() {
-		return p;
+		os.writeByte(ID);
+		os.writeFloat(data.getX());
+		os.writeFloat(data.getY());
+		os.writeFloat(data.getHeading());
 	}
 }

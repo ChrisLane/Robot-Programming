@@ -4,15 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class UltrasonicDistancePacket implements RobotPacket<Float> {
-	public static final byte IDENTIFIER = 2;
-	private final float f;
+public class UltrasonicDistancePacket extends RobotPacket<Float> {
+	public static final byte ID = 2;
 
-	public UltrasonicDistancePacket(float distance) {
-		f = distance;
+	public UltrasonicDistancePacket(float range) {
+		super(range);
 	}
 	public UltrasonicDistancePacket(DataInputStream is) throws IOException {
-		f = read(is);
+		super(is);
 	}
 
 	@Override
@@ -21,10 +20,7 @@ public class UltrasonicDistancePacket implements RobotPacket<Float> {
 	}
 	@Override
 	public void write(DataOutputStream os) throws IOException {
-		os.writeByte(IDENTIFIER);
-		os.writeFloat(f);
-	}
-	public float getDistance() {
-		return f;
+		os.writeByte(ID);
+		os.writeFloat(data);
 	}
 }

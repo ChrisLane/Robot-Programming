@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConsolePacket extends RobotPacket<ConsoleEntry> {
-	public static final byte ID = 127;
+	public static final byte ID = 1;
 
 	public ConsolePacket(ConsoleEntry entry) {
 		super(entry);
@@ -26,7 +26,6 @@ public class ConsolePacket extends RobotPacket<ConsoleEntry> {
 		os.writeShort(data.length);
 		os.write(data.text.getBytes());
 	}
-
 	@Override
 	public ConsoleEntry read(DataInputStream is) throws IOException {
 		boolean err = is.readBoolean();
@@ -35,6 +34,7 @@ public class ConsolePacket extends RobotPacket<ConsoleEntry> {
 		is.read(text, 0, length);
 		return length == 0 ? null : new ConsoleEntry(new String(text), length, err);
 	}
+
 	@Override
 	public String toString() {
 		return data == null ? "" : (data.err ? "ConsoleErr> " : "Console> ") + data.text;
