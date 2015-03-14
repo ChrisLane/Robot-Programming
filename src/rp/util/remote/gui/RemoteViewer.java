@@ -1,13 +1,15 @@
 package rp.util.remote.gui;
 
 import rp.exercise.ex4.mapping.GridMap;
+import rp.robotics.localisation.GridPositionDistribution;
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
-import rp.robotics.visualisation.GridMapVisualisation;
+import rp.robotics.visualisation.GridPositionDistributionVisualisation;
 import rp.util.remote.RemoteRobot;
 import rp.util.remote.packet.ConsolePacket;
 import rp.util.remote.packet.DisconnectPacket;
+import rp.util.remote.packet.PathPacket;
 import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.UltrasonicDistancePacket;
 
@@ -22,7 +24,7 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
-	private GridMapVisualisation vis;
+	private GridPositionDistributionVisualisation vis;
 	private ConsolePane console;
 	private RemoteRobot robot;
 
@@ -35,7 +37,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 
 	public RemoteViewer(IGridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
-		vis = new GridMapVisualisation(gridMap, lineMap, scale, flip);
+		vis = new GridPositionDistributionVisualisation(new GridPositionDistribution(gridMap), lineMap, scale, flip);
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
 		conn = new NXTConnector();
@@ -55,16 +57,18 @@ public class RemoteViewer extends JFrame implements Runnable {
 		while (true)
 			try {
 				switch (is.readByte()) {
-					case PosePacket.IDENTIFIER:
-						robot.setPose(new PosePacket(is).getPose());
+					case PosePacket.ID:
+						robot.setPose(new PosePacket(is).getData());
 						break;
-					case UltrasonicDistancePacket.IDENTIFIER:
-						robot.setRange(0, new UltrasonicDistancePacket(is).getDistance());
+					case UltrasonicDistancePacket.ID:
+						robot.setRange(0, new UltrasonicDistancePacket(is).getData());
 						break;
-					case ConsolePacket.IDENTIFIER:
+					case PathPacket.ID:
+						vis.setPath(new PathPacket(is).getData());
+					case ConsolePacket.ID:
 						System.out.println(new ConsolePacket(is));
 						break;
-					case DisconnectPacket.IDENTIFIER:
+					case DisconnectPacket.ID:
 						System.out.println("> NXT Disconnected...");
 						// TODO: Test reconnection
 						start();
@@ -73,18 +77,18 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;		// Do nothing here
 				}
 			}
-		catch (IOException e) {
-			e.printStackTrace();
-			try {
-				System.out.println("Connection Closed");
-				conn.close();
-			}
-			catch (IOException e1) {
-				e1.printStackTrace();
+			catch (IOException e) {
+				e.printStackTrace();
+				try {
+					System.out.println("Connection Closed");
+					conn.close();
+				}
+				catch (IOException e1) {
+					e1.printStackTrace();
+					break;
+				}
 				break;
 			}
-			break;
-		}
 	}
 	public void start() {
 		setVisible(true);
@@ -97,7 +101,6 @@ public class RemoteViewer extends JFrame implements Runnable {
 		}
 		else
 			System.exit(1);
-
 	}
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
