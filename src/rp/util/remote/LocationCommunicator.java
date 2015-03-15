@@ -6,9 +6,11 @@ import rp.util.remote.packet.RobotPacket;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
-import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
+import lejos.nxt.comm.NXTConnection;
+import lejos.nxt.comm.USB;
 import lejos.pc.comm.NXTCommException;
+import lejos.util.Delay;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.util.Queue;
 
 public class LocationCommunicator extends Thread implements PacketSender {
-	private BTConnection bt;
+	private NXTConnection conn;
 	private DataInputStream is;
 	private DataOutputStream os;
 
@@ -33,16 +35,17 @@ public class LocationCommunicator extends Thread implements PacketSender {
 
 		LCD.clear();
 		LCD.drawString("Connect to\n     Viewer", 3, 3);
-		bt = Bluetooth.waitForConnection();
+
+		getConnection();
 
 		byte[] handshake = new byte[4];
-		int size = bt.read(handshake, handshake.length);
+		int size = conn.read(handshake, handshake.length);
 		if (handshake[0] != 'L' || handshake[1] != 'C' || handshake[2] != 'V' || size != 3)
 			throw new NXTCommException("An error connecting to the LocationCommunicator");
 		LCD.clear();
 
-		is = bt.openDataInputStream();
-		os = bt.openDataOutputStream();
+		is = conn.openDataInputStream();
+		os = conn.openDataOutputStream();
 		os.writeInt((is.readInt() + 1) >> 2);	// Reply with copyMe + 1 >> 2
 
 		setPriority(MAX_PRIORITY);
@@ -59,6 +62,44 @@ public class LocationCommunicator extends Thread implements PacketSender {
 		notifyAll();
 	}
 
+	private static class ConnectThread extends Thread {
+		ConnectThread other;
+		boolean done = false;
+	}
+	// Implementation taken from RConsole
+	private void getConnection() {
+		// Connect to either a Bluetooth or USB connection/**
+		ConnectThread usbThread, btThread = new ConnectThread() {
+			@Override
+			public void run() {
+				conn = Bluetooth.waitForConnection();
+				done = true;
+				while (!other.done)
+					USB.cancelConnect();
+			}
+		};
+		usbThread = new ConnectThread() {
+			@Override
+			public void run() {
+				conn = USB.waitForConnection();
+				done = true;
+				while (!other.done)
+					Bluetooth.cancelConnect();
+			}
+		};
+		btThread.other = usbThread;
+		usbThread.other = btThread;
+		btThread.start();
+		usbThread.start();
+		Delay.msDelay(10);
+		try {
+			btThread.join();
+			usbThread.join();
+		}
+		catch (InterruptedException e) {
+		}
+	}
+
 	@Override
 	public synchronized void run() {
 		while (isRunning) {
@@ -71,7 +112,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 			}
 
 			synchronized (os) {
-				if (bt == null)
+				if (conn == null)
 					break;
 				try {
 					RobotPacket<?> dat = (RobotPacket<?>) toSend.pop();
@@ -79,14 +120,14 @@ public class LocationCommunicator extends Thread implements PacketSender {
 					os.flush();
 					if (dat instanceof DisconnectPacket) {
 						os.close();
-						bt.close();
+						conn.close();
 						isRunning = false;
 						break;
 					}
 				}
 				catch (IOException e) {
 					try {
-						bt.openOutputStream().write(e.getMessage().getBytes());
+						conn.openOutputStream().write(e.getMessage().getBytes());
 					}
 					catch (IOException e1) {
 						e1.printStackTrace();
