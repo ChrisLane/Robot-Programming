@@ -8,9 +8,9 @@ import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 
 /**
- * A simple simulated robot for testing.
+ * A remote robot for testing.
  *
- * @author nah
+ * @author frebib
  */
 public class RemoteRobot implements LocalisedRangeScanner {
 
