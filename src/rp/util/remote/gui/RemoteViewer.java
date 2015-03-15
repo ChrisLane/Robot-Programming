@@ -18,6 +18,7 @@ import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -33,7 +34,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 
 	private NXTConnector conn;
 	private DataInputStream is;
-	// private DataOutputStream os;
+	private DataOutputStream os;
 
 	public RemoteViewer(IGridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
@@ -71,7 +72,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 					case DisconnectPacket.ID:
 						System.out.println("> NXT Disconnected...");
 						// TODO: Test reconnection
-						start();
+						start(conn.getNXTInfo().name);
 						break;
 					default:
 						break;		// Do nothing here
@@ -91,13 +92,16 @@ public class RemoteViewer extends JFrame implements Runnable {
 			}
 	}
 	public void start() {
-		setVisible(true);
-		conn = connect.getConnection();
+		start("");
+	}
+	public void start(String name) {
+		conn = connect.getConnection(name);
 		// TODO: Test if this works when connected
 		if (conn.getNXTComm() != null) {
 			is = new DataInputStream(conn.getInputStream());
-			// os = new DataOutputStream(conn.getOutputStream());
-			receiveThread.start();
+			os = new DataOutputStream(conn.getOutputStream());
+			if (!receiveThread.isAlive())
+				receiveThread.start();
 		}
 		else
 			System.exit(1);
@@ -105,6 +109,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
 		RemoteViewer rv = new RemoteViewer(new GridMap(12, 8, 15, 15, 30, lineMap), lineMap, 820, 600, 2, true);
-		rv.start();
+		rv.setVisible(true);
+		rv.start("GeoffBot");
 	}
 }

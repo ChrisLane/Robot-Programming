@@ -27,7 +27,6 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class ConnectWindow extends JDialog implements ActionListener {
 	private ConnectWindow dialog = this;
-	private Window parent;
 	private JLabel label;
 	private JTextField input;
 	private JButton btn;
@@ -43,9 +42,7 @@ public class ConnectWindow extends JDialog implements ActionListener {
 
 		conn = new NXTConnector();
 
-		init();
-	}
-	private void init() {
+		// Window initialisation
 		KeyListener esc = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -66,8 +63,7 @@ public class ConnectWindow extends JDialog implements ActionListener {
 
 		label = new JLabel("Enter Name of NXT");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		input = new JTextField("GeoffBot");
-		input.setCaretPosition(input.getText().length());
+		input = new JTextField();
 		input.addKeyListener(esc);
 
 		btn = new JButton("Connect");
@@ -81,10 +77,14 @@ public class ConnectWindow extends JDialog implements ActionListener {
 		add(panel);
 		pack();
 		setMinimumSize(new Dimension((int) (panel.getPreferredSize().width * 1.4), panel.getPreferredSize().height));
+		setResizable(false);
 		setLocationRelativeTo(parent);
 	}
-	public NXTConnector getConnection() {
+	public NXTConnector getConnection(String name) {
 		setVisible(true);
+		input.setText(name);
+		input.setCaretPosition(name.length());
+
 		return conn;
 	}
 
