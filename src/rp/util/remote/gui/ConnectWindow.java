@@ -104,7 +104,7 @@ public class ConnectWindow extends JDialog implements ActionListener {
 						os.write(new byte[] { 'L', 'C', 'V' });
 						os.write(copyMe);
 						os.flush();
-						if (is.readInt() != copyMe + 1)
+						if (is.readInt() != (copyMe + 1) >> 2)
 							throw new NXTCommException("The reply was unexpected and was likely sent from another progrcam");
 					}
 					catch (IOException ex) {

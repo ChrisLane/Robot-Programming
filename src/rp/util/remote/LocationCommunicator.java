@@ -10,13 +10,14 @@ import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.pc.comm.NXTCommException;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Queue;
 
 public class LocationCommunicator extends Thread implements PacketSender {
 	private BTConnection bt;
-	// private DataInputStream is;
+	private DataInputStream is;
 	private DataOutputStream os;
 
 	private Queue<RobotPacket<?>> toSend;
@@ -34,14 +35,15 @@ public class LocationCommunicator extends Thread implements PacketSender {
 		LCD.drawString("Connect to\n     Viewer", 3, 3);
 		bt = Bluetooth.waitForConnection();
 
-		byte[] handshake = new byte[32];
+		byte[] handshake = new byte[4];
 		int size = bt.read(handshake, handshake.length);
 		if (handshake[0] != 'L' || handshake[1] != 'C' || handshake[2] != 'V' || size != 3)
 			throw new NXTCommException("An error connecting to the LocationCommunicator");
 		LCD.clear();
 
-		// is = bt.openDataInputStream();
+		is = bt.openDataInputStream();
 		os = bt.openDataOutputStream();
+		os.writeInt((is.readInt() + 1) >> 2);	// Reply with copyMe + 1 >> 2
 
 		setPriority(MAX_PRIORITY);
 		setDaemon(true);
