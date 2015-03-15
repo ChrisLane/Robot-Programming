@@ -107,9 +107,9 @@ public class LocationCommunicator extends Thread implements PacketSender {
 				try {
 					wait();
 				}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 
 			synchronized (os) {
 				if (conn == null)
@@ -127,7 +127,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 				}
 				catch (IOException e) {
 					try {
-						conn.openOutputStream().write(e.getMessage().getBytes());
+						os.write(e.getMessage().getBytes());
 					}
 					catch (IOException e1) {
 						e1.printStackTrace();
