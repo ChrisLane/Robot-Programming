@@ -17,11 +17,11 @@ import lejos.pc.comm.NXTConnector;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
@@ -43,7 +43,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 		vis.addRobot(robot);
 		conn = new NXTConnector();
 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		add(vis);
 		setSize(width, height);
 		setLocationRelativeTo(null);

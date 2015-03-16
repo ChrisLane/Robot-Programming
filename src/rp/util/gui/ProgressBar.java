@@ -35,7 +35,7 @@ public class ProgressBar {
 		drawBar(0, val);
 	}
 	private void drawLabel() {
-		LCD.drawString(label, (LCD.DISPLAY_CHAR_WIDTH - label.length()) + 1 / 2, 2);
+		LCD.drawString(label, (LCD.DISPLAY_CHAR_WIDTH - label.length()), 2);
 	}
 	private void drawBar(int from, int to) {
 		for (int y = Y + 1; y < Y + HEIGHT; y++)

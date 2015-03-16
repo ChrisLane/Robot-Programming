@@ -24,7 +24,7 @@ public abstract class RobotPacket<E> {
 	 *
 	 * @param is Stream to parse data from
 	 * @return Data parsed from Stream
-	 * @throws IOExceptionException in reading from the stream
+	 * @throws IOException in reading from the stream
 	 */
 	protected abstract E read(DataInputStream is) throws IOException;
 	/**

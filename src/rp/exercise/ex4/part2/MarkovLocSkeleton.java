@@ -140,9 +140,6 @@ public class MarkovLocSkeleton {
 
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
 		IGridMap gridMap = new NicksGridMap(12, 8, 15, 15, 30, lineMap);
