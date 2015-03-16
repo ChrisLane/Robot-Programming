@@ -96,7 +96,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 			btThread.join();
 			usbThread.join();
 		}
-		catch (InterruptedException e) {
+		catch (InterruptedException ignored) {
 		}
 	}
 
