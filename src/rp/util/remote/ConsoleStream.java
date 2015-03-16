@@ -10,7 +10,7 @@ public class ConsoleStream extends PrintStream {
 	private boolean err;
 
 	public ConsoleStream(PacketSender ps) {
-		super(null);		// TODO: Test to see if need an OutputStream. It isn't used here
+		super(null);
 		this.ps = ps;
 		err = false;
 	}
