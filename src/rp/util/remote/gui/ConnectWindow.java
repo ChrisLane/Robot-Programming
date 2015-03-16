@@ -1,6 +1,5 @@
 package rp.util.remote.gui;
 
-import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTConnector;
 
@@ -11,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -97,15 +95,15 @@ public class ConnectWindow extends JDialog implements ActionListener {
 				btn.setEnabled(false);
 				if (conn.connectTo(input.getText(), null, NXTCommFactory.BLUETOOTH)) {
 					DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-					DataInputStream is = new DataInputStream(conn.getInputStream());
+					// DataInputStream is = new DataInputStream(conn.getInputStream());
 					try {
 						// Some random value that is unlikely to be sent in reply
-						int copyMe = (int) (System.nanoTime() << 8 ^ System.currentTimeMillis() >>> 3);
+						// int copyMe = (int) (System.nanoTime() << 8 ^ System.currentTimeMillis() >>> 3);
 						os.write(new byte[] { 'L', 'C', 'V' });
-						os.write(copyMe);
+						// os.write(copyMe);
 						os.flush();
-						if (is.readInt() != (copyMe + 1) >> 2)
-							throw new NXTCommException("The reply was unexpected and was likely sent from another progrcam");
+						// if (is.readInt() != (copyMe + 1) >> 2)
+						// throw new NXTCommException("The reply was unexpected and was likely sent from another progrcam");
 					}
 					catch (IOException ex) {
 						JOptionPane.showMessageDialog(dialog, "There was an unexpected I/O error handshaking with the robot. Please try again", "I/O Error", JOptionPane.ERROR_MESSAGE);
