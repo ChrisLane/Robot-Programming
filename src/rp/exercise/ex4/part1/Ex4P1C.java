@@ -17,9 +17,8 @@ import search.SearchProgress;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
-import lejos.pc.comm.NXTCommException;
+import lejos.nxt.LCD;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Ex4P1C extends RunSystem implements SearchProgress, ButtonListener {
@@ -38,10 +37,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, ButtonListener 
 		locationComm = new LocationCommunicator();
 		try {
 			locationComm.connect();
-		} catch (NXTCommException e) {
-			e.printStackTrace();
-			System.exit(1);
-		} catch (IOException e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -54,15 +51,15 @@ public class Ex4P1C extends RunSystem implements SearchProgress, ButtonListener 
 		Node<Coordinate> goal = gridMap.getNodeAt(11, 7);
 		path = AStar.findPathFrom(start, goal, SearchFunction.euclidean, SearchFunction.manhattan, this);
 		path.remove(0);
+		LCD.clear();
 
 		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, start, Heading.UP, locationComm);
 		traverser.start();
 	}
-
 	@Override
 	public void progressMade(float percent) {
 		progress.setProgress((int) (percent * 100));
-		// locationComm.send(new ConsolePacket("Search progress: " + (int) (percent * 100)));
+		// System.out.println("Search progress: " + (int) (percent * 100));
 	}
 	@Override
 	public void buttonReleased(Button b) {
@@ -72,6 +69,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, ButtonListener 
 		try {
 			traverser.stop();
 			locationComm.disconnect(0);
+			locationComm.stop();
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
