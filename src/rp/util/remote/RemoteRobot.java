@@ -22,9 +22,6 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	 * @param _pose The initial pose of the robot
 	 * @param _map The map on which the robot exists
 	 * @param _readingAngles The angles to take readings from, relative to 0 for this robot
-	 * @param _sensorMaxRange Minimum sensor reading to return
-	 * @param _sensorMinRange Maximum sensor reading to return
-	 * @param _sensorOfOutRange The value to return if the sensor would fall outside the max or min values.
 	 */
 	public RemoteRobot(Pose _pose, LineMap _map, float[] _readingAngles) {
 		m_pose = _pose;
@@ -67,7 +64,7 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	/***
 	 * Rotate the robot by this angle.
 	 *
-	 * @param _angle
+	 * @param _angle Amgle to rotate the robot
 	 */
 	public void rotate(int _angle) {
 		m_pose.rotateUpdate(_angle);
@@ -76,7 +73,7 @@ public class RemoteRobot implements LocalisedRangeScanner {
 	/***
 	 * Move the robot forward by this amount. Currently does not collision checking.
 	 *
-	 * @param _junctionSeparation
+	 * @param _distance Distance to move the robot to next intersection.
 	 */
 	public void translate(float _distance) {
 		m_pose.moveUpdate(_distance);
