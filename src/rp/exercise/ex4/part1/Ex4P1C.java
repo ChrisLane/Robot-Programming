@@ -38,8 +38,10 @@ public class Ex4P1C extends RunSystem implements SearchProgress, ButtonListener 
 		locationComm = new LocationCommunicator();
 		try {
 			locationComm.connect();
-		}
-		catch (NXTCommException | IOException e) {
+		} catch (NXTCommException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
