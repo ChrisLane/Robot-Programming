@@ -17,11 +17,12 @@ import lejos.pc.comm.NXTConnector;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
@@ -67,7 +68,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
 					case ConsolePacket.ID:
-						System.out.println(new ConsolePacket(is));
+						System.out.print(new ConsolePacket(is));
 						break;
 					case DisconnectPacket.ID:
 						System.out.println("> NXT Disconnected...");
