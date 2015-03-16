@@ -9,9 +9,9 @@ import search.Coordinate;
 import search.Node;
 import search.SearchFunction;
 
-import java.util.List;
-
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import java.util.List;
 
 public class Ex4P1A {
 	private JFrame frame;
@@ -31,7 +31,7 @@ public class Ex4P1A {
 		mapVis.setPath(path);
 
 		frame = new JFrame("Map Viewer");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(mapVis);
 		frame.setSize(820, 600);
 		frame.setLocationRelativeTo(null);
