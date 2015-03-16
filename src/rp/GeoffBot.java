@@ -17,7 +17,7 @@ public class GeoffBot {
 
 	// GeoffBot settings
 	static {
-		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.C, Motor.B);
+		diffPilot = new DifferentialPilot(WHEELDIAMETER, TRACKWIDTH, Motor.B, Motor.C);
 		diffPilot.setTravelSpeed(20);
 		diffPilot.setRotateSpeed(60);
 		Bluetooth.setFriendlyName("GeoffBot");
