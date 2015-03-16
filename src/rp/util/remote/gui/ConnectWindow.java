@@ -81,9 +81,9 @@ public class ConnectWindow extends JDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 	}
 	public NXTConnector getConnection(String name) {
-		setVisible(true);
 		input.setText(name);
 		input.setCaretPosition(name.length());
+		setVisible(true);
 
 		return conn;
 	}
