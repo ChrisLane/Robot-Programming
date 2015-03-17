@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class UltrasonicDistancePacket extends RobotPacket<Float> {
-	public static final byte ID = 2;
+	public static final byte ID = 11;
 
 	public UltrasonicDistancePacket(float range) {
 		super(range);
