@@ -41,7 +41,6 @@ public class GridMap implements IGridMap {
 			addSuccessor(node, 1, 0);
 			addSuccessor(node, -1, 0);
 		}
-		System.out.println();
 	}
 
 	private void addSuccessor(Node<Coordinate> n, int dx, int dy) {
