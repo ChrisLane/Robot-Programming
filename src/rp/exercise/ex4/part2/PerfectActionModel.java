@@ -19,12 +19,15 @@ public class PerfectActionModel implements ActionModel {
 	public GridPositionDistribution updateAfterMove(GridPositionDistribution from, Heading heading) {
 		// Create the new distribution that will result from applying the action model
 		GridPositionDistribution to = new GridPositionDistribution(from);
-
+		
 		// iterate through points updating as appropriate
-		for (int y = 1; y < to.getGridHeight() -1  ; y++)			//1 to -1 sets the boundaries correctly so you can never get positions out the map.
-			for (int x = 1; x < to.getGridWidth() -1  ; x++)
+		for (int y = 0; y < to.getGridHeight(); y++)			
+			for (int x = 0; x < to.getGridWidth(); x++){
+				Coordinate hd = heading.toCoordinate();
+				int dx = x - hd.x;
+				int dy = y - hd.y;
 				// make sure to respect obstructed grid points
-				if (to.isValidGridPosition(x, y)) {
+				if (from.isValidGridPosition(dx, dy) /**&& from.isValidTransition(x, y, dx, dy)**/ ) {
 
 					// the action model should work out all of the different
 					// ways (x,y) in the to grid could've been reached based on
@@ -39,11 +42,11 @@ public class PerfectActionModel implements ActionModel {
 					// The below code does now translate the value
 					
 					// position before move
-					Coordinate hd = heading.toCoordinate();
 
 					// set probability for position after move
-					to.setProbability(x, y, from.getProbability(x - hd.x, y - hd.y));
+					to.setProbability(dx, dy, from.getProbability(x, y));
 				}
+			}
 		to.normalise();
 		return to;
 	}
