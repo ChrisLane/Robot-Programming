@@ -5,7 +5,7 @@ import rp.listener.LineListener;
 import rp.robotics.mapping.Heading;
 import rp.sensor.BlackLineSensor;
 import rp.util.RunSystem;
-import rp.util.remote.LocationCommunicator;
+import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.UltrasonicDistancePacket;
 import search.Coordinate;
@@ -22,8 +22,10 @@ import java.util.List;
 public class PathFollower extends RunSystem implements LineListener {
 	private final DifferentialPilot pilot;
 	private final OdometryPoseProvider poseProv;
-	private final LocationCommunicator lc;
 	private Pose pose;
+
+	private final RemoteCommunicator lc;
+	private final PathEvents listener;
 
 	private BlackLineSensor lsLeft, lsRight;
 	private RangeFinder rangeFinder;
@@ -33,12 +35,13 @@ public class PathFollower extends RunSystem implements LineListener {
 	private Node<Coordinate> location, target;
 	private List<Node<Coordinate>> path;
 	private Heading facing;
-	private boolean leftOnLine, rightOnLine, onIntersection, reversing;
+	private boolean leftOnLine, rightOnLine, onIntersection;
 	private byte pathCount;
 
-	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Node<Coordinate> location, Heading facing, LocationCommunicator locationComm) {
+	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
 		followThread = new Thread(this);
 
+		this.listener = listener;
 		lc = locationComm;
 
 		this.pilot = pilot;
@@ -46,14 +49,14 @@ public class PathFollower extends RunSystem implements LineListener {
 		this.facing = facing;
 
 		pathCount = 0;
-		this.location = location;
+		location = path.get(pathCount++);
 		target = path.get(pathCount++);
 
 		leftOnLine = true;
 		rightOnLine = true;
 
 		poseProv = new OdometryPoseProvider(pilot);
-		pose = new Pose(location.payload.x * 30 + 15, location.payload.y * 30 + 15, 0);
+		pose = new Pose(location.payload.x * 30 + 15, location.payload.y * 30 + 15, facing.toDegrees() + 90);
 		poseProv.setPose(pose);
 
 		int lightThreshold = 75;
@@ -82,75 +85,51 @@ public class PathFollower extends RunSystem implements LineListener {
 		turnToTarget();
 
 		while (isRunning) {
-			// Update Pose remotely
-			lc.send(new PosePacket(pose));
-
 			// Get range reading from US sensor & send it to the viewer
 			float range = rangeFinder.getRange();
 			lc.send(new UltrasonicDistancePacket(range));
+			lc.send(new PosePacket(poseProv.getPose(), 1));
 
-			// Robot is now on an intersection, adjust robot to next position
 			if (leftOnLine && rightOnLine && !onIntersection) {
 				onIntersection = true;
-				if (reversing)
-					continue;
-				if (path.size() <= pathCount)
+				if (pathCount >= path.size()) {
+					listener.pathComplete();
 					return;
+				}
 
-				intersectionHit(true);
+				intersectionHit();
 			}
-
-			// Robot is no longer on an intersection
-			else if (!leftOnLine && !rightOnLine && onIntersection)
+			else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
 
-			// Adjust robot to stay on the line
-			if (leftOnLine && !rightOnLine) {
-				if (!reversing)
-					pilot.arcForward(-30);
-				else
-					pilot.arcBackward(-30);
-			}
-			else if (rightOnLine && !leftOnLine)
-				if (!reversing)
-					pilot.arcForward(30);
-				else
-					pilot.arcBackward(30);
-
-			// Reversed to an intersection, create and use a new path
-			if (onIntersection && reversing)
-				reversing = false;
-			else if (range < 10 && !reversing) {
-				reversing = true;
-				pilot.backward();
-			}
-			// Default: travel forwards
-			else if (!reversing)
+			if (leftOnLine)
+				pilot.arcForward(40);
+			else if (rightOnLine)
+				pilot.arcForward(-40);
+			else
 				pilot.forward();
 
 		}
 	}
-	public void intersectionHit(boolean moveForward) {
-		location = target; // TODO: Should this be here instead?
+	public void intersectionHit() {
+		location = target;
 		target = path.get(pathCount++);
 
+		pilot.travel(2.9);	// Moves forward to align wheels with intersection
 		turnToTarget();
-		if (moveForward)
-			pilot.travel(2.8);
 
-		// TODO: WHY DOES THIS WORK? IT SHOULDN'T BE HERE!
-		// location = target;
-
-		pose.setLocation(target.payload.y * 30 + 15, target.payload.x * 30 + 15);
+		// Update Pose remotely
+		pose.setLocation(target.payload.x * 30 + 15, target.payload.y * 30 + 15);
+		lc.send(new PosePacket(pose, 0));
 	}
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location.payload, target.payload);
 		if (heading != Heading.UP)
-			pilot.rotate(heading.toDegrees());
+			pilot.rotate(-heading.toDegrees());
 		facing = facing.add(heading);
 		pose.setHeading(facing.toDegrees());
+		poseProv.setPose(new Pose(pose.getX(), -pose.getY(), pose.getHeading()));
 	}
-
 	@Override
 	public void lineChanged(BlackLineSensor sensor, boolean onLine, int lightValue) {
 		if (sensor == lsLeft)
