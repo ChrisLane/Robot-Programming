@@ -15,8 +15,6 @@ public class ProgressBar {
 	public ProgressBar(String label, int initalValue) {
 		this.label = label;
 		progress = (byte) initalValue;
-
-		redraw();
 	}
 
 	public void setLabel(String label) {
@@ -28,7 +26,7 @@ public class ProgressBar {
 		this.progress = (byte) progress;
 		drawBar((int) (oldVal * PERCENT), (int) (progress * PERCENT));
 	}
-	private void redraw() {
+	public void render() {
 		drawLabel();
 		drawOutline();
 		int val = (int) (progress * PERCENT);
