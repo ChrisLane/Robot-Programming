@@ -12,7 +12,6 @@ import rp.util.gui.ProgressBar;
 import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PathPacket;
 import search.Coordinate;
-import search.DepthFirst;
 import search.Node;
 import search.SearchProgress;
 
@@ -25,6 +24,7 @@ import java.util.List;
 public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	private RPLineMap lineMap;
 	private GridMap gridMap;
+	private Node<Coordinate> startNode, goalNode;
 
 	private RemoteCommunicator locationComm;
 	private PathFollower traverser;
@@ -35,9 +35,14 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	private Coordinate startPos;
 	private Coordinate goalPos;
 
+	public Ex4P1C(GridMap gridMap, Coordinate start, Coordinate goal) {
+		this.gridMap = gridMap;
+		startNode = gridMap.getNodeAt(start.x, start.y);
+		goalNode = gridMap.getNodeAt(goal.x, goal.y);
+		locationComm = new RemoteCommunicator();
+	}
 	@Override
 	public void run() {
-		locationComm = new RemoteCommunicator();
 		try {
 			locationComm.connect();
 		}
@@ -45,44 +50,32 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		lineMap = MapUtils.create2015Map1();
-		gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
+		pathTo(startNode, goalNode, Heading.UP);
+	}
+	private void pathTo(Node<Coordinate> a, Node<Coordinate> b, Heading facing) {
 		progress = new ProgressBar("Finding Path", 0);
 
-		startPos = new Coordinate(0, 0);
-		goalPos = new Coordinate(11, 7);
-		Node<Coordinate> start = gridMap.getNodeAt(startPos.getX(), startPos.getY());
-		Node<Coordinate> goal = gridMap.getNodeAt(goalPos.getX(), goalPos.getY());
-		path = DepthFirst.findPathFrom(start, goal, this);// , SearchFunction.euclidean, SearchFunction.manhattan, this);
 		locationComm.send(new PathPacket(path));
 		LCD.clear();
 
-		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, Heading.UP, this, locationComm);
+		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, facing, this, locationComm);
 		traverser.start();
 	}
+
 	@Override
 	public void progressMade(float percent) {
 		progress.setProgress((int) (percent * 100));
 	}
 
 	@Override
-	public void pathInterrupted(Pose location, Node<Coordinate> obstacleNode) {
-		System.out.println("Interrupted at " + location);
+	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
+		System.out.println("Interrupted at " + pose);
 
-		Node<Coordinate> currentNode = gridMap.getNodeAt((int) location.getX(), (int) location.getY());
-		gridMap.removeSuccessor(currentNode, obstacleNode);
+		Heading facing = Heading.getCompass((int) pose.getHeading());
+		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
 
-		// New search using gridmap without obstacle link
-		Node<Coordinate> start = gridMap.getNodeAt(currentNode.getPayload().getX(), currentNode.getPayload().getY());
-		Node<Coordinate> goal = gridMap.getNodeAt(goalPos.getX(), goalPos.getY());
-		path = DepthFirst.findPathFrom(start, goal, this);
+		pathTo(location, goalNode, facing);
 
-		locationComm.send(new PathPacket(path));
-		LCD.clear();
-
-		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, Heading.UP, this, locationComm);
-		traverser.start();
 	}
 	@Override
 	public void pathComplete() {
@@ -106,7 +99,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	}
 
 	public static void main(String[] args) {
-		Ex4P1C exercise = new Ex4P1C();
+		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, MapUtils.create2015Map1());
+		Ex4P1C exercise = new Ex4P1C(gridMap, new Coordinate(0, 0), new Coordinate(11, 7));
 		exercise.run();
 	}
 }
