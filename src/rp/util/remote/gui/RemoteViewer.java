@@ -28,7 +28,7 @@ import javax.swing.WindowConstants;
 public class RemoteViewer extends JFrame implements Runnable {
 	private GridPositionDistributionVisualisation vis;
 	private ConsolePane console;
-	private RemoteRobot robot;
+	private RemoteRobot robot, odomRobot;
 
 	private Thread receiveThread;
 	private ConnectWindow connect;
@@ -41,15 +41,14 @@ public class RemoteViewer extends JFrame implements Runnable {
 		super("Remote Robot Viewer");
 		vis = new GridPositionDistributionVisualisation(new GridPositionDistribution(gridMap), lineMap, scale, flip);
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
+		odomRobot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
-		conn = new NXTConnector();
+		vis.addRobot(odomRobot);
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		add(vis);
 		setSize(width, height);
 		setLocationRelativeTo(null);
-
-		connect = new ConnectWindow(this, "Connect");
 
 		receiveThread = new Thread(this, "Receive Thread");
 		receiveThread.setDaemon(true);
@@ -60,10 +59,16 @@ public class RemoteViewer extends JFrame implements Runnable {
 			try {
 				switch (is.readByte()) {
 					case PosePacket.ID:
-						robot.setPose(new PosePacket(is).getData());
+						PosePacket p = new PosePacket(is);
+						if (p.robotID == 0)
+							robot.setPose(p.getData());
+						else if (p.robotID == 1)
+							odomRobot.setPose(p.getData());
 						break;
 					case UltrasonicDistancePacket.ID:
-						robot.setRange(0, new UltrasonicDistancePacket(is).getData());
+						float range = new UltrasonicDistancePacket(is).getData();
+						robot.setRange(0, range);
+						odomRobot.setRange(0, range);
 						break;
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
@@ -71,8 +76,8 @@ public class RemoteViewer extends JFrame implements Runnable {
 						System.out.print(new ConsolePacket(is));
 						break;
 					case DisconnectPacket.ID:
-						System.out.println("> NXT Disconnected...");
-						// TODO: Test reconnection
+						System.out.print("> NXT Disconnected... ");
+						System.out.println("Exit Code: " + is.readByte());
 						start(conn.getNXTInfo().name);
 						break;
 					default:
@@ -84,6 +89,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 				try {
 					System.out.println("Connection Closed");
 					conn.close();
+					System.exit(0);
 				}
 				catch (IOException e1) {
 					e1.printStackTrace();
@@ -96,6 +102,11 @@ public class RemoteViewer extends JFrame implements Runnable {
 		start("");
 	}
 	public void start(String name) {
+		connect = new ConnectWindow(this, "Connect");
+		robot.setPose(new Pose());
+		odomRobot.setPose(new Pose());
+		vis.setPath(null);
+
 		conn = connect.getConnection(name);
 		// TODO: Test if this works when connected
 		if (conn.getNXTComm() != null) {
