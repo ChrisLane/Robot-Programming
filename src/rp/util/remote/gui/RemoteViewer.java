@@ -84,19 +84,19 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;		// Do nothing here
 				}
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-				try {
-					System.out.println("Connection Closed");
-					conn.close();
-					System.exit(0);
-				}
-				catch (IOException e1) {
-					e1.printStackTrace();
-					break;
-				}
+		catch (IOException e) {
+			e.printStackTrace();
+			try {
+				System.out.println("Connection Closed");
+				conn.close();
+				System.exit(0);
+			}
+			catch (IOException e1) {
+				e1.printStackTrace();
 				break;
 			}
+			break;
+		}
 	}
 	public void start() {
 		start("");
@@ -108,7 +108,6 @@ public class RemoteViewer extends JFrame implements Runnable {
 		vis.setPath(null);
 
 		conn = connect.getConnection(name);
-		// TODO: Test if this works when connected
 		if (conn.getNXTComm() != null) {
 			is = new DataInputStream(conn.getInputStream());
 			os = new DataOutputStream(conn.getOutputStream());
