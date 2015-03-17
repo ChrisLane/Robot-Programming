@@ -44,8 +44,8 @@ public class GridMap implements IGridMap {
 	}
 
 	private void addSuccessor(Node<Coordinate> n, int dx, int dy) {
-		int x = n.payload.x;
-		int y = n.payload.y;
+		int x = n.getPayload().x;
+		int y = n.getPayload().y;
 		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
 			n.addSuccessor(getNodeAt(x + dx, y + dy));
 	}

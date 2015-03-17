@@ -25,7 +25,7 @@ public class PathPacket extends RobotPacket<List<Node<Coordinate>>> {
 		os.writeByte(ID);										// path id
 		os.writeShort(data.size());								// node count
 		for (Node<Coordinate> n : data)
-			new CoordPacket(n.payload).write(os);				// node payload *the coordinate*
+			new CoordPacket(n.getPayload()).write(os);				// node payload *the coordinate*
 	}
 	@Override
 	protected List<Node<Coordinate>> read(DataInputStream is) throws IOException {
