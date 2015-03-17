@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class DisconnectPacket extends RobotPacket<Byte> {
-	public static final byte ID = 0;
+	public static final byte ID = -1;
 
 	public DisconnectPacket(byte exitCode) {
 		super(exitCode);
