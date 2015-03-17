@@ -63,17 +63,11 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	}
 
 	@Override
-	public void progressMade(float percent) {
-		progress.setProgress((int) (percent * 100));
-	}
-
-	@Override
 	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
 		System.out.println("Interrupted at " + pose);
 
 		Heading facing = Heading.getCompass((int) pose.getHeading());
 		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
-
 		pathTo(location, goalNode, facing);
 
 	}
@@ -81,6 +75,11 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	public void pathComplete() {
 		System.out.println("Path complete!");
 		Button.ESCAPE.callListeners();
+	}
+
+	@Override
+	public void progressMade(float percent) {
+		progress.setProgress((int) (percent * 100));
 	}
 
 	@Override
