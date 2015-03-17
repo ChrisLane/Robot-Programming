@@ -97,7 +97,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		target = (Node<Coordinate>) path.pop();
 
 		// Get relative heading from current location and global heading
-		Heading heading = facing.getHeadingFrom(location.payload, target.payload);
+		Heading heading = facing.getHeadingFrom(location.getPayload(), target.getPayload());
 		// Add relative heading to global heading
 		facing = facing.add(heading);
 
