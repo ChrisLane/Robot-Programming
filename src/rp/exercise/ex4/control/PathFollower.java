@@ -9,7 +9,6 @@ import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.UltrasonicDistancePacket;
 import search.Coordinate;
-import search.Node;
 
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.RangeFinder;
@@ -32,13 +31,13 @@ public class PathFollower extends RunSystem implements LineListener {
 
 	private Thread followThread;
 
-	private Node<Coordinate> location, target;
-	private List<Node<Coordinate>> path;
+	private Coordinate location, target;
+	private List<Coordinate> path;
 	private Heading facing;
 	private boolean leftOnLine, rightOnLine, onIntersection;
 	private byte pathCount;
 
-	public PathFollower(final DifferentialPilot pilot, List<Node<Coordinate>> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
+	public PathFollower(final DifferentialPilot pilot, List<Coordinate> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
 		followThread = new Thread(this);
 
 		this.listener = listener;
@@ -56,7 +55,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		rightOnLine = true;
 
 		poseProv = new OdometryPoseProvider(pilot);
-		pose = new Pose(location.getPayload().x * 30 + 15, location.getPayload().y * 30 + 15, facing.toDegrees() + 90);
+		pose = new Pose(location.x * 30 + 15, location.y * 30 + 15, facing.toDegrees() + 90);
 		poseProv.setPose(pose);
 
 		int lightThreshold = 75;
@@ -119,11 +118,11 @@ public class PathFollower extends RunSystem implements LineListener {
 		turnToTarget();
 
 		// Update Pose remotely
-		pose.setLocation(target.getPayload().x * 30 + 15, target.getPayload().y * 30 + 15);
+		pose.setLocation(target.x * 30 + 15, target.y * 30 + 15);
 		lc.send(new PosePacket(pose, 0));
 	}
 	public void turnToTarget() {
-		Heading heading = facing.getHeadingFrom(location.getPayload(), target.getPayload());
+		Heading heading = facing.getHeadingFrom(location, target);
 		if (heading != Heading.UP)
 			pilot.rotate(-heading.toDegrees());
 		facing = facing.add(heading);

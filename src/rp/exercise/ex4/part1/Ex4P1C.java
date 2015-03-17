@@ -6,40 +6,37 @@ import rp.exercise.ex4.control.PathFollower;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.MapUtils;
-import rp.robotics.mapping.RPLineMap;
 import rp.util.RunSystem;
 import rp.util.gui.ProgressBar;
 import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PathPacket;
+import search.AStar;
 import search.Coordinate;
 import search.Node;
+import search.SearchFunction;
 import search.SearchProgress;
 
 import lejos.nxt.Button;
-import lejos.nxt.LCD;
 import lejos.robotics.navigation.Pose;
 
 import java.util.List;
 
 public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
-	private RPLineMap lineMap;
 	private GridMap gridMap;
 	private Node<Coordinate> startNode, goalNode;
 
 	private RemoteCommunicator locationComm;
 	private PathFollower traverser;
-	private List<Node<Coordinate>> path;
+	private List<Coordinate> path;
 
 	private ProgressBar progress;
-
-	private Coordinate startPos;
-	private Coordinate goalPos;
 
 	public Ex4P1C(GridMap gridMap, Coordinate start, Coordinate goal) {
 		this.gridMap = gridMap;
 		startNode = gridMap.getNodeAt(start.x, start.y);
 		goalNode = gridMap.getNodeAt(goal.x, goal.y);
 		locationComm = new RemoteCommunicator();
+		progress = new ProgressBar("Finding Path", 0);
 	}
 	@Override
 	public void run() {
@@ -53,15 +50,15 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		pathTo(startNode, goalNode, Heading.UP);
 	}
 	private void pathTo(Node<Coordinate> a, Node<Coordinate> b, Heading facing) {
-		progress = new ProgressBar("Finding Path", 0);
+		progress.setProgress(0);
+		progress.render();
 
+		path = AStar.findPathFrom(a, b, SearchFunction.euclidean, SearchFunction.manhattan, this);
 		locationComm.send(new PathPacket(path));
-		LCD.clear();
 
 		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, facing, this, locationComm);
 		traverser.start();
 	}
-
 	@Override
 	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
 		System.out.println("Interrupted at " + pose);

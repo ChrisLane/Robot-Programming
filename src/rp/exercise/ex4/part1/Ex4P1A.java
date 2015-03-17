@@ -6,12 +6,12 @@ import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
 import search.AStar;
 import search.Coordinate;
-import search.Node;
 import search.SearchFunction;
+
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import java.util.List;
 
 public class Ex4P1A {
 	private JFrame frame;
@@ -25,7 +25,7 @@ public class Ex4P1A {
 		gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
 		mapVis = new GridMapVisualisation(gridMap, lineMap, 2, true);
 
-		List<Node<Coordinate>> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(11, 7), SearchFunction.euclidean, SearchFunction.manhattan, null);
+		List<Coordinate> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(11, 7), SearchFunction.euclidean, SearchFunction.manhattan, null);
 		System.out.println(path);
 
 		mapVis.setPath(path);
