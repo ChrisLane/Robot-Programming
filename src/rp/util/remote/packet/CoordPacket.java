@@ -18,9 +18,9 @@ public class CoordPacket extends RobotPacket<Coordinate> {
 
 	@Override
 	public void write(DataOutputStream os) throws IOException {
-		os.write(ID);
-		os.write(data.x);
-		os.write(data.y);
+		os.writeByte(ID);
+		os.writeByte(data.x);
+		os.writeByte(data.y);
 	}
 
 	@Override
