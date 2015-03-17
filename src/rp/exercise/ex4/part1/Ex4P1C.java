@@ -32,6 +32,9 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 
 	private ProgressBar progress;
 
+	private Coordinate startPos;
+	private Coordinate goalPos;
+
 	@Override
 	public void run() {
 		locationComm = new RemoteCommunicator();
@@ -47,8 +50,10 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
 		progress = new ProgressBar("Finding Path", 0);
 
-		Node<Coordinate> start = gridMap.getNodeAt(0, 0);
-		Node<Coordinate> goal = gridMap.getNodeAt(11, 7);
+		startPos = new Coordinate(0, 0);
+		goalPos = new Coordinate(11, 7);
+		Node<Coordinate> start = gridMap.getNodeAt(startPos.getX(), startPos.getY());
+		Node<Coordinate> goal = gridMap.getNodeAt(goalPos.getX(), goalPos.getY());
 		path = DepthFirst.findPathFrom(start, goal, this);// , SearchFunction.euclidean, SearchFunction.manhattan, this);
 		locationComm.send(new PathPacket(path));
 		LCD.clear();
@@ -62,10 +67,22 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	}
 
 	@Override
-	public void pathInterrupted(Pose location) {
+	public void pathInterrupted(Pose location, Node<Coordinate> obstacleNode) {
 		System.out.println("Interrupted at " + location);
-		// TODO Auto-generated method stub
 
+		Node<Coordinate> currentNode = gridMap.getNodeAt((int) location.getX(), (int) location.getY());
+		gridMap.removeSuccessor(currentNode, obstacleNode);
+
+		// New search using gridmap without obstacle link
+		Node<Coordinate> start = gridMap.getNodeAt(currentNode.getPayload().getX(), currentNode.getPayload().getY());
+		Node<Coordinate> goal = gridMap.getNodeAt(goalPos.getX(), goalPos.getY());
+		path = DepthFirst.findPathFrom(start, goal, this);
+
+		locationComm.send(new PathPacket(path));
+		LCD.clear();
+
+		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, Heading.UP, this, locationComm);
+		traverser.start();
 	}
 	@Override
 	public void pathComplete() {

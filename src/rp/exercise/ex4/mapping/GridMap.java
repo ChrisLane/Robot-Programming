@@ -50,6 +50,11 @@ public class GridMap implements IGridMap {
 			n.addSuccessor(getNodeAt(x + dx, y + dy));
 	}
 
+	public void removeSuccessor(Node<Coordinate> node1, Node<Coordinate> node2) {
+		node1.removeSuccessor(node2);
+		node2.removeSuccessor(node1);
+	}
+
 	@Override
 	public int getXSize() {
 		return xSize;
