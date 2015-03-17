@@ -20,7 +20,7 @@ import lejos.util.Delay;
 
 import javax.swing.JFrame;
 
-public class MarkovLocSkeleton {
+public class MarkovLocalisation {
 
 	// Maps
 	private final LineMap m_lineMap;
@@ -37,7 +37,7 @@ public class MarkovLocSkeleton {
 	private GridPositionDistributionVisualisation m_mapVis;
 	private final float m_translationAmount;
 
-	public MarkovLocSkeleton(SimulatedRobot _robot, LineMap _lineMap, IGridMap _gridMap, float _translationAmount) {
+	public MarkovLocalisation(SimulatedRobot _robot, LineMap _lineMap, IGridMap _gridMap, float _translationAmount) {
 
 		m_robot = _robot;
 		m_lineMap = _lineMap;
@@ -167,7 +167,7 @@ public class MarkovLocSkeleton {
 		// SimulatedRobot robot = SimulatedRobot.createSingleSensorRobot(
 		// startPose, lineMap);
 
-		MarkovLocSkeleton ml = new MarkovLocSkeleton(robot, lineMap, gridMap, 30);
+		MarkovLocalisation ml = new MarkovLocalisation(robot, lineMap, gridMap, 30);
 		ml.visualise();
 		ml.run();
 	}

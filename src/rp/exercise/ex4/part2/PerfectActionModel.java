@@ -40,14 +40,9 @@ public class PerfectActionModel implements ActionModel {
 
 					// position before move
 					Coordinate hd = heading.toCoordinate();
-					float fromProb = from.getProbability(x - hd.x, y - hd.y);
-
-					// position after move
-					int toX = x;
-					int toY = y;
 
 					// set probability for position after move
-					to.setProbability(toX, toY, fromProb);
+					to.setProbability(x + hd.x, y + hd.y, from.getProbability(x, y));
 				}
 		to.normalise();
 		return to;
