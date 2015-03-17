@@ -73,9 +73,9 @@ public class ConnectWindow extends JDialog implements ActionListener {
 		panel.add(input);
 		panel.add(btn);
 		add(panel);
-		pack();
 		setMinimumSize(new Dimension((int) (panel.getPreferredSize().width * 1.4), panel.getPreferredSize().height));
 		setResizable(false);
+		pack();
 		setLocationRelativeTo(parent);
 	}
 	public NXTConnector getConnection(String name) {
