@@ -4,7 +4,6 @@ import rp.util.remote.packet.DisconnectPacket;
 import rp.util.remote.packet.PacketSender;
 import rp.util.remote.packet.RobotPacket;
 
-import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
@@ -16,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Queue;
 
-public class LocationCommunicator extends Thread implements PacketSender {
+public class RemoteCommunicator extends Thread implements PacketSender {
 	private NXTConnection conn;
 	private DataInputStream is;
 	private DataOutputStream os;
@@ -27,7 +26,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 
 	private boolean isRunning = true;
 
-	public LocationCommunicator() {
+	public RemoteCommunicator() {
 		defOut = System.out;
 		defErr = System.err;
 		System.setOut(new ConsoleStream(this));
@@ -57,6 +56,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 		start();
 	}
 	public void disconnect(int exitCode) {
+		System.out.println("DISCONNECTING!");
 		send(new DisconnectPacket((byte) exitCode));
 		System.setOut(defOut);
 		System.setErr(defErr);
@@ -68,7 +68,7 @@ public class LocationCommunicator extends Thread implements PacketSender {
 	@Override
 	public synchronized <E> void send(RobotPacket<E> data) {
 		toSend.addElement(data);
-		notifyAll();
+		notify();
 	}
 
 	@Override
@@ -79,6 +79,8 @@ public class LocationCommunicator extends Thread implements PacketSender {
 					wait();
 				}
 				catch (InterruptedException e) {
+					System.setOut(defOut);
+					System.setErr(defErr);
 					e.printStackTrace();
 				}
 
@@ -97,15 +99,16 @@ public class LocationCommunicator extends Thread implements PacketSender {
 					}
 				}
 				catch (IOException e) {
+					System.setOut(defOut);
+					System.setErr(defErr);
 					try {
 						os.write(e.getMessage().getBytes());
 					}
 					catch (IOException e1) {
 						e1.printStackTrace();
-						Button.waitForAnyPress();
 						System.exit(0);
 					}
-					Button.waitForAnyPress();
+					e.printStackTrace();
 					System.exit(0);
 				}
 			}
