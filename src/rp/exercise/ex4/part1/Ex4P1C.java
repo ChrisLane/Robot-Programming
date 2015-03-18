@@ -17,6 +17,7 @@ import search.SearchFunction;
 import search.SearchProgress;
 
 import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.robotics.navigation.Pose;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 
 		path = AStar.findPathFrom(a, b, SearchFunction.euclidean, SearchFunction.manhattan, this);
 		locationComm.send(new PathPacket(path));
+		LCD.clear();
 
 		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, facing, this, locationComm);
 		traverser.start();
@@ -66,7 +68,6 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		Heading facing = Heading.getCompass((int) pose.getHeading());
 		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
 		pathTo(location, goalNode, facing);
-
 	}
 	@Override
 	public void pathComplete() {
