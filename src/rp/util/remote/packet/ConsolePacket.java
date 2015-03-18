@@ -12,6 +12,9 @@ public class ConsolePacket extends RobotPacket<ConsoleEntry> {
 	public ConsolePacket(ConsoleEntry entry) {
 		super(entry);
 	}
+	public ConsolePacket(String s) {
+		super(new ConsoleEntry(s, (short) s.length(), false));
+	}
 	public ConsolePacket(String s, boolean err) {
 		super(new ConsoleEntry(s, (short) s.length(), err));
 	}
