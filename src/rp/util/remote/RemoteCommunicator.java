@@ -56,7 +56,6 @@ public class RemoteCommunicator extends Thread implements PacketSender {
 		start();
 	}
 	public void disconnect(int exitCode) {
-		System.out.println("DISCONNECTING!");
 		send(new DisconnectPacket((byte) exitCode));
 		System.setOut(defOut);
 		System.setErr(defErr);

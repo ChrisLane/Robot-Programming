@@ -81,7 +81,6 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 
 	@Override
 	public void buttonPressed(Button b) {
-		System.out.println("Escape pressed");
 		try {
 			traverser.stop();
 			locationComm.disconnect(0);
