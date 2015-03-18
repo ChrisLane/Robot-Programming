@@ -21,20 +21,20 @@ public class PathPacket extends RobotPacket<List<Coordinate>> {
 
 	@Override
 	public void write(DataOutputStream os) throws IOException {
-		os.writeByte(ID);										// path id
-		os.writeShort(data.size());								// node count
+		os.writeByte(ID);								// path id
+		os.writeShort(data.size());						// node count
 		for (Coordinate c : data)
-			new CoordPacket(c).write(os);				// node payload *the coordinate*
+			new CoordPacket(c).write(os);				// the coordinate
 	}
 	@Override
 	protected List<Coordinate> read(DataInputStream is) throws IOException {
-		short size = is.readShort();							// node count
+		short size = is.readShort();					// node count
 
 		data = new ArrayList<Coordinate>(size);
 		for (int i = 0; i < size; i++) {
-			if (is.readByte() != CoordPacket.ID)					// coordinate id
+			if (is.readByte() != CoordPacket.ID)		// coordinate id
 				throw new IOException("Data received is not Coordinate format");
-			data.add(new CoordPacket(is).getData());					// node payload *the coordinate*
+			data.add(new CoordPacket(is).getData());	// the coordinate
 		}
 		return data;
 	}
