@@ -65,7 +65,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
 		System.out.println("Interrupted at " + pose);
 
-		Heading facing = Heading.getCompass((int) pose.getHeading());
+		Heading facing = Heading.getHeading((int) pose.getHeading());
 		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
 		pathTo(location, goalNode, facing);
 	}
