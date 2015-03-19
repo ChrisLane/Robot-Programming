@@ -11,7 +11,7 @@ import rp.util.remote.packet.ConsolePacket;
 import rp.util.remote.packet.DisconnectPacket;
 import rp.util.remote.packet.PathPacket;
 import rp.util.remote.packet.PosePacket;
-import rp.util.remote.packet.UltrasonicDistancePacket;
+import rp.util.remote.packet.RangePacket;
 
 import lejos.pc.comm.NXTConnector;
 import lejos.robotics.mapping.LineMap;
@@ -28,7 +28,7 @@ import javax.swing.WindowConstants;
 public class RemoteViewer extends JFrame implements Runnable {
 	private GridPositionDistributionVisualisation vis;
 	private ConsolePane console;
-	private RemoteRobot robot, odomRobot;
+	private RemoteRobot robot;
 
 	private Thread receiveThread;
 	private ConnectWindow connect;
@@ -41,9 +41,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 		super("Remote Robot Viewer");
 		vis = new GridPositionDistributionVisualisation(new GridPositionDistribution(gridMap), lineMap, scale, flip);
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
-		odomRobot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
-		vis.addRobot(odomRobot);
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		add(vis);
@@ -60,18 +58,16 @@ public class RemoteViewer extends JFrame implements Runnable {
 				switch (is.readByte()) {
 					case PosePacket.ID:
 						PosePacket p = new PosePacket(is);
-						if (p.robotID == 0)
-							robot.setPose(p.getData());
-						else if (p.robotID == 1)
-							odomRobot.setPose(p.getData());
+						robot.setPose(p.getData());
 						break;
-					case UltrasonicDistancePacket.ID:
-						float range = new UltrasonicDistancePacket(is).getData();
-						robot.setRange(0, range);
-						odomRobot.setRange(0, range);
+					case RangePacket.ID:
+						RangePacket p1 = new RangePacket(is);
+						if(p1.rangeId == 0)
+							robot.setRange(0, p1.getData());
 						break;
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
+						break;
 					case ConsolePacket.ID:
 						System.out.print(new ConsolePacket(is));
 						break;
@@ -104,7 +100,6 @@ public class RemoteViewer extends JFrame implements Runnable {
 	public void start(String name) {
 		connect = new ConnectWindow(this, "Connect");
 		robot.setPose(new Pose());
-		odomRobot.setPose(new Pose());
 		vis.setPath(null);
 
 		conn = connect.getConnection(name);
