@@ -4,23 +4,27 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class UltrasonicDistancePacket extends RobotPacket<Float> {
+public class RangePacket extends RobotPacket<Float> {
 	public static final byte ID = 11;
+	public byte rangeId;
 
-	public UltrasonicDistancePacket(float range) {
+	public RangePacket(float range, int id) {
 		super(range);
+		this.rangeId = (byte) id;
 	}
-	public UltrasonicDistancePacket(DataInputStream is) throws IOException {
+	public RangePacket(DataInputStream is) throws IOException {
 		super(is);
 	}
 
 	@Override
 	public Float read(DataInputStream is) throws IOException {
+		rangeId = is.readByte();
 		return is.readFloat();
 	}
 	@Override
 	public void write(DataOutputStream os) throws IOException {
 		os.writeByte(ID);
+		os.writeByte(rangeId);
 		os.writeFloat(data);
 	}
 }
