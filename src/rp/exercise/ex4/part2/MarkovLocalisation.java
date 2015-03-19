@@ -1,5 +1,12 @@
 package rp.exercise.ex4.part2;
 
+import javax.swing.JFrame;
+
+import lejos.geom.Point;
+import lejos.robotics.mapping.LineMap;
+import lejos.robotics.navigation.Pose;
+import lejos.util.Delay;
+import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.localisation.ActionModel;
 import rp.robotics.localisation.GridPositionDistribution;
 import rp.robotics.localisation.PerfectSensorModel;
@@ -7,18 +14,10 @@ import rp.robotics.localisation.SensorModel;
 import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.MapUtils;
-import rp.robotics.mapping.NicksGridMap;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.simulation.SimulatedRobot;
 import rp.robotics.visualisation.GridPositionDistributionVisualisation;
 import rp.robotics.visualisation.KillMeNow;
-
-import lejos.geom.Point;
-import lejos.robotics.mapping.LineMap;
-import lejos.robotics.navigation.Pose;
-import lejos.util.Delay;
-
-import javax.swing.JFrame;
 
 public class MarkovLocalisation {
 
@@ -63,6 +62,7 @@ public class MarkovLocalisation {
 		frame.pack();
 		frame.setSize(1050, 600);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/***
@@ -142,7 +142,7 @@ public class MarkovLocalisation {
 
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
-		IGridMap gridMap = new NicksGridMap(12, 8, 15, 15, 30, lineMap);
+		IGridMap gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
 
 		// the starting position of the robot for the simulation. This is not
 		// known in the action model or position distribution

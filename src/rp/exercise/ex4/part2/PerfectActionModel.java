@@ -27,25 +27,20 @@ public class PerfectActionModel implements ActionModel {
 				int dx = x - hd.x;
 				int dy = y - hd.y;
 				// make sure to respect obstructed grid points
-				if (from.isValidGridPosition(dx, dy) /**&& from.isValidTransition(x, y, dx, dy)**/ ) {
-
-					// the action model should work out all of the different
-					// ways (x,y) in the to grid could've been reached based on
-					// the from grid and the move taken (in this case
-					// HEADING.PLUSX)
-
-					// for example if the only way to have got to to (x,y) was
-					// from from (x-1, y) (i.e. there was a PLUSX move from
-					// (x-1, y) then you write the value from from (x-1, y) to
-					// the to (x, y) value
-
-					// The below code does now translate the value
-					
-					// position before move
-
+				boolean validTrans = from.isValidTransition(x, y, dx, dy);
+				//System.out.println(from.isValidTransition(0, 0, 0, 1));
+				if (to.isValidGridPosition(dx, dy) ) {
+					//assigns points that cannot be accessed with the performed move probability 0
+					if(!validTrans){
+						to.setProbability(dx, dy, 0); 
+					}
+					else{
 					// set probability for position after move
 					to.setProbability(dx, dy, from.getProbability(x, y));
+					}
 				}
+				else
+					to.setProbability(x, y, 0); 
 			}
 		to.normalise();
 		return to;
