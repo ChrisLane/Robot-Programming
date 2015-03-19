@@ -107,7 +107,6 @@ public class PathFollower extends RunSystem implements LineListener {
 				pilot.arcForward(-40);
 			else
 				pilot.forward();
-
 		}
 	}
 	public void intersectionHit() {
