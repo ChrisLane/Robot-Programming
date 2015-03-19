@@ -103,7 +103,7 @@ public class GridMap implements IGridMap {
 
 	@Override
 	public float rangeToObstacleFromGridPosition(int x, int y, float heading) {
-		return lineMap.range(new Pose(x, y, heading));
+		return lineMap.range(new Pose(getGridX(x), getGridY(y), heading));
 	}
 
 	@SuppressWarnings("unchecked")
