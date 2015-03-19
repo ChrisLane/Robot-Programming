@@ -1,11 +1,10 @@
 package rp.util.remote.gui;
 
 import rp.exercise.ex4.mapping.GridMap;
-import rp.robotics.localisation.GridPositionDistribution;
 import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
-import rp.robotics.visualisation.GridPositionDistributionVisualisation;
+import rp.robotics.visualisation.GridMapVisualisation;
 import rp.util.remote.RemoteRobot;
 import rp.util.remote.packet.ConsolePacket;
 import rp.util.remote.packet.DisconnectPacket;
@@ -26,7 +25,7 @@ import javax.swing.WindowConstants;
 
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
-	private GridPositionDistributionVisualisation vis;
+	private GridMapVisualisation vis;
 	private ConsolePane console;
 	private RemoteRobot robot;
 
@@ -39,7 +38,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 
 	public RemoteViewer(IGridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
-		vis = new GridPositionDistributionVisualisation(new GridPositionDistribution(gridMap), lineMap, scale, flip);
+		vis = new GridMapVisualisation(gridMap, lineMap, scale, flip);
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
 
@@ -80,19 +79,19 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;		// Do nothing here
 				}
 			}
-		catch (IOException e) {
-			e.printStackTrace();
-			try {
-				System.out.println("Connection Closed");
-				conn.close();
-				System.exit(0);
-			}
-			catch (IOException e1) {
-				e1.printStackTrace();
+			catch (IOException e) {
+				e.printStackTrace();
+				try {
+					System.out.println("Connection Closed");
+					conn.close();
+					System.exit(0);
+				}
+				catch (IOException e1) {
+					e1.printStackTrace();
+					break;
+				}
 				break;
 			}
-			break;
-		}
 	}
 	public void start() {
 		start("");
