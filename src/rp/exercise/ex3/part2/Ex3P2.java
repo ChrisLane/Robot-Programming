@@ -44,7 +44,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 
 	public static void main(String[] args) {
 		// Path of Node<Coordinate>s for robot to follow
-		Queue<Node<Coordinate>> path = new Queue<>();
+		Queue<Node<Coordinate>> path = new Queue<Node<Coordinate>>();
 		path.addElement(new Node<Coordinate>(new Coordinate(1, 0)));
 		path.addElement(new Node<Coordinate>(new Coordinate(1, 1)));
 		path.addElement(new Node<Coordinate>(new Coordinate(1, 2)));
