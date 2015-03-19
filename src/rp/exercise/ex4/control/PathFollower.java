@@ -122,6 +122,7 @@ public class PathFollower extends RunSystem implements LineListener {
 	}
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location, target);
+		System.out.println(location + " => " + target + ", Facing " + facing + ", turn" + heading);
 		if (heading != Heading.UP)
 			pilot.rotate(-heading.toDegrees());
 		facing = facing.add(heading);
