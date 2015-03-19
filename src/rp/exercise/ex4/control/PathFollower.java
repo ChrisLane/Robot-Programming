@@ -64,7 +64,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
 
-		pilot.setTravelSpeed(25);
+		pilot.setTravelSpeed(30);
 		pilot.setRotateSpeed(180);
 	}
 
@@ -82,7 +82,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		while (isRunning) {
 			// Get range reading from US sensor & send it to the viewer
-			float range = rangeFinder.getRange() * 10;
+			float range = rangeFinder.getRange();
 			lc.send(new RangePacket(range, 0));
 			lc.send(new PosePacket(poseProv.getPose(), 0));
 
@@ -100,9 +100,9 @@ public class PathFollower extends RunSystem implements LineListener {
 				onIntersection = false;
 
 			if (leftOnLine)
-				pilot.arcForward(40);
+				pilot.arcForward(65);
 			else if (rightOnLine)
-				pilot.arcForward(-40);
+				pilot.arcForward(-65);
 			else
 				pilot.forward();
 		}
@@ -125,7 +125,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		// Update Pose remotely
 		pose.setHeading(-facing.toDegrees());
 		pose.setLocation(location.x * 30 + 15, location.y * 30 + 15);
-		poseProv.setPose(new Pose(pose.getX(), pose.getY(), -pose.getHeading()));
+		poseProv.setPose(new Pose(pose.getX(), pose.getY(), pose.getHeading()));
 	}
 
 	@Override
