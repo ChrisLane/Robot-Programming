@@ -10,8 +10,7 @@ import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.RangePacket;
 import search.Coordinate;
 
-import lejos.nxt.UltrasonicSensor;
-import lejos.robotics.RangeFinder;
+import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Pose;
@@ -29,7 +28,7 @@ public class PathFollower extends RunSystem implements LineListener {
 	private final PathEvents listener;
 
 	private BlackLineSensor lsLeft, lsRight;
-	private RangeFinder rangeFinder;
+	private OpticalDistanceSensor rangeFinder;
 
 	private Thread followThread;
 
@@ -60,7 +59,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		int lightThreshold = 75;
 		lsLeft = new BlackLineSensor(GeoffBot.getLightSensorLeftPort(), true, lightThreshold).addChangeListener(this);
 		lsRight = new BlackLineSensor(GeoffBot.getLightSensorRightPort(), true, lightThreshold).addChangeListener(this);
-		rangeFinder = new UltrasonicSensor(GeoffBot.getFrontUltrasonicPort());
+		rangeFinder = new OpticalDistanceSensor(GeoffBot.getInfraredPort());
 
 		GeoffBot.calibrateLeftLS(lsLeft);
 		GeoffBot.calibrateRightLS(lsRight);
@@ -83,7 +82,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		while (isRunning) {
 			// Get range reading from US sensor & send it to the viewer
-			float range = rangeFinder.getRange();
+			float range = rangeFinder.getRange() * 10;
 			lc.send(new RangePacket(range, 0));
 			lc.send(new PosePacket(poseProv.getPose(), 0));
 
