@@ -39,6 +39,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		locationComm = new RemoteCommunicator();
 		progress = new ProgressBar("Finding Path", 0);
 	}
+
 	@Override
 	public void run() {
 		try {
@@ -48,8 +49,20 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		pathTo(startNode, goalNode, Heading.UP);
+		pathTo(startNode, goalNode, Heading.LEFT);
+
+		synchronized (this) {
+			try {
+				wait();
+				if (traverser.pathComplete)
+					pathComplete();
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+
 	private void pathTo(Node<Coordinate> a, Node<Coordinate> b, Heading facing) {
 		progress.setProgress(0);
 		progress.render();
@@ -61,18 +74,21 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, facing, this, locationComm);
 		traverser.start();
 	}
+
 	@Override
 	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
-		System.out.println("Interrupted at " + pose);
 
 		Heading facing = Heading.getHeading((int) pose.getHeading());
 		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
 		pathTo(location, goalNode, facing);
 	}
+
 	@Override
 	public void pathComplete() {
-		System.out.println("Path complete!");
-		Button.ESCAPE.callListeners();
+		synchronized (this) {
+			notifyAll();
+		}
+		closeProgram();
 	}
 
 	@Override
@@ -81,12 +97,16 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	}
 
 	@Override
-	public void buttonPressed(Button b) {
+	public void buttonPressed(Button _b) {
+		closeProgram();
+	}
+
+	public void closeProgram() {
 		try {
 			traverser.stop();
 			locationComm.disconnect(0);
 			locationComm.stop();
-			System.exit(1);
+			System.exit(0);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
