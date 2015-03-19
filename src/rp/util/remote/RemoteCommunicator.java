@@ -32,7 +32,7 @@ public class RemoteCommunicator extends Thread implements PacketSender {
 		System.setOut(new ConsoleStream(this));
 		System.setErr(new ConsoleStream(this, true));
 	}
-	public void connect() throws NXTCommException, IOException {
+	public void connect() throws NXTCommException {
 		toSend = new Queue<RobotPacket<?>>();
 
 		LCD.clear();
