@@ -60,7 +60,7 @@ public class MarkovLocalisation {
 
 		frame.add(m_mapVis);
 		frame.pack();
-		frame.setSize(1050, 600);
+		frame.setSize(820, 600);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -73,6 +73,9 @@ public class MarkovLocalisation {
 	 * @param _sensorModel
 	 */
 	private void move(float distance, Heading _heading, ActionModel _actionModel, SensorModel _sensorModel) {
+		// A short delay so we can see what's going on
+		Delay.msDelay(1000);
+
 		// move robot
 		m_robot.translate(m_translationAmount);
 
@@ -83,17 +86,12 @@ public class MarkovLocalisation {
 		if (m_mapVis != null)
 			m_mapVis.setDistribution(m_distribution);
 
-		// A short delay so we can see what's going on
-		Delay.msDelay(1000);
 		/**
 		 * m_distribution = _sensorModel.updateAfterSensing(m_distribution, _heading, m_robot.getRangeValues());
 		 **/
 		// if visualising, update the shown distribution
 		if (m_mapVis != null)
 			m_mapVis.setDistribution(m_distribution);
-
-		// A short delay so we can see what's going on
-		Delay.msDelay(1000);
 	}
 
 	public void run() {
