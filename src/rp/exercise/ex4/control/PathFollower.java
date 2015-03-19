@@ -125,7 +125,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		// Update Pose remotely
 		pose.setHeading(-facing.toDegrees());
 		pose.setLocation(location.x * 30 + 15, location.y * 30 + 15);
-		poseProv.setPose(new Pose(pose.getX(), -pose.getY(), -pose.getHeading()));
+		poseProv.setPose(new Pose(pose.getX(), pose.getY(), -pose.getHeading()));
 	}
 
 	@Override
