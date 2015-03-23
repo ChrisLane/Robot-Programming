@@ -27,7 +27,7 @@ public class PerfectActionModel implements ActionModel {
 				int dx = x - hd.x;
 				int dy = y - hd.y;
 				// make sure to respect obstructed grid points
-				boolean validTrans = from.isValidTransition(x, y, dx, dy);
+				boolean validTrans = from.getGridMap().isValidTransition(x, y, dx, dy);
 				//System.out.println(from.isValidTransition(0, 0, 0, 1));
 				if (to.isValidGridPosition(dx, dy) ) {
 					//assigns points that cannot be accessed with the performed move probability 0
