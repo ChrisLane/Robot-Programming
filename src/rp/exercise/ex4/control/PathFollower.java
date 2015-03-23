@@ -1,6 +1,7 @@
 package rp.exercise.ex4.control;
 
 import rp.GeoffBot;
+import rp.exercise.ex4.mapping.GridMap;
 import rp.listener.LineListener;
 import rp.robotics.mapping.Heading;
 import rp.sensor.BlackLineSensor;
@@ -26,9 +27,11 @@ public class PathFollower extends RunSystem implements LineListener {
 
 	private final RemoteCommunicator lc;
 	private final PathEvents listener;
+	private final GridMap gridMap;
 
 	private BlackLineSensor lsLeft, lsRight;
 	private OpticalDistanceSensor rangeFinder;
+	private float range;
 
 	private Thread followThread;
 
@@ -38,12 +41,13 @@ public class PathFollower extends RunSystem implements LineListener {
 	private boolean leftOnLine, rightOnLine, onIntersection;
 	private byte pathCount;
 
-	public PathFollower(final DifferentialPilot pilot, List<Coordinate> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
+	public PathFollower(final DifferentialPilot pilot, GridMap gridMap, List<Coordinate> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
 		followThread = new Thread(this);
 
 		this.listener = listener;
 		lc = locationComm;
 
+		this.gridMap = gridMap;
 		this.pilot = pilot;
 		this.path = path;
 		this.facing = facing;
@@ -82,7 +86,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		while (isRunning) {
 			// Get range reading from US sensor & send it to the viewer
-			float range = rangeFinder.getRange();
+			range = rangeFinder.getRange();
 			lc.send(new RangePacket(range, 0));
 			lc.send(new PosePacket(poseProv.getPose(), 0));
 
@@ -114,6 +118,8 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		pilot.travel(2.9); // Moves forward to align wheels with intersection
 		turnToTarget();
+
+		float actualRange = gridMap.rangeToObstacleFromGridPosition((int) pose.getX(), (int) pose.getY(), pose.getHeading());
 	}
 
 	public void turnToTarget() {

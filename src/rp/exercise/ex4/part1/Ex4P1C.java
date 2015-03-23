@@ -71,7 +71,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		locationComm.send(new PathPacket(path));
 		LCD.clear();
 
-		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), path, facing, this, locationComm);
+		traverser = new PathFollower(GeoffBot.getDifferentialPilot(), gridMap, path, facing, this, locationComm);
 		traverser.start();
 	}
 
