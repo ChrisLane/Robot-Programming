@@ -15,34 +15,35 @@ import search.Coordinate;
  */
 public class PerfectActionModel implements ActionModel {
 
-	@Override
-	public GridPositionDistribution updateAfterMove(GridPositionDistribution from, Heading heading) {
-		// Create the new distribution that will result from applying the action model
-		GridPositionDistribution to = new GridPositionDistribution(from);
-		
-		// iterate through points updating as appropriate
-		for (int y = 0; y < to.getGridHeight(); y++)			
-			for (int x = 0; x < to.getGridWidth(); x++){
-				Coordinate hd = heading.toCoordinate();
-				int dx = x - hd.x;
-				int dy = y - hd.y;
-				// make sure to respect obstructed grid points
-				boolean validTrans = from.getGridMap().isValidTransition(x, y, dx, dy);
-				//System.out.println(from.isValidTransition(0, 0, 0, 1));
-				if (to.isValidGridPosition(dx, dy) ) {
-					//assigns points that cannot be accessed with the performed move probability 0
-					if(!validTrans){
-						to.setProbability(dx, dy, 0); 
-					}
-					else{
-					// set probability for position after move
-					to.setProbability(dx, dy, from.getProbability(x, y));
-					}
-				}
-				else
-					to.setProbability(x, y, 0); 
-			}
-		to.normalise();
-		return to;
-	}
+    @Override
+    public GridPositionDistribution updateAfterMove(GridPositionDistribution from, Heading heading) {
+        // Create the new distribution that will result from applying the action model
+        GridPositionDistribution to = new GridPositionDistribution(from);
+
+        // iterate through points updating as appropriate
+        for (int y = 0; y < to.getGridHeight(); y++) {
+            for (int x = 0; x < to.getGridWidth(); x++) {
+                Coordinate hd = heading.toCoordinate();
+                int dx = x + hd.getX();
+                int dy = y + hd.getY();
+
+                // make sure to respect obstructed grid points
+                boolean validTransition = from.getGridMap().isValidTransition(x, y, dx, dy);
+                //System.out.println(from.isValidTransition(0, 0, 0, 1));
+                if (to.isValidGridPosition(dx, dy)) {
+                    //assigns points that cannot be accessed with the performed move probability 0
+                    if (validTransition) {
+                        // set probability for position after move
+                        to.setProbability(dx, dy, from.getProbability(x, y));
+                    } else {
+                        to.setProbability(dx, dy, 0);
+                    }
+                } else
+                    to.setProbability(x, y, 0);
+            }
+        }
+
+        to.normalise();
+        return to;
+    }
 }

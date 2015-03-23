@@ -1,7 +1,5 @@
 package rp.exercise.ex4.part2;
 
-import javax.swing.JFrame;
-
 import lejos.geom.Point;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
@@ -9,7 +7,6 @@ import lejos.util.Delay;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.localisation.ActionModel;
 import rp.robotics.localisation.GridPositionDistribution;
-import rp.robotics.localisation.PerfectSensorModel;
 import rp.robotics.localisation.SensorModel;
 import rp.robotics.mapping.Heading;
 import rp.robotics.mapping.IGridMap;
@@ -18,6 +15,8 @@ import rp.robotics.mapping.RPLineMap;
 import rp.robotics.simulation.SimulatedRobot;
 import rp.robotics.visualisation.GridPositionDistributionVisualisation;
 import rp.robotics.visualisation.KillMeNow;
+
+import javax.swing.*;
 
 public class MarkovLocalisation {
 
@@ -36,7 +35,7 @@ public class MarkovLocalisation {
 	private GridPositionDistributionVisualisation m_mapVis;
 	private final float m_translationAmount;
 
-	public MarkovLocalisation(SimulatedRobot _robot, LineMap _lineMap, IGridMap _gridMap, float _translationAmount) {
+	public MarkovLocalisation(SimulatedRobot _robot, LineMap _lineMap, GridMap _gridMap, float _translationAmount) {
 
 		m_robot = _robot;
 		m_lineMap = _lineMap;
@@ -73,11 +72,9 @@ public class MarkovLocalisation {
 	 * @param _sensorModel
 	 */
 	private void move(float distance, Heading _heading, ActionModel _actionModel, SensorModel _sensorModel) {
-		// A short delay so we can see what's going on
-		Delay.msDelay(1000);
-
 		// move robot
-		m_robot.translate(m_translationAmount);
+		//if (m_gridMap.isValidGridPosition((int) m_robot.getPose().getX(), (int) m_robot.getPose().getY()))
+			m_robot.translate(m_translationAmount);
 
 		// now update estimate of position using the action model
 		m_distribution = _actionModel.updateAfterMove(m_distribution, _heading);
@@ -86,18 +83,23 @@ public class MarkovLocalisation {
 		if (m_mapVis != null)
 			m_mapVis.setDistribution(m_distribution);
 
-		/**
-		 * m_distribution = _sensorModel.updateAfterSensing(m_distribution, _heading, m_robot.getRangeValues());
-		 **/
+		// A short delay so we can see what's going on
+		Delay.msDelay(500);
+
+		m_distribution = _sensorModel.updateAfterSensing(m_distribution, _heading, m_robot.getRangeValues());
+
 		// if visualising, update the shown distribution
 		if (m_mapVis != null)
 			m_mapVis.setDistribution(m_distribution);
+
+		// A short delay so we can see what's going on
+		Delay.msDelay(500);
 	}
 
 	public void run() {
 
 		ActionModel actionModel = new PerfectActionModel();
-		SensorModel sensorModel = new PerfectSensorModel();
+		SensorModel sensorModel = new rp.robotics.localisation.PerfectSensorModel();
 
 		int horizontal = 3;
 		int vertical = 1;
@@ -135,12 +137,11 @@ public class MarkovLocalisation {
 			m_robot.rotate(90);
 
 		}
-
 	}
 
 	public static void main(String[] args) {
 		RPLineMap lineMap = MapUtils.create2015Map1();
-		IGridMap gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
+		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
 
 		// the starting position of the robot for the simulation. This is not
 		// known in the action model or position distribution
@@ -168,5 +169,6 @@ public class MarkovLocalisation {
 		MarkovLocalisation ml = new MarkovLocalisation(robot, lineMap, gridMap, 30);
 		ml.visualise();
 		ml.run();
+
 	}
 }

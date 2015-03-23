@@ -57,7 +57,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		target = path.get(pathCount++);
 
 		poseProv = new OdometryPoseProvider(pilot);
-		pose = new Pose(location.x * 30 + 15, location.y * 30 + 15, facing.toDegrees());
+		pose = new Pose(location.x * 30 + 15, location.y * 30 + 15, -facing.toDegrees());
 		poseProv.setPose(pose);
 
 		int lightThreshold = 75;
@@ -125,11 +125,11 @@ public class PathFollower extends RunSystem implements LineListener {
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location, target);
 		if (heading != Heading.UP)
-			pilot.rotate(-heading.toDegrees());
+			pilot.rotate(heading.toDegrees());
 		facing = facing.add(heading);
 
 		// Update Pose remotely
-		pose.setHeading(-facing.toDegrees());
+		pose.setHeading(facing.toDegrees());
 		pose.setLocation(location.x * 30 + 15, location.y * 30 + 15);
 		poseProv.setPose(new Pose(pose.getX(), pose.getY(), pose.getHeading()));
 	}
