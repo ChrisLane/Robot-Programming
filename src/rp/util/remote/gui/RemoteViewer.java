@@ -1,13 +1,13 @@
 package rp.util.remote.gui;
 
 import rp.exercise.ex4.mapping.GridMap;
-import rp.robotics.mapping.IGridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
 import rp.util.remote.RemoteRobot;
 import rp.util.remote.packet.ConsolePacket;
 import rp.util.remote.packet.DisconnectPacket;
+import rp.util.remote.packet.ObstaclePacket;
 import rp.util.remote.packet.PathPacket;
 import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.RangePacket;
@@ -36,7 +36,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 	private DataInputStream is;
 	private DataOutputStream os;
 
-	public RemoteViewer(IGridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
+	public RemoteViewer(GridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
 		vis = new GridMapVisualisation(gridMap, lineMap, scale, flip);
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
@@ -61,9 +61,11 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;
 					case RangePacket.ID:
 						RangePacket p1 = new RangePacket(is);
-						if(p1.rangeId == 0)
+						if (p1.rangeId == 0)
 							robot.setRange(0, p1.getData());
 						break;
+					case ObstaclePacket.ID:
+						vis.addObstacle(new ObstaclePacket(is).getData());
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
 						break;

@@ -16,6 +16,6 @@
 15 Path
 16 Node
 17 Coord
-18 
+18 Obstacle
 19 
 20 
