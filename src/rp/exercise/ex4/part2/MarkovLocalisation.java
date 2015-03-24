@@ -99,7 +99,7 @@ public class MarkovLocalisation {
 	public void run() {
 
 		ActionModel actionModel = new PerfectActionModel();
-		SensorModel sensorModel = new rp.robotics.localisation.PerfectSensorModel();
+		SensorModel sensorModel = new PerfectSensorModel();
 
 		int horizontal = 5;
 		int vertical = 1;
