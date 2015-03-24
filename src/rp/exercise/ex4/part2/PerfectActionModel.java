@@ -27,9 +27,12 @@ public class PerfectActionModel implements ActionModel {
                 //Coordinates of where we going
                 int dx = x - hd.getX();
                 int dy = y - hd.getY();
-
+                //Coordinated of where we coming from
+                int prevX = x + hd.getX();
+                int prevY = y + hd.getY();
                 // make sure to respect obstructed grid points
                 boolean validTransition = from.getGridMap().isValidTransition(x, y, dx, dy);
+                boolean prev2CurrValid = from.getGridMap().isValidTransition(x, y, prevX, prevY);
                 if (to.isValidGridPosition(dx, dy)) {
                     //assigns points that cannot be accessed with the performed move probability 0
                     if (validTransition) {
@@ -41,8 +44,8 @@ public class PerfectActionModel implements ActionModel {
                         to.setProbability(dx, dy, 0);
                     }
                     
-                    if(from.isValidGridPosition(x + hd.getX(), y + hd.getY()) && from.isValidGridPosition(x, y)){
-                    	to.setProbability(x, y, from.getProbability(x + hd.getX(), y + hd.getY()));
+                    if(from.isValidGridPosition(prevX, prevY) && from.isValidGridPosition(x, y) && prev2CurrValid){
+                    	to.setProbability(x, y, from.getProbability(prevX, prevY));
                     }
                     else
                         to.setProbability(x, y, 0);

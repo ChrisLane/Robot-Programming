@@ -99,9 +99,9 @@ public class MarkovLocalisation {
 	public void run() {
 
 		ActionModel actionModel = new PerfectActionModel();
-		SensorModel sensorModel = new rp.robotics.localisation.PerfectSensorModel();
+		SensorModel sensorModel = new PerfectSensorModel();
 
-		int horizontal = 3;
+		int horizontal = 5;
 		int vertical = 1;
 
 		// Assuming all the moves go in this direction. This will not work once
@@ -145,7 +145,7 @@ public class MarkovLocalisation {
 
 		// the starting position of the robot for the simulation. This is not
 		// known in the action model or position distribution
-		int startGridX = 2;
+		int startGridX = 10;
 		int startGridY = 1;
 
 		// this converts the grid position into the underlying continuous
