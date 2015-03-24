@@ -153,7 +153,7 @@ public class MarkovLocalisation {
 		Point startPoint = gridMap.getCoordinatesOfGridPosition(startGridX, startGridY);
 
 		// starting heading
-		float startTheta = Heading.RIGHT.toDegrees();
+		float startTheta = Heading.LEFT.toDegrees();
 
 		Pose startPose = new Pose(startPoint.x, startPoint.y, startTheta);
 
