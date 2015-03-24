@@ -115,26 +115,26 @@ public class MarkovLocalisation {
 			moves = horizontal;
 			for (int i = 0; i < moves; i++)
 				move(m_translationAmount, movementHeading, actionModel, sensorModel);
-
 			m_robot.rotate(90);
+
 			movementHeading = Heading.UP;
 			moves = vertical;
 			for (int i = 0; i < moves; i++)
 				move(m_translationAmount, movementHeading, actionModel, sensorModel);
-
 			m_robot.rotate(90);
+
 			movementHeading = Heading.LEFT;
 			moves = horizontal;
 			for (int i = 0; i < moves; i++)
 				move(m_translationAmount, movementHeading, actionModel, sensorModel);
-
 			m_robot.rotate(90);
+
 			movementHeading = Heading.DOWN;
 			moves = vertical;
 			for (int i = 0; i < moves; i++)
 				move(m_translationAmount, movementHeading, actionModel, sensorModel);
-
 			m_robot.rotate(90);
+
 
 		}
 	}
@@ -153,7 +153,7 @@ public class MarkovLocalisation {
 		Point startPoint = gridMap.getCoordinatesOfGridPosition(startGridX, startGridY);
 
 		// starting heading
-		float startTheta = Heading.LEFT.toDegrees();
+		float startTheta = Heading.RIGHT.toDegrees();
 
 		Pose startPose = new Pose(startPoint.x, startPoint.y, startTheta);
 
