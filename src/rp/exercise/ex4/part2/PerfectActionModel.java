@@ -24,8 +24,8 @@ public class PerfectActionModel implements ActionModel {
         for (int y = 0; y < to.getGridHeight(); y++) {
             for (int x = 0; x < to.getGridWidth(); x++) {
                 Coordinate hd = heading.toCoordinate();
-                int dx = x + hd.getX();
-                int dy = y + hd.getY();
+                int dx = x - hd.getX();
+                int dy = y - hd.getY();
 
                 // make sure to respect obstructed grid points
                 boolean validTransition = from.getGridMap().isValidTransition(x, y, dx, dy);
