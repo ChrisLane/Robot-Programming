@@ -19,19 +19,15 @@ import lejos.robotics.navigation.Pose;
 import java.util.List;
 
 public class PathFollower extends RunSystem implements LineListener {
-	public boolean pathComplete;
-
 	private final DifferentialPilot pilot;
 	private final OdometryPoseProvider poseProv;
-	private Pose pose;
-
 	private final RemoteCommunicator lc;
 	private final PathEvents listener;
 	private final GridMap gridMap;
-
+	public boolean pathComplete;
+	private Pose pose;
 	private BlackLineSensor lsLeft, lsRight;
 	private OpticalDistanceSensor rangeFinder;
-	private float range;
 
 	private Thread followThread;
 
@@ -86,7 +82,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		while (isRunning) {
 			// Get range reading from US sensor & send it to the viewer
-			range = rangeFinder.getRange();
+			float range = rangeFinder.getRange();
 			lc.send(new RangePacket(range, 0));
 			lc.send(new PosePacket(poseProv.getPose(), 0));
 
@@ -99,8 +95,7 @@ public class PathFollower extends RunSystem implements LineListener {
 				}
 
 				intersectionHit();
-			}
-			else if (!leftOnLine && !rightOnLine)
+			} else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
 
 			if (leftOnLine)
@@ -124,7 +119,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location, target);
-		if (heading != Heading.UP)
+		if (heading != Heading.PLUS_X)
 			pilot.rotate(heading.toDegrees());
 		facing = facing.add(heading);
 

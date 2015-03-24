@@ -28,7 +28,6 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 
 	private RemoteCommunicator locationComm;
 	private PathFollower traverser;
-	private List<Coordinate> path;
 
 	private ProgressBar progress;
 
@@ -40,24 +39,28 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		progress = new ProgressBar("Finding Path", 0);
 	}
 
+	public static void main(String[] args) {
+		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, MapUtils.create2015Map1());
+		Ex4P1C exercise = new Ex4P1C(gridMap, new Coordinate(0, 0), new Coordinate(11, 7));
+		exercise.run();
+	}
+
 	@Override
 	public void run() {
 		try {
 			locationComm.connect();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		pathTo(startNode, goalNode, Heading.LEFT);
+		pathTo(startNode, goalNode, Heading.PLUS_Y);
 
 		synchronized (this) {
 			try {
 				wait();
 				if (traverser.pathComplete)
 					pathComplete();
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -67,7 +70,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		progress.setProgress(0);
 		progress.render();
 
-		path = AStar.findPathFrom(a, b, SearchFunction.euclidean, SearchFunction.manhattan, this);
+		List<Coordinate> path = AStar.findPathFrom(a, b, SearchFunction.euclidean, SearchFunction.manhattan, this);
 		locationComm.send(new PathPacket(path));
 		LCD.clear();
 
@@ -77,7 +80,7 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 
 	@Override
 	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
-		Heading facing = Heading.getHeading((int) pose.getHeading());
+		Heading facing = Heading.degreesToHeading(pose.getHeading());
 		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
 		pathTo(location, goalNode, facing);
 	}
@@ -106,16 +109,9 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 			locationComm.disconnect(0);
 			locationComm.stop();
 			System.exit(0);
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-	}
-
-	public static void main(String[] args) {
-		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, MapUtils.create2015Map1());
-		Ex4P1C exercise = new Ex4P1C(gridMap, new Coordinate(0, 0), new Coordinate(11, 7));
-		exercise.run();
 	}
 }
