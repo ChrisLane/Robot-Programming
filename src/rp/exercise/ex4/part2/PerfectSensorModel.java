@@ -12,23 +12,16 @@ public class PerfectSensorModel implements SensorModel {
         for (int x = 0; x < _dist.getGridWidth(); x++) {
             for (int y = 0; y < _dist.getGridHeight(); y++) {
 
-                if (_dist.isValidGridPosition(x, y)) {
-                    float obstacleDistance = _dist.getGridMap().rangeToObstacleFromGridPosition(x, y, (float) -_heading.toDegrees());
+                    float obstacleDistance = _dist.getGridMap().rangeToObstacleFromGridPosition(x, y, (float) _heading.toDegrees());
 
-                    if (obstacleDistance == _readings.getRange(0))
-                        _dist.setProbability(x, y, 1);
-                    else if (_readings.getRange(0) < 255) {
-                        _dist.setProbability(x, y, 0);
-                        System.out.println("X: " + x + " " + "Y: " + y + " " + "Heading: " + _heading);
-                        System.out.println("obstacle distance " + obstacleDistance);
-                        System.out.println("reading " + _readings.getRange(0));
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    if (_dist.getProbability(x, y) > 0) {
+                        if (obstacleDistance == _readings.getRange(0))
+                            _dist.setProbability(x, y, 1);
+                        else if (_readings.getRange(0) < 255) {
+                            _dist.setProbability(x, y, 0);
                         }
                     }
-                }
+
             }
         }
         _dist.normalise();
