@@ -1,31 +1,30 @@
 package rp.exercise.ex4.part2;
 
-import lejos.robotics.RangeReadings;
 import rp.robotics.localisation.GridPositionDistribution;
 import rp.robotics.localisation.SensorModel;
 import rp.robotics.mapping.Heading;
 
+import lejos.robotics.RangeReadings;
+
 public class PerfectSensorModel implements SensorModel {
-    @Override
-    public GridPositionDistribution updateAfterSensing(GridPositionDistribution _dist, Heading _heading, RangeReadings _readings) {
+	@Override
+	public GridPositionDistribution updateAfterSensing(GridPositionDistribution dist, Heading heading, RangeReadings readings) {
 
-        for (int x = 0; x < _dist.getGridWidth(); x++) {
-            for (int y = 0; y < _dist.getGridHeight(); y++) {
+		for (int x = 0; x < dist.getGridWidth(); x++) {
+			for (int y = 0; y < dist.getGridHeight(); y++) {
 
-                    float obstacleDistance = _dist.getGridMap().rangeToObstacleFromGridPosition(x, y, (float) _heading.toDegrees());
+				float obstacleDistance = dist.getGridMap().rangeToObstacleFromGridPosition(x, y, (float) heading.toDegrees());
 
-                    if (_dist.getProbability(x, y) > 0) {
-                        if (obstacleDistance == _readings.getRange(0))
-                            _dist.setProbability(x, y, 1);
-                        else if (_readings.getRange(0) < 255) {
-                            _dist.setProbability(x, y, 0);
-                        }
-                    }
+				if (dist.getProbability(x, y) > 0) {
+					if (obstacleDistance == readings.getRange(0))
+						dist.setProbability(x, y, 1);
+					else if (readings.getRange(0) < 255)
+						dist.setProbability(x, y, 0);
+				}
+			}
+		}
+		dist.normalise();
 
-            }
-        }
-        _dist.normalise();
-
-        return _dist;
-    }
+		return dist;
+	}
 }
