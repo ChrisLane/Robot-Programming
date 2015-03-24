@@ -8,29 +8,22 @@ import search.AStar;
 import search.Coordinate;
 import search.SearchFunction;
 
+import javax.swing.*;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
 public class Ex4P1A {
-	private JFrame frame;
-
-	private GridMapVisualisation mapVis;
-	private RPLineMap lineMap;
-	private GridMap gridMap;
 
 	public void run() {
-		lineMap = MapUtils.create2015Map1();
-		gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
-		mapVis = new GridMapVisualisation(gridMap, lineMap, 2, true);
+		RPLineMap lineMap = MapUtils.create2015Map1();
+		GridMap gridMap = new GridMap(12, 8, 15, 15, 30, lineMap);
+		GridMapVisualisation mapVis = new GridMapVisualisation(gridMap, lineMap, 2, true);
 
 		List<Coordinate> path = AStar.findPathFrom(gridMap.getNodeAt(0, 0), gridMap.getNodeAt(11, 7), SearchFunction.euclidean, SearchFunction.manhattan, null);
 		System.out.println(path);
 
 		mapVis.setPath(path);
 
-		frame = new JFrame("Map Viewer");
+		JFrame frame = new JFrame("Map Viewer");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(mapVis);
 		frame.setSize(820, 600);
