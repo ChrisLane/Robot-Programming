@@ -26,6 +26,7 @@ import javax.swing.WindowConstants;
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
 	private GridMapVisualisation vis;
+	private GridMap gridMap;
 	private ConsolePane console;
 	private RemoteRobot robot;
 
@@ -39,6 +40,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 	public RemoteViewer(GridMap gridMap, LineMap lineMap, int width, int height, float scale, boolean flip) {
 		super("Remote Robot Viewer");
 		vis = new GridMapVisualisation(gridMap, lineMap, scale, flip);
+		this.gridMap = gridMap;
 		robot = new RemoteRobot(new Pose(), lineMap, new float[] { 0f });
 		vis.addRobot(robot);
 
@@ -65,7 +67,7 @@ public class RemoteViewer extends JFrame implements Runnable {
 							robot.setRange(0, p1.getData());
 						break;
 					case ObstaclePacket.ID:
-						vis.addObstacle(new ObstaclePacket(is).getData());
+						gridMap.addObstacle(new ObstaclePacket(is).getData());
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
 						break;
