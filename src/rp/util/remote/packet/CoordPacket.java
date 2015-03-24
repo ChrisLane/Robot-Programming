@@ -27,5 +27,4 @@ public class CoordPacket extends RobotPacket<Coordinate> {
 	protected Coordinate read(DataInputStream is) throws IOException {
 		return new Coordinate(is.readByte(), is.readByte());
 	}
-
 }
