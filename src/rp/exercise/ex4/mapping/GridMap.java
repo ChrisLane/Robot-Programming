@@ -9,11 +9,15 @@ import lejos.geom.Line;
 import lejos.geom.Point;
 import lejos.robotics.navigation.Pose;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GridMap implements IGridMap {
 	private final int xSize;
 	private final int ySize;
 	private final RPLineMap lineMap;
 	private Object[] nodes;
+	private List<Coordinate> obstacles;
 	private float xStart;
 	private float yStart;
 	private float cellSize;
@@ -26,6 +30,7 @@ public class GridMap implements IGridMap {
 		this.yStart = yStart;
 		this.cellSize = cellSize;
 		this.lineMap = lineMap;
+		obstacles = new ArrayList<Coordinate>();
 
 		nodes = new Object[xSize * ySize];
 		for (int x = 0; x < xSize; x++)
@@ -98,6 +103,11 @@ public class GridMap implements IGridMap {
 			if (line.intersectsLine(l))
 				return false;
 
+		float hcs = (float) (cellSize / 2.0);
+		for (Coordinate c : obstacles)
+			if (line.intersects(c.x - hcs, c.y - hcs, cellSize, cellSize))
+				return false;
+
 		return true;
 	}
 
@@ -109,5 +119,12 @@ public class GridMap implements IGridMap {
 	@SuppressWarnings("unchecked")
 	public Node<Coordinate> getNodeAt(int x, int y) {
 		return (Node<Coordinate>) nodes[x + y * xSize];
+	}
+
+	public void addObstacle(Coordinate obstacle) {
+		obstacles.add(obstacle);
+	}
+	public List<Coordinate> getObstacles() {
+		return obstacles;
 	}
 }
