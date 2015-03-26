@@ -73,7 +73,7 @@ public class PathFollower extends RunSystem implements LineListener {
 		followThread.start();
 	}
 
-	public void stop() throws InterruptedException {
+	public void stop() {
 		isRunning = false;
 	}
 
