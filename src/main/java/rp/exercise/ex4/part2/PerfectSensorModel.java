@@ -13,7 +13,7 @@ public class PerfectSensorModel implements SensorModel {
 		for (int x = 0; x < dist.getGridWidth(); x++) {
 			for (int y = 0; y < dist.getGridHeight(); y++) {
 
-				float obstacleDistance = dist.getGridMap().rangeToObstacleFromGridPosition(x, y, (float) heading.toDegrees());
+				float obstacleDistance = dist.getGridMap().rangeToObstacleFromGridPosition(x, y, heading.toDegrees());
 
 				if (dist.getProbability(x, y) > 0) {
 					if (obstacleDistance == readings.getRange(0))
