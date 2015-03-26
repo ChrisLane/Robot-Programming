@@ -3,6 +3,14 @@ package rp.util.remote.gui;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTConnector;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Window;
@@ -13,24 +21,15 @@ import java.awt.event.KeyListener;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 @SuppressWarnings("serial")
 public class ConnectWindow extends JDialog implements ActionListener {
-	private ConnectWindow dialog = this;
-	private JLabel label;
-	private JTextField input;
-	private JButton btn;
+	private final ConnectWindow dialog = this;
+	private final JLabel label;
+	private final JTextField input;
+	private final JButton btn;
 
 	private Thread connThread;
-	private NXTConnector conn;
+	private final NXTConnector conn;
 
 	private byte fails = 0;
 

@@ -16,11 +16,11 @@ public class GridMap implements IGridMap {
 	private final int xSize;
 	private final int ySize;
 	private final RPLineMap lineMap;
-	private Object[] nodes;
-	private List<Coordinate> obstacles;
-	private float xStart;
-	private float yStart;
-	private float cellSize;
+	private final Object[] nodes;
+	private final List<Coordinate> obstacles;
+	private final float xStart;
+	private final float yStart;
+	private final float cellSize;
 
 	public GridMap(int xSize, int ySize, float xStart, float yStart, float cellSize, RPLineMap lineMap) {
 		super();

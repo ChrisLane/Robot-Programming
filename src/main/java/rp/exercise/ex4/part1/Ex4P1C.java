@@ -23,13 +23,14 @@ import lejos.robotics.navigation.Pose;
 import java.util.List;
 
 public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
-	private GridMap gridMap;
-	private Node<Coordinate> startNode, goalNode;
+	private final GridMap gridMap;
+	private final Node<Coordinate> startNode;
+	private final Node<Coordinate> goalNode;
 
-	private RemoteCommunicator locationComm;
+	private final RemoteCommunicator locationComm;
 	private PathFollower traverser;
 
-	private ProgressBar progress;
+	private final ProgressBar progress;
 
 	public Ex4P1C(GridMap gridMap, Coordinate start, Coordinate goal) {
 		this.gridMap = gridMap;

@@ -15,7 +15,7 @@ import lejos.robotics.navigation.Pose;
 public class RemoteRobot implements LocalisedRangeScanner {
 
 	private Pose m_pose;
-	private RangeReadings m_readings;
+	private final RangeReadings m_readings;
 	private final float[] m_readingAngles;
 
 	/**

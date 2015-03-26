@@ -6,8 +6,8 @@ import rp.util.remote.packet.PacketSender;
 import java.io.PrintStream;
 
 public class ConsoleStream extends PrintStream {
-	private PacketSender ps;
-	private boolean err;
+	private final PacketSender ps;
+	private final boolean err;
 
 	public ConsoleStream(PacketSender ps) {
 		super(null);

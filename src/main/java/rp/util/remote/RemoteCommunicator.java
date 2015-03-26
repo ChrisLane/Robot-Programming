@@ -20,7 +20,8 @@ public class RemoteCommunicator extends Thread implements PacketSender {
 	private DataInputStream is;
 	private DataOutputStream os;
 
-	private PrintStream defOut, defErr;
+	private final PrintStream defOut;
+	private final PrintStream defErr;
 
 	private Queue<RobotPacket<?>> toSend;
 

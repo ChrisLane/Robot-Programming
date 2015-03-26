@@ -1,9 +1,9 @@
 package rp.util.remote;
 
 public class ConsoleEntry {
-	public String text;
-	public short length;
-	public boolean err;
+	public final String text;
+	public final short length;
+	public final boolean err;
 
 	public ConsoleEntry(String text, short length, boolean err) {
 		this.text = text;

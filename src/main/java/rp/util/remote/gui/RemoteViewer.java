@@ -25,12 +25,12 @@ import javax.swing.WindowConstants;
 
 @SuppressWarnings("serial")
 public class RemoteViewer extends JFrame implements Runnable {
-	private GridMapVisualisation vis;
-	private GridMap gridMap;
+	private final GridMapVisualisation vis;
+	private final GridMap gridMap;
 	private ConsolePane console;
-	private RemoteRobot robot;
+	private final RemoteRobot robot;
 
-	private Thread receiveThread;
+	private final Thread receiveThread;
 	private ConnectWindow connect;
 
 	private NXTConnector conn;

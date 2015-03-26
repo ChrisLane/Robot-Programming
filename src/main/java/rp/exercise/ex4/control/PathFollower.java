@@ -26,14 +26,15 @@ public class PathFollower extends RunSystem implements LineListener {
 	private final PathEvents listener;
 	private final GridMap gridMap;
 	public boolean pathComplete;
-	private Pose pose;
-	private BlackLineSensor lsLeft, lsRight;
-	private OpticalDistanceSensor rangeFinder;
+	private final Pose pose;
+	private final BlackLineSensor lsLeft;
+	private final BlackLineSensor lsRight;
+	private final OpticalDistanceSensor rangeFinder;
 
-	private Thread followThread;
+	private final Thread followThread;
 
 	private Coordinate location, target;
-	private List<Coordinate> path;
+	private final List<Coordinate> path;
 	private Heading facing;
 	private boolean leftOnLine, rightOnLine, onIntersection;
 	private byte pathCount;
