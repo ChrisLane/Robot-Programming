@@ -9,6 +9,7 @@ test*
 *.nxj
 
 #idea
+lib
 out
 .idea
 *.iml
