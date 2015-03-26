@@ -1,16 +1,16 @@
 package rp.util.remote.gui;
 
+import rp.util.remote.RemoteRobot;
+import rp.util.remote.packet.DisconnectPacket;
+import rp.util.remote.packet.ObstaclePacket;
+import rp.util.remote.packet.PathPacket;
+import rp.util.remote.packet.RangePacket;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
-import rp.util.remote.RemoteRobot;
 import rp.util.remote.packet.ConsolePacket;
-import rp.util.remote.packet.DisconnectPacket;
-import rp.util.remote.packet.ObstaclePacket;
-import rp.util.remote.packet.PathPacket;
 import rp.util.remote.packet.PosePacket;
-import rp.util.remote.packet.RangePacket;
 
 import lejos.pc.comm.NXTConnector;
 import lejos.robotics.mapping.LineMap;

@@ -11,8 +11,8 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class Ex2P2Listener {
 	public void run() {
-		DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
-		MovementPath path = new ReverseAndTurn();
+		final DifferentialPilot pilot = GeoffBot.getDifferentialPilot();
+		final MovementPath path = new ReverseAndTurn();
 
 		GeoffBot.getTouchPort().addSensorPortListener(new SensorPortListener() {
 			@Override

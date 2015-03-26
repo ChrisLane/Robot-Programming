@@ -1,14 +1,14 @@
 package rp.exercise.ex4.control;
 
+import rp.util.remote.RemoteCommunicator;
+import rp.util.remote.packet.RangePacket;
 import rp.GeoffBot;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.listener.LineListener;
 import rp.robotics.mapping.Heading;
 import rp.sensor.BlackLineSensor;
 import rp.util.RunSystem;
-import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PosePacket;
-import rp.util.remote.packet.RangePacket;
 import search.Coordinate;
 import search.Node;
 
