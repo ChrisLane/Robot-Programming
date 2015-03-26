@@ -199,14 +199,14 @@ public class GridMapTest {
 
 	}
 
-	private boolean isManuallyApproved(Point _from, Point _to, HashMap<Point, Point> _invalid) {
+	private boolean isManuallyApproved(Point inputFrom, Point inputTo, HashMap<Point, Point> _invalid) {
 
-		Point to = _invalid.get(_from);
-		if (to != null && to.equals(_to))
+		Point to = _invalid.get(inputFrom);
+		if (to != null && to.equals(inputTo))
 			return false;
 
-		Point from = _invalid.get(_to);
-		return !(from != null && from.equals(_from));
+		Point from = _invalid.get(inputTo);
+		return !(from != null && from.equals(inputFrom));
 
 	}
 
