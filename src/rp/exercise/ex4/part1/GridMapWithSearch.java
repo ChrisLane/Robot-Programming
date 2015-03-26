@@ -11,7 +11,7 @@ import search.SearchFunction;
 import javax.swing.*;
 import java.util.List;
 
-public class Ex4P1A {
+public class GridMapWithSearch {
 
 	public void run() {
 		RPLineMap lineMap = MapUtils.create2015Map1();
@@ -32,7 +32,7 @@ public class Ex4P1A {
 	}
 
 	public static void main(String[] args) {
-		Ex4P1A demo = new Ex4P1A();
+		GridMapWithSearch demo = new GridMapWithSearch();
 		demo.run();
 	}
 }
