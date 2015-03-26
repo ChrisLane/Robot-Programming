@@ -57,7 +57,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		path.addElement(new Node<Coordinate>(new Coordinate(0, 0)));
 
 		// Robot starts at Node<Coordinate> (0,0) and follows path above
-		Ex3P2 program = new Ex3P2(path, new Node<Coordinate>(new Coordinate(0, 0)), Heading.UP);
+		Ex3P2 program = new Ex3P2(path, new Node<Coordinate>(new Coordinate(0, 0)), Heading.PLUS_X);
 		program.run();
 	}
 
@@ -104,7 +104,7 @@ public class Ex3P2 extends RunSystem implements LineListener {
 		location = target;
 
 		// Turn towards new target Node if it isn't straight ahead
-		int degrees = heading.toDegrees();
+		float degrees = heading.toDegrees();
 		if (degrees != 0) {
 			if (moveForward)
 				pilot.travel(4);
