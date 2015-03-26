@@ -117,6 +117,10 @@ public class GridMap implements IGridMap {
 	}
 
 	@SuppressWarnings("unchecked")
+	public Node<Coordinate> getNodeAt(Coordinate c) {
+		return (Node<Coordinate>) nodes[c.x + c.y * xSize];
+	}
+	@SuppressWarnings("unchecked")
 	public Node<Coordinate> getNodeAt(int x, int y) {
 		return (Node<Coordinate>) nodes[x + y * xSize];
 	}
