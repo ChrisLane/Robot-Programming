@@ -10,6 +10,7 @@ import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PosePacket;
 import rp.util.remote.packet.RangePacket;
 import search.Coordinate;
+import search.Node;
 
 import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.localization.OdometryPoseProvider;
@@ -82,7 +83,7 @@ public class PathFollower extends RunSystem implements LineListener {
 
 		while (isRunning) {
 			// Get range reading from US sensor & send it to the viewer
-			float range = rangeFinder.getRange();
+			float range = rangeFinder.getRange() + 3.5f;
 			lc.send(new RangePacket(range, 0));
 			lc.send(new PosePacket(poseProv.getPose(), 0));
 
@@ -95,7 +96,8 @@ public class PathFollower extends RunSystem implements LineListener {
 				}
 
 				intersectionHit();
-			} else if (!leftOnLine && !rightOnLine)
+			}
+			else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
 
 			if (leftOnLine)
@@ -114,9 +116,30 @@ public class PathFollower extends RunSystem implements LineListener {
 		pilot.travel(2.9); // Moves forward to align wheels with intersection
 		turnToTarget();
 
-		float actualRange = gridMap.rangeToObstacleFromGridPosition((int) pose.getX(), (int) pose.getY(), pose.getHeading());
-	}
+		System.out.println(pose.getHeading());
+		float mapRange = gridMap.rangeToObstacleFromGridPosition((int) pose.getX(), (int) pose.getY(), pose.getHeading());
+		if (mapRange <= 35) {
+			float sensorRange = rangeFinder.getRange() + 3.5f;
 
+			System.out.println("Map Range: " + mapRange);
+			System.out.println("Sensor Range: " + sensorRange);
+
+			float tolerance = (mapRange < 50) ? 5f : 10f;
+			if (Math.abs(sensorRange - mapRange) > tolerance) {
+				System.out.println("Obstacle detected!");
+				gridMap.addObstacle(location.midpoint(target));
+
+				System.out.println("loc: " + location);
+				System.out.println("tar: " + target);
+
+				Node<Coordinate> targNode = gridMap.getNodeAt(target);
+				Node<Coordinate> locNode = gridMap.getNodeAt(location);
+				gridMap.removeSuccessor(targNode, locNode);
+
+				listener.pathInterrupted(pose, gridMap.getNodeAt(target));
+			}
+		}
+	}
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location, target);
 		if (heading != Heading.PLUS_X)
