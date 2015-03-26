@@ -48,14 +48,13 @@ public class GridMap implements IGridMap {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addSuccessor(Node<Coordinate> n, int dx, int dy) {
 		int x = n.getPayload().x;
 		int y = n.getPayload().y;
 		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
-			n.addSuccessor(nodes[(x + dx) + (y + dy) * xSize]);
-			n.addSuccessor(getNodeAt(x + dx, y + dy));
+			n.addSuccessor((Node<Coordinate>) nodes[(x + dx) + (y + dy) * xSize]);
 	}
-
 	public void removeSuccessor(Node<Coordinate> node1, Node<Coordinate> node2) {
 		node1.removeSuccessor(node2);
 		node2.removeSuccessor(node1);
@@ -117,15 +116,14 @@ public class GridMap implements IGridMap {
 		return lineMap.range(new Pose(getGridX(x), getGridY(y), heading));
 	}
 
-	@SuppressWarnings("unchecked")
 	public Node<Coordinate> getNodeAt(Coordinate c) {
-		return (Node<Coordinate>) nodes[c.x + c.y * xSize];
+		return getNodeAt(c.x, c.y);
 	}
 	@SuppressWarnings("unchecked")
 	public Node<Coordinate> getNodeAt(int x, int y) {
-		return (Node<Coordinate>) nodes[x + y * xSize];
+		int index = x + y * xSize;
+		return index > nodes.length ? null : (Node<Coordinate>) nodes[x + y * xSize];
 	}
-
 	public void addObstacle(Coordinate obstacle) {
 		obstacles.add(obstacle);
 	}

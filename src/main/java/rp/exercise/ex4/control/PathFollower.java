@@ -1,16 +1,14 @@
 package rp.exercise.ex4.control;
 
-import rp.util.remote.RemoteCommunicator;
-import rp.util.remote.packet.RangePacket;
 import rp.GeoffBot;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.listener.LineListener;
 import rp.robotics.mapping.Heading;
 import rp.sensor.BlackLineSensor;
-import rp.util.RunSystem;
+import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PosePacket;
+import rp.util.remote.packet.RangePacket;
 import search.Coordinate;
-import search.Node;
 
 import lejos.nxt.addon.OpticalDistanceSensor;
 import lejos.robotics.localization.OdometryPoseProvider;
@@ -19,7 +17,7 @@ import lejos.robotics.navigation.Pose;
 
 import java.util.List;
 
-public class PathFollower extends RunSystem implements LineListener {
+public class PathFollower implements LineListener, Runnable {
 	private final DifferentialPilot pilot;
 	private final OdometryPoseProvider poseProv;
 	private final RemoteCommunicator lc;
@@ -32,12 +30,14 @@ public class PathFollower extends RunSystem implements LineListener {
 	private final OpticalDistanceSensor rangeFinder;
 
 	private final Thread followThread;
+	private boolean isRunning, stopping;
 
 	private Coordinate location, target;
 	private final List<Coordinate> path;
 	private Heading facing;
 	private boolean leftOnLine, rightOnLine, onIntersection;
 	private byte pathCount;
+	private float range;
 
 	public PathFollower(final DifferentialPilot pilot, GridMap gridMap, List<Coordinate> path, Heading facing, PathEvents listener, RemoteCommunicator locationComm) {
 		followThread = new Thread(this);
@@ -97,6 +97,8 @@ public class PathFollower extends RunSystem implements LineListener {
 				}
 
 				intersectionHit();
+				if (stopping)
+					break;
 			}
 			else if (!leftOnLine && !rightOnLine)
 				onIntersection = false;
@@ -117,30 +119,26 @@ public class PathFollower extends RunSystem implements LineListener {
 		pilot.travel(2.9); // Moves forward to align wheels with intersection
 		turnToTarget();
 
-		System.out.println(pose.getHeading());
 		float mapRange = gridMap.rangeToObstacleFromGridPosition((int) pose.getX(), (int) pose.getY(), pose.getHeading());
-		if (mapRange <= 35) {
-			float sensorRange = rangeFinder.getRange() + 3.5f;
-
+		float sensorRange = rangeFinder.getRange() + 3.5f;
+		if (mapRange <= 32 && sensorRange < mapRange + 10) {
 			System.out.println("Map Range: " + mapRange);
 			System.out.println("Sensor Range: " + sensorRange);
 
 			float tolerance = (mapRange < 50) ? 5f : 10f;
 			if (Math.abs(sensorRange - mapRange) > tolerance) {
-				System.out.println("Obstacle detected!");
-				gridMap.addObstacle(location.midpoint(target));
+				System.out.println("Obstacle found!");
+				System.out.println("Range: " + range);
+				System.out.println("Map Range: " + mapRange);
 
-				System.out.println("loc: " + location);
-				System.out.println("tar: " + target);
+				listener.pathInterrupted(pose, gridMap.getNodeAt(location), gridMap.getNodeAt(target));
 
-				Node<Coordinate> targNode = gridMap.getNodeAt(target);
-				Node<Coordinate> locNode = gridMap.getNodeAt(location);
-				gridMap.removeSuccessor(targNode, locNode);
-
-				listener.pathInterrupted(pose, gridMap.getNodeAt(target));
+				isRunning = false;
+				stopping = true;
 			}
 		}
 	}
+
 	public void turnToTarget() {
 		Heading heading = facing.getHeadingFrom(location, target);
 		if (heading != Heading.PLUS_X)

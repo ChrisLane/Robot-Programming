@@ -3,13 +3,13 @@ package rp.exercise.ex4.part1;
 import rp.GeoffBot;
 import rp.exercise.ex4.control.PathEvents;
 import rp.exercise.ex4.control.PathFollower;
+import rp.exercise.ex4.mapping.GridMap;
+import rp.robotics.mapping.Heading;
+import rp.robotics.mapping.MapUtils;
 import rp.util.RunSystem;
 import rp.util.gui.ProgressBar;
 import rp.util.remote.RemoteCommunicator;
 import rp.util.remote.packet.PathPacket;
-import rp.exercise.ex4.mapping.GridMap;
-import rp.robotics.mapping.Heading;
-import rp.robotics.mapping.MapUtils;
 import search.AStar;
 import search.Coordinate;
 import search.Node;
@@ -50,7 +50,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	public void run() {
 		try {
 			locationComm.connect();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -61,7 +62,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 				wait();
 				if (traverser.pathComplete)
 					pathComplete();
-			} catch (InterruptedException e) {
+			}
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -80,10 +82,13 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	}
 
 	@Override
-	public void pathInterrupted(Pose pose, Node<Coordinate> obstacleNode) {
+	public void pathInterrupted(Pose pose, Node<Coordinate> from, Node<Coordinate> to) {
+		gridMap.removeSuccessor(from, to);
+		gridMap.addObstacle(to.getPayload().midpoint(from.getPayload()));
+
 		Heading facing = Heading.degreesToHeading(pose.getHeading());
-		Node<Coordinate> location = gridMap.getNodeAt((int) pose.getX(), (int) pose.getY());
-		pathTo(location, goalNode, facing);
+
+		pathTo(from, goalNode, facing);
 	}
 
 	@Override
@@ -110,7 +115,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 			locationComm.disconnect(0);
 			locationComm.stop();
 			System.exit(0);
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
