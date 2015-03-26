@@ -52,6 +52,7 @@ public class GridMap implements IGridMap {
 		int x = n.getPayload().x;
 		int y = n.getPayload().y;
 		if (isValidGridPosition(x + dx, y + dy) && isValidTransition(x, y, x + dx, y + dy))
+			n.addSuccessor(nodes[(x + dx) + (y + dy) * xSize]);
 			n.addSuccessor(getNodeAt(x + dx, y + dy));
 	}
 
