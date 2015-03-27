@@ -1,10 +1,16 @@
 package rp.exercise.ex4.part1;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
+import search.AStar;
+import search.Coordinate;
+import search.Node;
+import search.SearchFunction;
 
 import java.util.Random;
 
@@ -21,16 +27,23 @@ public class PathTest {
 	public static Object[][] randomPositions() {
 		Object[][] nodes = new Object[10][2];
 		Random random = new Random();
+		int x = 0, y = 0;
 
-		for (int i = 0; i < 10; i++) {
-			int x = random.nextInt(gridMap.getXSize());
-			int y = random.nextInt(gridMap.getYSize());
+		for (int i = 0; i < 20; i++) {
 
-			if (gridMap.isValidGridPosition(x, y)) {
-				//nodes[i] = gridMap.getNodeAt(x, y);
+			do {
+				x = random.nextInt(gridMap.getXSize());
+				y = random.nextInt(gridMap.getYSize());
 			}
+			while (gridMap.isValidGridPosition(x, y));
+			nodes[i % 10][i % 2] = gridMap.getNodeAt(x, y);
 		}
 
-		return new Object[0][];
+		return nodes;
+	}
+
+	@Test(dataProvider = "randomPositions")
+	public static void searchTest(Node<Coordinate> start, Node<Coordinate> goal) {
+		Assert.assertNotNull(AStar.findPathFrom(start, goal, SearchFunction.euclidean, SearchFunction.manhattan));
 	}
 }
