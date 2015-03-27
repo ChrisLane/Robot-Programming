@@ -9,6 +9,7 @@ import rp.robotics.mapping.MapUtils;
 import rp.util.RunSystem;
 import rp.util.gui.ProgressBar;
 import rp.util.remote.RemoteCommunicator;
+import rp.util.remote.packet.ObstaclePacket;
 import rp.util.remote.packet.PathPacket;
 import search.AStar;
 import search.Coordinate;
@@ -74,6 +75,12 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 		progress.render();
 
 		List<Coordinate> path = AStar.findPathFrom(a, b, SearchFunction.euclidean, SearchFunction.manhattan, this);
+		if (path == null) {
+			System.out.println("There is no path from " + a + " to " + b);
+			locationComm.disconnect(1);
+			System.exit(1);
+		}
+
 		locationComm.send(new PathPacket(path));
 		LCD.clear();
 
@@ -85,6 +92,8 @@ public class Ex4P1C extends RunSystem implements SearchProgress, PathEvents {
 	public void pathInterrupted(Pose pose, Node<Coordinate> from, Node<Coordinate> to) {
 		gridMap.removeSuccessor(from, to);
 		gridMap.addObstacle(to.getPayload().midpoint(from.getPayload()));
+		locationComm.send(new ObstaclePacket(from.getPayload()));
+		locationComm.send(new ObstaclePacket(to.getPayload()));
 
 		Heading facing = Heading.degreesToHeading(pose.getHeading());
 

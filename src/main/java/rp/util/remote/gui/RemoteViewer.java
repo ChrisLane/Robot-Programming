@@ -1,16 +1,17 @@
 package rp.util.remote.gui;
 
-import rp.util.remote.RemoteRobot;
-import rp.util.remote.packet.DisconnectPacket;
-import rp.util.remote.packet.ObstaclePacket;
-import rp.util.remote.packet.PathPacket;
-import rp.util.remote.packet.RangePacket;
 import rp.exercise.ex4.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 import rp.robotics.mapping.RPLineMap;
 import rp.robotics.visualisation.GridMapVisualisation;
+import rp.util.remote.RemoteRobot;
 import rp.util.remote.packet.ConsolePacket;
+import rp.util.remote.packet.DisconnectPacket;
+import rp.util.remote.packet.ObstaclePacket;
+import rp.util.remote.packet.PathPacket;
 import rp.util.remote.packet.PosePacket;
+import rp.util.remote.packet.RangePacket;
+import search.Coordinate;
 
 import lejos.pc.comm.NXTConnector;
 import lejos.robotics.mapping.LineMap;
@@ -67,7 +68,12 @@ public class RemoteViewer extends JFrame implements Runnable {
 							robot.setRange(0, p1.getData());
 						break;
 					case ObstaclePacket.ID:
-						gridMap.addObstacle(new ObstaclePacket(is).getData());
+						Coordinate from = new ObstaclePacket(is).getData();
+						assert (is.readByte() == ObstaclePacket.ID);
+						Coordinate to = new ObstaclePacket(is).getData();
+						gridMap.removeSuccessor(gridMap.getNodeAt(from), gridMap.getNodeAt(to));
+						gridMap.addObstacle(from.midpoint(to));
+						break;
 					case PathPacket.ID:
 						vis.setPath(new PathPacket(is).getData());
 						break;
@@ -83,19 +89,19 @@ public class RemoteViewer extends JFrame implements Runnable {
 						break;		// Do nothing here
 				}
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-				try {
-					System.out.println("Connection Closed");
-					conn.close();
-					System.exit(0);
-				}
-				catch (IOException e1) {
-					e1.printStackTrace();
-					break;
-				}
+		catch (IOException e) {
+			e.printStackTrace();
+			try {
+				System.out.println("Connection Closed");
+				conn.close();
+				System.exit(0);
+			}
+			catch (IOException e1) {
+				e1.printStackTrace();
 				break;
 			}
+			break;
+		}
 	}
 	public void start() {
 		start("");

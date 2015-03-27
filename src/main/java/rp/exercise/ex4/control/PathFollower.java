@@ -71,6 +71,7 @@ public class PathFollower implements LineListener, Runnable {
 	}
 
 	public void start() {
+		isRunning = true;
 		followThread.start();
 	}
 
@@ -118,25 +119,6 @@ public class PathFollower implements LineListener, Runnable {
 
 		pilot.travel(2.9); // Moves forward to align wheels with intersection
 		turnToTarget();
-
-		float mapRange = gridMap.rangeToObstacleFromGridPosition((int) pose.getX(), (int) pose.getY(), pose.getHeading());
-		float sensorRange = rangeFinder.getRange() + 3.5f;
-		if (mapRange <= 32 && sensorRange < mapRange + 10) {
-			System.out.println("Map Range: " + mapRange);
-			System.out.println("Sensor Range: " + sensorRange);
-
-			float tolerance = (mapRange < 50) ? 5f : 10f;
-			if (Math.abs(sensorRange - mapRange) > tolerance) {
-				System.out.println("Obstacle found!");
-				System.out.println("Range: " + range);
-				System.out.println("Map Range: " + mapRange);
-
-				listener.pathInterrupted(pose, gridMap.getNodeAt(location), gridMap.getNodeAt(target));
-
-				isRunning = false;
-				stopping = true;
-			}
-		}
 	}
 
 	public void turnToTarget() {
@@ -149,6 +131,30 @@ public class PathFollower implements LineListener, Runnable {
 		pose.setHeading(facing.toDegrees());
 		pose.setLocation(location.x * 30 + 15, location.y * 30 + 15);
 		poseProv.setPose(new Pose(pose.getX(), pose.getY(), pose.getHeading()));
+		lc.send(new PosePacket(poseProv.getPose(), 0));
+
+		float mapRange = gridMap.rangeToObstacleFromGridPosition(location.x, location.y, facing.toDegrees());
+		float sensorRange = rangeFinder.getRange() + 3.5f;
+
+		System.out.println("Range: " + sensorRange);
+		System.out.println("Map Range: " + mapRange);
+
+		if (sensorRange <= 35 && mapRange + 10 > sensorRange) {
+			float tolerance = (mapRange < 50) ? 5f : 10f;
+			System.out.println("difference: " + Math.abs(sensorRange - mapRange));
+			System.out.println("Tolerance: " + tolerance);
+			if (Math.abs(sensorRange - mapRange) > tolerance) {
+				System.out.println("Obstacle found!");
+				System.out.println("Range: " + sensorRange);
+				System.out.println("Map Range: " + mapRange);
+
+				listener.pathInterrupted(pose, gridMap.getNodeAt(location), gridMap.getNodeAt(target));
+
+				isRunning = false;
+				stopping = true;
+			}
+		}
+		System.out.println("-----------");
 	}
 
 	@Override
